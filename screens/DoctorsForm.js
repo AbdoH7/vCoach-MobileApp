@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import { ScrollView,Keyboard,TouchableWithoutFeedback,KeyboardAvoidingView, StyleSheet,SafeAreaView,Text,Image,View,TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { TextInput } from 'react-native';
+import axios from 'axios';
 import * as Yup from 'yup';
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('First name is required'),
@@ -14,35 +15,38 @@ const validationSchema = Yup.object().shape({
     .required('Required'),
 });
 
-
-
-
 export default function DoctorForm({route,navigation}) {
 
 
   const [token, setToken] = useState('');
 
 
-  const handleSubmit =async  (values,{ resetForm }) => {
-  
-    console.log(JSON.stringify(values));
-    try {
-      const response = await fetch('http://localhost:3000/api/v1/users', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-      const data = await response.json();
-      setToken(data.token);
+  const  handleSubmit =(values,{ resetForm }) => {
+    console.log(values);
+
+    fetch("https://vcoach-eoymq.ondigitalocean.app/vcoach-backend2/api/v1/users",{
+      method: 'POST',
+      body: JSON.stringify(values),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      console.log(response.status);
+      //console.log('Response Content-Type:', response.headers.get('Content-Type'));
+  return response.json();
+})
+    .then(data => {
+      console.log('Success:', data);
       resetForm();
-    } catch (error){
-      
-      console.error(error);
-    }
-  };
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      if (error instanceof SyntaxError) {
+        console.error('JSON Parse Error:', error.message);
+      }
+    });
+  }
   return (
     <KeyboardAvoidingView
     style={styles.inputContainer}
