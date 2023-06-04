@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { View, Text,Keyboard, TouchableWithoutFeedback,Image ,StyleSheet,Button } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -6,7 +6,7 @@ import { TextInput, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Alert } from 'react-native';
-
+import {AuthContext} from '../context/AuthContext';
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Please enter a valid email address')
@@ -17,6 +17,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Login() {
+  const {login} = useContext(AuthContext);
   const handleSubmit = (values, { resetForm }) => {
     if (values.email === 'example@gmail.com' && values.password === 'password') {
       Alert.alert('Success', 'You have been successfully signed in!');
@@ -29,7 +30,6 @@ export default function Login() {
     <TouchableWithoutFeedback onPress={()=>{
       Keyboard.dismiss();
     }}>
-
       <View style={styles.overlay}>
       <Image source={require('../assets/v.png')} style={styles.icon} />
         <View style={styles.formContainer}>
@@ -67,13 +67,13 @@ export default function Login() {
                 {errors.password && touched.password && (
                   <Text style={styles.error}>{errors.password}</Text>
                   )}
-                <Button className=' bg-slate-600' style={styles.button} title="Sign In"  onPress={handleSubmit} />
+                <Button className=' bg-slate-600' style={styles.button} title="Sign In"  onPress={()=>{login(values)}} />
               </>
             )}
           </Formik>
         </View>
       </View>
-            </TouchableWithoutFeedback>
+    </TouchableWithoutFeedback>
   );
 }
 const styles=StyleSheet.create({

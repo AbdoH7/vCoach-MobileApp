@@ -5,7 +5,7 @@ const Check = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Choose Your Role</Text>
-      <TouchableOpacity style={styles.cardContainer} onPress={() =>navigation.navigate('Doctor',{User_type:'doctor'})}>
+      <TouchableOpacity style={styles.cardContainer} onPress={() =>navigation.navigate('Form',{user_type:'doctor'})}>
         <View style={styles.card}>
           <Image
             style={styles.image}
@@ -14,7 +14,7 @@ const Check = ({ navigation }) => {
           <Text style={styles.cardText}>Doctor</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.cardContainer} onPress={() => navigation.navigate('userForm',{User_type:'user'})}>
+      <TouchableOpacity style={styles.cardContainer} onPress={() => navigation.navigate('Form',{user_type:'patient'})}>
         <View style={styles.card}>
           <Image
             style={styles.image}
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 10,
-    fontWeight: 'italic',
+    fontWeight: 'bold',
     marginBottom: 50,
   },
   cardContainer: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontSize: 9,
-    fontWeight: 'italic',
+    fontWeight: 'bold',
   },
 });
 
