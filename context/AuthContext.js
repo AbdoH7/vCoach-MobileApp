@@ -27,8 +27,8 @@ export const AuthProvider = ({children}) =>{
     }
     const logout = async () =>{
         setIsLoading(true)
-        await FileSystem.deleteAsync(`${FileSystem.documentDirectory}${TokenFile}}`)
-        await FileSystem.deleteAsync(`${FileSystem.documentDirectory}${UserFile}}`)
+        await FileSystem.deleteAsync(`${FileSystem.documentDirectory}${TokenFile}`)
+        await FileSystem.deleteAsync(`${FileSystem.documentDirectory}${UserFile}`)
         setUserToken(null)
         setIsLoading(false)
     }
