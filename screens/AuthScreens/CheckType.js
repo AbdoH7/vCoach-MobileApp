@@ -1,24 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const Check = ({ navigation }) => {
+const CheckType = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Choose Your Role</Text>
-      <TouchableOpacity style={styles.cardContainer} onPress={() =>navigation.navigate('Form',{user_type:'doctor'})}>
+      <TouchableOpacity style={styles.cardContainer} onPress={() =>navigation.navigate('SignUp',{user_type:'doctor'})}>
         <View style={styles.card}>
           <Image
             style={styles.image}
-            source={ require('../assets/dow.jpg') }
+            source={ require('../../assets/dow.jpg') }
           />
           <Text style={styles.cardText}>Doctor</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.cardContainer} onPress={() => navigation.navigate('Form',{user_type:'patient'})}>
+      <TouchableOpacity style={styles.cardContainer} onPress={() => navigation.navigate('SignUp',{user_type:'patient'})}>
         <View style={styles.card}>
           <Image
             style={styles.image}
-            source={require('../assets/users.png')}
+            source={require('../../assets/users.png')}
           />
           <Text style={styles.cardText}>User</Text>
         </View>
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Check;
+export default CheckType;

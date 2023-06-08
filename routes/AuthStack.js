@@ -1,8 +1,8 @@
-import * as React from 'react';
-import Home from "../screens/home";
-import Login from "../screens/login";
-import Check from "../screens/check";
-import Form from '../screens/Form';
+import React from 'react';
+import AuthMain from "../screens/AuthScreens/AuthMain";
+import Login from "../screens/AuthScreens/Login";
+import CheckType from "../screens/AuthScreens/CheckType";
+import SignUp from '../screens/AuthScreens/SignUp';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const defaultOptions = {
@@ -20,8 +20,8 @@ const AuthenticationStack = () => {
     return (
         <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen
-            name="Home"
-            component={Home}
+            name="AuthMain"
+            component={AuthMain}
             options={{defaultOptions}}
             />
             <Stack.Screen
@@ -30,17 +30,16 @@ const AuthenticationStack = () => {
             options={{defaultOptions}}
             />
             <Stack.Screen
-            name="check"
-            component={Check}
+            name="CheckType"
+            component={CheckType}
             options={{defaultOptions}}
             />
             <Stack.Screen
-            name="Form"
-            component={Form}
+            name="SignUp"
+            component={SignUp}
             options={{defaultOptions}}
             />
         </Stack.Navigator>
     )
 }
-
 export default AuthenticationStack

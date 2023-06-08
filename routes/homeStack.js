@@ -1,9 +1,5 @@
-import * as React from 'react';
-import {Text} from 'react-native'
-import {NavigationContainer} from '@react-navigation/native';
-import { createStackNavigator } from "react-navigation-stack";
-import {createAppContainer} from 'react-navigation';
-import MainMenu from '../screens/MainMenu';
+import React from 'react';
+import MainMenu from '../screens/HomeScreens/MainMenu';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const defaultOptions = {
@@ -28,5 +24,4 @@ const HomeStack = () => {
         </Stack.Navigator>
     )
 }
-
 export default HomeStack

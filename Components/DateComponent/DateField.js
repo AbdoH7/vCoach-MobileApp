@@ -52,5 +52,4 @@ function date_TO_String(date_Object) {
         (date_Object.getDate());
     return date_String;
  }
-
 export default DateField

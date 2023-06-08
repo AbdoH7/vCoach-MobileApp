@@ -2,11 +2,9 @@ import React,{useContext} from 'react';
 import { View, Text,Keyboard, TouchableWithoutFeedback,Image ,StyleSheet,Button } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { TextInput, TouchableOpacity } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { TextInput } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { Alert } from 'react-native';
-import {AuthContext} from '../context/AuthContext';
+import {AuthContext} from '../../context/AuthContext';
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Please enter a valid email address')
@@ -18,28 +16,18 @@ const validationSchema = Yup.object().shape({
 
 export default function Login() {
   const {login} = useContext(AuthContext);
-  const handleSubmit = (values, { resetForm }) => {
-    if (values.email === 'example@gmail.com' && values.password === 'password') {
-      Alert.alert('Success', 'You have been successfully signed in!');
-      resetForm();
-    } else {
-      Alert.alert('Error', 'The email or password you entered is incorrect.');
-    }
-  };
   return (
     <TouchableWithoutFeedback onPress={()=>{
       Keyboard.dismiss();
     }}>
       <View style={styles.overlay}>
-      <Image source={require('../assets/v.png')} style={styles.icon} />
+      <Image source={require('../../assets/v.png')} style={styles.icon} />
         <View style={styles.formContainer}>
-          {/* <MaterialIcons name="person" size={24} color="white" style={styles.icon} /> */}
           <Formik
             initialValues={{ email: '', password: '' }}
             validationSchema={validationSchema}
-            onSubmit={handleSubmit}
             >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+            {({ handleChange, handleBlur, values, errors, touched }) => (
               <>
                 <View style={styles.inputContainer}>
                   <TextInput
@@ -50,7 +38,6 @@ export default function Login() {
                     value={values.email}
                     autoCapitalize="none"
                     />
-                    {/* <FontAwesome name="envelope" size={20} color="white" /> */}
                 </View>
                 {errors.email && touched.email && <Text style={styles.error}>{errors.email}</Text>}
                 <View style={styles.inputContainer}>
@@ -118,4 +105,3 @@ padding: 5,
 borderRadius:40, 
 }
 })
-

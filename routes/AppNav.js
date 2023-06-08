@@ -1,9 +1,8 @@
 import React,{useContext} from 'react';
-import {Text} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
-import { ActivityIndicator,View } from 'react-native';
+import { ActivityIndicator,View,Text } from 'react-native';
 import AuthStack from './AuthStack';
-import HomeStack from './homeStack';
+import HomeStack from './HomeStack';
 import { AuthContext } from '../context/AuthContext';
 
 function AppNav(){

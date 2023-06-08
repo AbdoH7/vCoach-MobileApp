@@ -1,11 +1,11 @@
-import React,{useContext,useEffect,useState} from 'react';
-import { ScrollView,Keyboard,TouchableWithoutFeedback,KeyboardAvoidingView, StyleSheet,SafeAreaView,Text,Image,View,TouchableOpacity } from 'react-native';
-import { Formik, useFormikContext } from 'formik';
-import { TextInput,Button } from 'react-native';
-import { AuthContext } from '../context/AuthContext';
-import DateField from '../Components/DateComponent/DateField';
+import React,{useContext,useState} from 'react';
+import { ScrollView,KeyboardAvoidingView, StyleSheet,SafeAreaView,Text,Image,View,TouchableOpacity } from 'react-native';
+import { Formik } from 'formik';
+import { TextInput } from 'react-native';
+import { AuthContext } from '../../context/AuthContext';
+import DateField from '../../Components/DateComponent/DateField';
 import * as Yup from 'yup';
-import DateTimePicker from '@react-native-community/datetimepicker';
+
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required('First name is required'),
   last_name: Yup.string().required('Last name is required'),
@@ -21,7 +21,7 @@ const validationSchema = Yup.object().shape({
 
 
 
-export default function Form({route,navigation}) {
+export default function SignUp({route,navigation}) {
     const {signup} = useContext(AuthContext);
     const initialValues = {
         first_name: '',
@@ -46,7 +46,7 @@ export default function Form({route,navigation}) {
         validationSchema={validationSchema}>
             {(formikProps) =>(
             <View style={styles.container}>
-                <Image source={require('../assets/v.png')} style={styles.icon}/>
+                <Image source={require('../../assets/v.png')} style={styles.icon}/>
                 <ScrollView>
                     <Text style={{textAlign:'center' }}> Create an account</Text>
                      <View style={styles.inputContainer}>

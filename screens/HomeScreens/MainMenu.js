@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View,Image,Button,TouchableOpacity} from 'react-native';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import React,{useContext} from 'react';
 export default function MainMenu({navigation}) {
     const {logout} = useContext(AuthContext)
