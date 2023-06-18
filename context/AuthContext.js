@@ -17,6 +17,7 @@ export const AuthProvider = ({children}) =>{
             await FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}${UserFile}`,JSON.stringify(response.data.user))
             setUserToken(response.data.token)
             setUser(response.data.user)
+            axios.defaults.headers.common['Authorization'] = response.data.token
         } catch(err){
             console.log(`Login Error: ${err}`)
         }
@@ -37,6 +38,7 @@ export const AuthProvider = ({children}) =>{
             await FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}${UserFile}`,JSON.stringify(response.data.user))
             setUserToken(response.data.token)
             setUser(response.data.user)
+            axios.defaults.headers.common['Authorization'] = response.data.token
         } catch(err){
             console.log(`Signup Error: ${err}`)
         }
@@ -44,12 +46,15 @@ export const AuthProvider = ({children}) =>{
     }
     const isLoggedIn = async () =>{
         try{
+            setIsLoading(true)
             const directoryPath = FileSystem.documentDirectory
             const fileNames = await FileSystem.readDirectoryAsync(directoryPath)
-            setIsLoading(true)
             if(fileNames.includes(TokenFile)){
                 let getCurrentToken = await FileSystem.readAsStringAsync(`${FileSystem.documentDirectory}${TokenFile}`)
+                let getCurrentUser = await FileSystem.readAsStringAsync(`${FileSystem.documentDirectory}${UserFile}`)
+                axios.defaults.headers.common['Authorization'] = getCurrentToken
                 setUserToken(getCurrentToken)
+                setUser(JSON.parse(getCurrentUser))
             }
             setIsLoading(false)
         }
@@ -61,7 +66,7 @@ export const AuthProvider = ({children}) =>{
         isLoggedIn()
     },[])
     return(
-        <AuthContext.Provider value={{login,logout,userToken,isLoading,signup}}>
+        <AuthContext.Provider value={{login,logout,userToken,user,isLoading,signup}}>
             {children}
         </AuthContext.Provider>
     )

@@ -17,6 +17,7 @@ const validationSchema = Yup.object().shape({
   .length(11, 'Phone number must be exactly 11 digits')
   .matches(/^[0-9]+$/, 'Phone number must only contain digits')
     .required('Required'),
+    invite_token: Yup.string(),
 });
 
 
@@ -30,7 +31,8 @@ export default function SignUp({route,navigation}) {
         password: '',
         phone_number: '',
         DOB: '',
-        user_type:`${route.params.user_type}`
+        user_type:`${route.params.user_type}`,
+        invite_token:''
     }
     const [date, setDate] = useState(new Date(1598051730000));
     const updateDate = async (dateString) => {
@@ -94,6 +96,14 @@ export default function SignUp({route,navigation}) {
                         style={styles.input}
                         onChangeText={formikProps.handleChange('password')}
                         />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.Text}>Invitation</Text> 
+                        <TextInput
+                        secureTextEntry={true}
+                        style={styles.input}
+                        onChangeText={formikProps.handleChange('invite_token')}
+                        />
                     </View> 
                     <View>
                     <DateField updateDate={updateDate}/>
@@ -136,7 +146,7 @@ const styles = StyleSheet.create({
     submitButton:{
         borderRadius:30,
         //flex:1,
-    backgroundColor:'#6495ED',
+        backgroundColor:'#6495ED',
         marginTop:25,
         marginLeft:120,
         marginRight:120,
