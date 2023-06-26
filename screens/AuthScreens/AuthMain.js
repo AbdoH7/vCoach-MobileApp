@@ -1,17 +1,23 @@
-import { StyleSheet, Text, View,Image,Button,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View,Image,TouchableOpacity} from 'react-native';
 
 export default function AuthMain({navigation}) {
     return (
     <View style={styles.container}>
-      <Image source={require('../../assets/gym.png')} style={styles.image}/>
       <View style={styles.content}>
-        <Image source={require('../../assets/v.png')} style={styles.icon} />
-        <Text style={styles.text} >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod et enim eligendi pariatur assumenda temporibus, nesciunt aspernatur sed! Qui, corporis. </Text>
+      <View style={styles.imageContainer}>
+        <Image source={require('../../assets/Cycle.png')} style={styles.image}/>
+      </View>
+        <Image source={require('../../assets/Logo.png')} style={styles.icon} />
+        <View style={styles.textContainer}>
+          <Text style={styles.text} >AI powered coach that helps you to achieve healthier life and ease the communication with your doctor </Text>
+        </View>
         <View style={styles.btnContainer}>
-          <Button title='Sign in' color={'#6495ED'} style={styles.bt} onPress={()=>{navigation.navigate("Login")}}/>
-          <Text style={styles.text1}>Don't have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("CheckType")}>
-            <Text style={styles.boldText}>Register</Text>
+          <TouchableOpacity style={styles.signUpButton} onPress={() => navigation.navigate("CheckType")}>
+            <Text style={styles.signUpText}>Sign Up</Text>
+          </TouchableOpacity>
+          <Text style={styles.text}>Already have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.boldText}>Login</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -22,46 +28,54 @@ export default function AuthMain({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1
+    flex:1,
+  },
+  imageContainer:{
+    flex:.6,
+    marginBottom:20,
+    zIndex: 0,
   },
   image:{
-borderRadius:30,
-    width:420,
-    height:350,
-
+    borderRadius:1,
+    width:'100%',
+    height:'100%',
   },
   content:{
-borderRadius:30,
- 
-    //borderWidth:5,
-    //borderColor:'red'
+    flex:1,
+    zIndex: 1,
   },
   boldText: {
-    marginLeft: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
   }
   ,icon:{
-   marginLeft:40,
-    width:300,
-   height:110,
-   marginBottom:20
+    alignSelf:'center',
+    width:125,
+    height:125,
+    marginBottom:15
   },
   text:{
-    marginLeft:70,
-    fontSize: 10,
-    //fontWeight: '200',
-    marginRight:30,
-    marginBottom:40
+    fontSize: 15,
+    textAlign:'center',
+    marginBottom:10
   },
-  text1:{
-  fontSize:10,
-//fontStyle:'italic',
+  textContainer:{
+    marginLeft:'auto',
+    marginRight:'auto',
+    width:'80%',
   },
-  bt:{
-    padding: 10,
-    borderRadius:30
+  signUpButton:{
+    backgroundColor:'#359960', //6495ED
+    padding: 15,
+    borderRadius:15,
+    width:200,
   },
-  btnContainer:{
-       
-       alignItems:'center'
+  signUpText:{
+    color:'white',
+    textAlign:'center',
+    fontSize: 20,
+  },
+  btnContainer:{    
+    alignItems:'center',
   }
 });
