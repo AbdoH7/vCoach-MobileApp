@@ -4,6 +4,8 @@ import DoctorMainScreen from '../screens/DoctorScreens/DoctorMainScreen';
 import AssignPatientScreen from '../screens/DoctorScreens/AssignPatientScreen';
 import SeePatientScreen from '../screens/DoctorScreens/SeePatientScreen';
 import SeeInvitesList from '../screens/DoctorScreens/SeeInvitesList';
+import AssignExercisesScreen from '../screens/DoctorScreens/AssignExercisesScreen';
+import RequestExerciseScreen from '../screens/DoctorScreens/RequestExerciseScreen';
 const defaultOptions = {
     headerStyle: {
       backgroundColor: '#6495ED', // Replace with your desired background color
@@ -36,6 +38,16 @@ const DoctorStack = () => {
             <Stack.Screen
             name="SeeInvitesList"
             component={SeeInvitesList}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
+            name="AssignExercisesScreen"
+            component={AssignExercisesScreen}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
+            name="RequestExerciseScreen"
+            component={RequestExerciseScreen}
             options={{defaultOptions}}
             />
         </Stack.Navigator>

@@ -24,6 +24,3 @@ export const postGlobal = async (endpoint,data) =>{
         return {data: err, hasError: true}
     }
 }
-
-
-

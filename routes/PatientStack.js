@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import PatientMainScreen from '../screens/PatientScreens/PatientMainScreen';
 import SeeDoctorScreen from '../screens/PatientScreens/SeeDoctorScreen';
 import AddDoctorScreen from '../screens/PatientScreens/AddDoctorScreen';
+import SeeAsignedExercises from '../screens/PatientScreens/SeeAssignedExercises';
 const defaultOptions = {
     headerStyle: {
       backgroundColor: '#6495ED', // Replace with your desired background color
@@ -30,6 +31,11 @@ const PatientStack = () => {
             <Stack.Screen
             name="AddDoctorScreen"
             component={AddDoctorScreen}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
+            name="SeeAsignedExercises"
+            component={SeeAsignedExercises}
             options={{defaultOptions}}
             />
         </Stack.Navigator>

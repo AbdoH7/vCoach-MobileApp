@@ -6,8 +6,8 @@ export default function DoctorMainScreen({navigation}) {
     const {user,logout} = useContext(AuthContext)
     return (
     <View style={styles.container}>
-        <Image style={styles.image} source={require('../../assets/patient.png')}/>
-        <Text style={styles.helloText}>You're Signed In (Patient) {user?.first_name} !</Text>
+      <Image style={styles.image} source={require('../../assets/patient.png')}/>
+      <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
         <View style={{flex:1}}>
             <TouchableOpacity onPress={()=>navigation.navigate('SeeDoctorScreen')} style={styles.submitButton}>
                 <Text style={styles.btnText}>See Your Doctors</Text>
@@ -15,11 +15,8 @@ export default function DoctorMainScreen({navigation}) {
             <TouchableOpacity onPress={()=>navigation.navigate('AddDoctorScreen')} style={styles.submitButton}>
                 <Text style={styles.btnText}>Add Doctor</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={{}} style={styles.submitButton}>
+            <TouchableOpacity onPress={()=>navigation.navigate('SeeAsignedExercises')} style={styles.submitButton}>
                 <Text style={styles.btnText}>See Assigned Exercises</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={{}} style={styles.submitButton}>
-                <Text style={styles.btnText}>Request Special Exercise</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={logout} style={styles.submitButton}>
                 <Text style={styles.btnText}>Sign Out</Text>

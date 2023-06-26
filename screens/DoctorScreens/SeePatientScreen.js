@@ -24,21 +24,21 @@ export default function SeePatientScreen({navigation}) {
     }
     return (
     <View style={styles.container}>
-        <Image style={styles.image} source={require('../../assets/doctor.png')}/>
-        <Text style={styles.helloText}>You're Signed In (Doctor) {user.first_name} !</Text>
-        {patients.length == 0 && <Text>No Patients assigned</Text>}
-        {patients.map((patient) => {
-            return (
-            <View key={patient.id} style={{flex:.15}}>
-              <Text style={{fontSize:20}}>{patient.id}</Text>
-              <Text>{patient.first_name}</Text>
-              <Text>{patient.email}</Text>
-              <TouchableOpacity onPress={()=>{removePatient(patient.id)}}><Text style={styles.modalHeaderCloseText}>Remove X</Text>
-              </TouchableOpacity>
-            </View>
-            )
-            }
-        )}
+      <Image style={styles.image} source={require('../../assets/doctor.png')}/>
+      <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
+      {patients.length == 0 && <Text>No Patients assigned</Text>}
+      {patients.map((patient) => {
+          return (
+          <View key={patient.id} style={{flex:.15}}>
+            <Text style={{fontSize:20}}>{patient.id}</Text>
+            <Text>{patient.first_name}</Text>
+            <Text>{patient.email}</Text>
+            <TouchableOpacity onPress={()=>{removePatient(patient.id)}}><Text style={styles.modalHeaderCloseText}>Remove X</Text>
+            </TouchableOpacity>
+          </View>
+          )
+          }
+      )}
     </View>
 
   );

@@ -9,21 +9,20 @@ export default function AssignPatientScreen({navigation}) {
     const assignDoctorToPatient = async (doctorToken)=>{
       try{
           response = await postGlobal(DoctorPatientAssignmentsEndpoint,{invite_token:doctorToken})
-          console.log(response);
       } catch(err){
           console.log(`Assign Doctor To Patient Error: ${err}`)
       }
     }
     return (
     <View style={styles.container}>
-        <Image style={styles.image} source={require('../../assets/doctor.png')}/>
-            <Text style={styles.helloText}>You're Signed In (Doctor) {user.first_name} !</Text>
-        <SafeAreaView style={{flex:1}}>
-            <TextInput style={styles.input} onChangeText={setText} placeholder='Enter Doctor Token' />
-            <TouchableOpacity onPress={()=>assignDoctorToPatient(doctorToken)} style={styles.submitButton}>
-                <Text style={styles.btnText}>Submit</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+      <Image style={styles.image} source={require('../../assets/patient.png')}/>
+      <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
+      <SafeAreaView style={{flex:1}}>
+          <TextInput style={styles.input} onChangeText={setText} placeholder='Enter Doctor Token' />
+          <TouchableOpacity onPress={()=>assignDoctorToPatient(doctorToken)} style={styles.submitButton}>
+              <Text style={styles.btnText}>Submit</Text>
+          </TouchableOpacity>
+      </SafeAreaView>
     </View>
 
   );

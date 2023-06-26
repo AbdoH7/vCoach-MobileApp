@@ -6,25 +6,28 @@ export default function DoctorMainScreen({navigation}) {
     const {user,logout} = useContext(AuthContext)
     return (
     <View style={styles.container}>
-        <Image style={styles.image} source={require('../../assets/doctor.png')}/>
-        <Text style={styles.helloText}>You're Signed In (Doctor) {user.first_name} !</Text>
-        <View style={{flex:1}}>
-            <TouchableOpacity onPress={()=> navigation.navigate('SeePatientScreen')} style={styles.submitButton}>
-                <Text style={styles.btnText}>See Your Patients</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=> navigation.navigate('AssignPatientScreen')} style={styles.submitButton}>
-                <Text style={styles.btnText}>Assign Patient</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={{}} style={styles.submitButton}>
-                <Text style={styles.btnText}>Assign Exercises</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=> navigation.navigate('SeeInvitesList')} style={styles.submitButton}>
-                <Text style={styles.btnText}>See list of invites</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={logout} style={styles.submitButton}>
-                <Text style={styles.btnText}>Sign Out</Text>
-            </TouchableOpacity>
-        </View>
+      <Image style={styles.image} source={require('../../assets/doctor.png')}/>
+      <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
+      <View style={{flex:1}}>
+          <TouchableOpacity onPress={()=> navigation.navigate('SeePatientScreen')} style={styles.submitButton}>
+              <Text style={styles.btnText}>See Your Patients</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate('AssignPatientScreen')} style={styles.submitButton}>
+              <Text style={styles.btnText}>Assign Patient</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate('AssignExercisesScreen')} style={styles.submitButton}>
+              <Text style={styles.btnText}>Assign Exercises</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate('SeeInvitesList')} style={styles.submitButton}>
+              <Text style={styles.btnText}>See list of invites</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate('RequestExerciseScreen')} style={styles.submitButton}>
+              <Text style={styles.btnText}>Request Special Exercise</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={logout} style={styles.submitButton}>
+              <Text style={styles.btnText}>Sign Out</Text>
+          </TouchableOpacity>
+      </View>
     </View>
 
   );

@@ -18,20 +18,20 @@ export default function SeeInvitesList({navigation}) {
     },[])
     return (
     <View style={styles.container}>
-        <Image style={styles.image} source={require('../../assets/doctor.png')}/>
-        <Text style={styles.helloText}>You're Signed In (Doctor) {user.first_name} !</Text>
-        {
-          invitesList.map((invites) => {
-            return (
-              <View key={invites.id} style={{flex:.1}}>
-                <Text style={{fontSize:20}}>{invites.id}</Text>
-                <Text>{invites.user_id}</Text>
-                <Text>{invites.email}</Text>
-              </View>
-            )
-          })
-        }
-        {/* {invitesList.length == 0 ? <Text>No Invites</Text> : invitesList.map((invites) => {<Text>{invites.id}</Text>})} */}
+      <Image style={styles.image} source={require('../../assets/doctor.png')}/>
+      <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
+      {
+        invitesList.map((invites) => {
+          return (
+            <View key={invites.id} style={{flex:.1}}>
+              <Text style={{fontSize:20}}>{invites.id}</Text>
+              <Text>{invites.user_id}</Text>
+              <Text>{invites.email}</Text>
+            </View>
+          )
+        })
+      }
+      {/* {invitesList.length == 0 ? <Text>No Invites</Text> : invitesList.map((invites) => {<Text>{invites.id}</Text>})} */}
     </View>
 
   );

@@ -23,21 +23,21 @@ export default function SeeDoctorScreen({navigation}) {
     }
     return (
     <View style={styles.container}>
-        <Image style={styles.image} source={require('../../assets/doctor.png')}/>
-        <Text style={styles.helloText}>You're Signed In (Doctor) {user.first_name} !</Text>
-        {doctors.length === 0 && <Text>No doctors assigned to you</Text>}
-        {doctors.map((doctor) => {
-            return (
-            <View key={doctor.id} style={{flex:.15}}>
-              <Text style={{fontSize:20}}>{doctor.id}</Text>
-              <Text>{doctor.first_name}</Text>
-              <Text>{doctor.email}</Text>
-              <TouchableOpacity onPress={()=>{removeDoctor(doctor.id)}}><Text style={styles.modalHeaderCloseText}>Remove X</Text>
-              </TouchableOpacity>
-            </View>
-            )
-            }
-        )}
+      <Image style={styles.image} source={require('../../assets/patient.png')}/>
+      <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
+      {doctors.length === 0 && <Text>No doctors assigned to you</Text>}
+      {doctors.map((doctor) => {
+          return (
+          <View key={doctor.id} style={{flex:.15}}>
+            <Text style={{fontSize:20}}>{doctor.id}</Text>
+            <Text>{doctor.first_name}</Text>
+            <Text>{doctor.email}</Text>
+            <TouchableOpacity onPress={()=>{removeDoctor(doctor.id)}}><Text style={styles.modalHeaderCloseText}>Remove X</Text>
+            </TouchableOpacity>
+          </View>
+          )
+          }
+      )}
     </View>
 
   );
