@@ -5,6 +5,7 @@ import SeeDoctorScreen from '../screens/PatientScreens/SeeDoctorScreen';
 import AddDoctorScreen from '../screens/PatientScreens/AddDoctorScreen';
 import SeeAsignedExercises from '../screens/PatientScreens/SeeAssignedExercises';
 import ModelScreen from '../screens/PatientScreens/ModelScreen.js';
+import DisplayVideo from '../screens/PatientScreens/DisplayVideo';
 const defaultOptions = {
     headerStyle: {
       backgroundColor: '#6495ED', // Replace with your desired background color
@@ -42,6 +43,11 @@ const PatientStack = () => {
             <Stack.Screen
             name="ModelScreen"
             component={ModelScreen}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
+            name="DisplayVideo"
+            component={DisplayVideo}
             options={{defaultOptions}}
             />
         </Stack.Navigator>
