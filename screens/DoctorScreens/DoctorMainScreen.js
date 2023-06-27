@@ -18,6 +18,9 @@ export default function DoctorMainScreen({navigation}) {
           <TouchableOpacity onPress={()=> navigation.navigate('AssignExercisesScreen')} style={styles.submitButton}>
               <Text style={styles.btnText}>Assign Exercises</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate('ListAssignmentsScreen')} style={styles.submitButton}>
+              <Text style={styles.btnText}>See Assiged Exercises</Text>
+          </TouchableOpacity>
           <TouchableOpacity onPress={()=> navigation.navigate('SeeInvitesList')} style={styles.submitButton}>
               <Text style={styles.btnText}>See list of invites</Text>
           </TouchableOpacity>
@@ -36,7 +39,7 @@ export default function DoctorMainScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    padding: 100
+    padding: 70
   },
   helloText: {
     fontSize: 20,
