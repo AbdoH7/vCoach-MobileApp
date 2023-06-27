@@ -22,16 +22,13 @@ export default function SeeAsignedExercises({navigation}) {
 	const markAsDone = async (id, value) => {
     const payload = { status: value };
     try {
-      // Make the PUT request to update the assignment
       const response = await putGlobal(updateAssignment(id), payload);
-      // Update the state with the updated assignment
       const updatedAssignments = assignments.map((assignment) =>
         assignment.id === id ? { ...assignment, status: response.data.assignment.status } : assignment
       );
 
       setAssignments(updatedAssignments);
     } catch (error) {
-      // Handle error
       console.error('Error updating assignment:', error);
     }
 	}
@@ -53,7 +50,7 @@ export default function SeeAsignedExercises({navigation}) {
 					<TouchableOpacity onPress={()=>{markAsDone(assignment.id, !assignment.status)}}>
 						<Text>{assignment.status? 'Undo' : 'Mark As Done'}</Text>
 					</TouchableOpacity>
-          <TouchableOpacity onPress={()=>{navigation.navigate("DisplayVideo", {video: assignment.exercise.video})}}>
+          <TouchableOpacity onPress={()=>{navigation.navigate("ExerciseContainer", {exercise: assignment.exercise})}}>
             <Text>See Exercise</Text>
           </TouchableOpacity>
 					<Text>---------------------------------------------------------------------------</Text>
@@ -62,12 +59,3 @@ export default function SeeAsignedExercises({navigation}) {
     </ScrollView>
   )
 }
-
-const styles = StyleSheet.create({
-  image:{
-    borderRadius:30,
-    width:50,
-    height:50,
-    alignSelf:'center',
-  }
-})
