@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 
 
 export default function ExerciseDetailsScreen({navigation, route}) {
-	const { patient_id_id, exercise, type, assignment } = route.params;
+	const { patient_id, exercise, type, assignment } = route.params;
 	
 	const validationSchema = Yup.object().shape(
 		exercise.instructions.instructions.reduce((schema, instruction) => {
