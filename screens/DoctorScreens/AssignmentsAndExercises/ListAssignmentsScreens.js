@@ -8,7 +8,6 @@ export default function ListAssignmentsScreen({navigation, route}) {
 		const fetchAssignments = async () => {
 			try {
 				const response = await fetchGlobal(getAssignments);
-				console.log(response.data.assignments)
 				setAssignments(response.data.assignments);
 			} catch (error) {
 				console.error('Error fetching data:', error);
@@ -19,7 +18,6 @@ export default function ListAssignmentsScreen({navigation, route}) {
 
 	const deleteAssignment = async (id) => {
 		const response = await deleteGlobal(removeAssignment(id))
-		console.log(response)
 		setAssignments(assignments.filter((assignment) => assignment.id !== id))
 	}
 
