@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react'
 export default function ListAssignmentsScreen({navigation, route}) {
   const [assignments, setAssignments] = useState([])
 	useEffect(() => {
-		const fetchAssignments = async () => {
+		const unsubscribe = navigation.addListener('focus',() => {
+			const fetchAssignments = async () => {
 			try {
 				const response = await fetchGlobal(getAssignments);
 				setAssignments(response.data.assignments);
@@ -13,14 +14,14 @@ export default function ListAssignmentsScreen({navigation, route}) {
 				console.error('Error fetching data:', error);
 			}
 		}
-	fetchAssignments()
-	},[])
-
+		fetchAssignments()
+		return unsubscribe;
+	  }, [navigation])
+	});
 	const deleteAssignment = async (id) => {
 		const response = await deleteGlobal(removeAssignment(id))
 		setAssignments(assignments.filter((assignment) => assignment.id !== id))
 	}
-
   return (
     <ScrollView>
 			<Text>Assignments</Text>
@@ -33,7 +34,7 @@ export default function ListAssignmentsScreen({navigation, route}) {
 					<Text>{assignment.missed? "Missed" : "Not Missed"}</Text>
 					<Text>{`Date: ${assignment.date}`}</Text>
 					{assignment.model_available && <Text>{`accuracy: ${assignment.accuracy}`}</Text> }
-					{assignment.notes && <Text>{assignment.notes}</Text> }
+					{assignment.notes && <Text>{`Notes: ${assignment.notes}`}</Text> }
 					{Object.keys(assignment.instructions).map((key) => {return(<Text>{`${key}: ${assignment.instructions[key]}`}</Text>)})}
 					<TouchableOpacity onPress={()=>{deleteAssignment(assignment.id)}}>
 						<Text>Delete</Text>
