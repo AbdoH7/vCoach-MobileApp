@@ -8,7 +8,8 @@ import AssignExercisesScreen from '../screens/DoctorScreens/AssignmentsAndExerci
 import RequestExerciseScreen from '../screens/DoctorScreens/RequestExerciseScreen';
 import ListExercisesScreen from '../screens/DoctorScreens/AssignmentsAndExercises/ListExercisesScreen';
 import ExerciseDetailsScreen from '../screens/DoctorScreens/AssignmentsAndExercises/ExerciseDetailsScreen';
-import ListAssignmentsScreen from '../screens/DoctorScreens/AssignmentsAndExercises/ListAssignmentsScreens';
+import SeeAssignedExercises from '../screens/CommonScreens/SeeAssignedExercises';
+import ExerciseContainer from '../screens/CommonScreens/ExerciseContainer';
 const defaultOptions = {
     headerStyle: {
       backgroundColor: '#6495ED', // Replace with your desired background color
@@ -64,8 +65,13 @@ const DoctorStack = () => {
             options={{defaultOptions}}
             />
             <Stack.Screen
-            name="ListAssignmentsScreen"
-            component={ListAssignmentsScreen}
+            name="SeeAssignedExercises"
+            component={SeeAssignedExercises}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
+            name="ExerciseContainer"
+            component={ExerciseContainer}
             options={{defaultOptions}}
             />
         </Stack.Navigator>
