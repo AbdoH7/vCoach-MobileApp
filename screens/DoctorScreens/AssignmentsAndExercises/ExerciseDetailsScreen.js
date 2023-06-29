@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React from 'react'
 import {View,Text,StyleSheet, TouchableOpacity, ScrollView, TextInput} from 'react-native'
 import { postGlobal, putGlobal, createAssignment, doctorUpdateAssignment } from '../../../APIs'
 import * as Yup from 'yup';
@@ -51,7 +51,7 @@ export default function ExerciseDetailsScreen({navigation, route}) {
 				date: [date, date+1, date+2]
 			}
 			const response = await putGlobal(doctorUpdateAssignment(assignment.id), payload)
-			navigation.navigate("ListAssignmentsScreen")
+			navigation.navigate("SeeAssignedExercises")
 		}
 	}
 	return (
