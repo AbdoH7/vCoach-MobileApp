@@ -2,6 +2,7 @@ import React from 'react'
 import {View,Text,StyleSheet, TouchableOpacity, ScrollView} from 'react-native'
 import { fetchGlobal, deleteGlobal, getAssignments, removeAssignment} from '../../../APIs'
 import { useEffect, useState } from 'react'
+import global from '../../../styles/global';
 export default function ListAssignmentsScreen({navigation, route}) {
   const [assignments, setAssignments] = useState([])
 	useEffect(() => {
@@ -25,10 +26,11 @@ export default function ListAssignmentsScreen({navigation, route}) {
   return (
     <ScrollView>
 			<Text>Assignments</Text>
-      {assignments?.map((assignment) => {return(
-				<View>
+      {assignments?.map((assignment,index) => {return(
+				<View key={index} style={global.defaultBackgroundColor}>
+				{console.log(index)}
 					<Text>{assignment.id}</Text>
-					<Text>"Patient: "{`${assignment.patient.first_name} ${assignment.patient.last_name}`}</Text>
+					<Text style={global.redText}>"Patient: "{`${assignment.patient.first_name} ${assignment.patient.last_name}`}</Text>
 					<Text>"Exercise: "{assignment.exercise.name}</Text>
 					<Text>{assignment.status? "Finished" : "Not Finished"}</Text>
 					<Text>{assignment.missed? "Missed" : "Not Missed"}</Text>

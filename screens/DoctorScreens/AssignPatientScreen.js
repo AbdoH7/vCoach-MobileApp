@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View,Image,SafeAreaView,TouchableOpacity, TextInput} from 'react-native';
 import React,{useContext, useEffect, useState} from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { fetchGlobal,InvitesEndpoint, postGlobal } from '../../APIs';
+import { InvitesEndpoint, postGlobal } from '../../APIs';
+import global from '../../styles/global';
 export default function AssignPatientScreen({navigation}) {
     const {user,userToken} = useContext(AuthContext)
     const [email, setText] = useState('')
@@ -13,15 +14,30 @@ export default function AssignPatientScreen({navigation}) {
       }
     }
     return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={require('../../assets/doctor.png')}/>
-      <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
-      <SafeAreaView style={{flex:1}}>
-          <TextInput style={styles.input} onChangeText={setText} placeholder='Enter Patient Email' />
+    <View style={[styles.container,global.defaultBackgroundColor]}>
+      <View style={global.userInfo}>
+        <Text style={global.userInfoText}>
+          <Text style={global.helloText}>Hello,</Text>
+          <Text>{'\n'}</Text>
+          <Text style={global.userNameText}>Dr.{user.first_name}</Text>
+        </Text>
+        <View style={global.imageContainer}>
+          <Image style={global.profileImage} source={require('../../assets/doctor.png')}/>
+        </View>
+      </View>
+      <View style={styles.submitContainer}>
+        <View style={styles.submitTextInput}>
+          <TextInput style={styles.textInput} onChangeText={setText} placeholderTextColor={'#6A6888'} placeholder='Enter Patient Email' />
+        </View>
+        <View style={styles.btnContainer}>
           <TouchableOpacity onPress={()=>sendInvite(email)} style={styles.submitButton}>
               <Text style={styles.btnText}>Submit</Text>
           </TouchableOpacity>
-      </SafeAreaView>
+          <TouchableOpacity onPress={()=>navigation.navigate('SeeInvitesList')} style={styles.submitButton}>
+            <Text style={styles.btnText}>See All Previous Invites</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
 
   );
@@ -30,71 +46,41 @@ export default function AssignPatientScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    padding: 100
+    padding: 10,
   },
-  input: {
-    backgroundColor: 'white',
-    borderColor: 'black',
-    borderWidth:1,
-    height: 40,
-    color: 'black',
-    paddingLeft: 10,
-    },
-  helloText: {
-    fontSize: 20,
-    marginBottom: 50,
-    textAlign: 'center'
+  submitContainer:{
+    flexDirection:'column',
+    marginTop:10,
+    height:"50%",
   },
-  image:{
-borderRadius:30,
-    width:50,
-    height:50,
+  submitTextInput:{
+    height:'80%',
+  },
+  textInput:{
+    color:'white',
+    backgroundColor:'#21202E',
+    borderRadius:10,
     alignSelf:'center',
+    width:'100%',
+    height:'20%',
+    textAlign:'center',
   },
-  content:{
-borderRadius:30,
- 
-    //borderWidth:5,
-    //borderColor:'red'
+  btnContainer:{
+    marginBottom:10,
+  },
+  submitButton:{
+    padding:10,
+    marginBottom:10,
+    width:'100%',
+    backgroundColor:'#6C63FF',
+    borderRadius:20,
+    alignItems:'center',
+    alignSelf:'flex-start',
   },
   btnText:{
     color:'white',
-    fontSize: 20,
-  },
-  submitButton:{
-    borderRadius:30,
-    flex:.2,
-    backgroundColor:'#6495ED',
-    marginTop:50,
-    textAlign:'center',
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  boldText: {
-    marginLeft: 10,
+    fontWeight:'bold',
+    fontSize:18,
   }
-  ,icon:{
-   marginLeft:40,
-    width:300,
-   height:110,
-   marginBottom:20
-  },
-  text:{
-    marginLeft:70,
-    fontSize: 10,
-    //fontWeight: '200',
-    marginRight:30,
-    marginBottom:40
-  },
-  text1:{
-  fontSize:10,
-//fontStyle:'italic',
-  },
-  bt:{
-    padding: 50,
-    borderRadius:30,
-  },
-  btnContainer:{
-       alignItems:'center'
-  }
+
 });
