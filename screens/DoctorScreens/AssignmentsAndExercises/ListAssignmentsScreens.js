@@ -28,7 +28,6 @@ export default function ListAssignmentsScreen({navigation, route}) {
 			<Text>Assignments</Text>
       {assignments?.map((assignment,index) => {return(
 				<View key={index} style={global.defaultBackgroundColor}>
-				{console.log(index)}
 					<Text>{assignment.id}</Text>
 					<Text style={global.redText}>"Patient: "{`${assignment.patient.first_name} ${assignment.patient.last_name}`}</Text>
 					<Text>"Exercise: "{assignment.exercise.name}</Text>
