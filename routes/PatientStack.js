@@ -3,9 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import PatientMainScreen from '../screens/PatientScreens/PatientMainScreen';
 import SeeDoctorScreen from '../screens/PatientScreens/SeeDoctorScreen';
 import AddDoctorScreen from '../screens/PatientScreens/AddDoctorScreen';
-import SeeAsignedExercises from '../screens/PatientScreens/SeeAssignedExercises';
+import SeeAsignedExercises from '../screens/CommonScreens/SeeAssignedExercises';
 import ModelScreen from '../screens/PatientScreens/ModelScreen.js';
-import ExerciseContainer from '../screens/PatientScreens/ExerciseContainer';
+import ExerciseContainer from '../screens/CommonScreens/ExerciseContainer';
 const defaultOptions = {
     headerStyle: {
       backgroundColor: '#6495ED', // Replace with your desired background color
