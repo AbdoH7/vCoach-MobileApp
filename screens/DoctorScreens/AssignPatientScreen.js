@@ -4,37 +4,29 @@ import { AuthContext } from '../../context/AuthContext';
 import { InvitesEndpoint, postGlobal } from '../../APIs';
 import global from '../../styles/global';
 export default function AssignPatientScreen({navigation}) {
-    const {user,userToken} = useContext(AuthContext)
+    const {user} = useContext(AuthContext)
     const [email, setText] = useState('')
     const [textInputStyle, setStyle] = useState(styles.textInput)
-    const sendInvite = async ()=>{
+    const sendInvite = async (email)=>{
       try{
           response = await postGlobal(InvitesEndpoint,{email:email})
       } catch(err){
           console.log(`Send Invite Error: ${err}`)
       }
     }
-    const textInputFocus = (data) => {
-      setText(data)
+    const textInputFocus = () => {
       setStyle(styles.textInputFocus)
     }
-    const textInputBlur = (data) => {
+    const textInputBlur = () => {
       setStyle(styles.textInput)
     }
     return (
     <View style={[styles.container,global.defaultBackgroundColor]}>
-      <View style={global.userInfo}>
-        <Text style={global.userInfoText}>
-          <Text style={global.helloText}>Hello,</Text>
-          <Text>{'\n'}</Text>
-          <Text style={global.userNameText}>Dr.{user.first_name}</Text>
-        </Text>
-        <View style={global.imageContainer}>
-          <Image style={global.profileImage} source={{uri:user.avatar.url}}/>
-        </View>
+      <View style={styles.header}>
+        <Text style={styles.title}>Send Invite</Text>
       </View>
         <View style={styles.submitTextInput}>
-          <TextInput style={textInputStyle} onFocus={textInputFocus} onTouchCancel={textInputBlur} onBlur={textInputBlur} placeholderTextColor={'#6A6888'} placeholder='Enter Patient Email' />
+          <TextInput onChangeText={setText} style={textInputStyle} onFocus={textInputFocus} onTouchCancel={textInputBlur} onBlur={textInputBlur} placeholderTextColor={'#6A6888'} placeholder='Enter Patient Email' />
         </View>
         <View style={styles.btnContainer}>
           <TouchableOpacity onPress={()=>sendInvite(email)} style={styles.submitButton}>
@@ -50,14 +42,29 @@ export default function AssignPatientScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#6C63FF",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    marginBottom: 20,
+  },
   container: {
     flex:1,
-    padding: 10,
+    // padding: 10,
     flexDirection:'column',
   },
   submitTextInput:{
     marginTop:100,
     height:50,
+    paddingHorizontal:20,
   },
   textInput:{
     color:'white',
@@ -77,6 +84,7 @@ const styles = StyleSheet.create({
     fontSize:18,
   },
   btnContainer:{
+    padding:10,
     marginTop:'auto',
   },
   submitButton:{

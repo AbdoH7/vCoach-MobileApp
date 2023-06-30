@@ -10,8 +10,7 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-export default function RequestExerciseScreen({ route }) {
-  const { exercises } = route.params;
+export default function RequestExerciseScreen() {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Exercise name is required"),
