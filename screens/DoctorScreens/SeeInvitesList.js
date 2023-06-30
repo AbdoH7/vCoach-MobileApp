@@ -18,7 +18,7 @@ export default function SeeInvitesList({navigation}) {
     },[])
     return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require('../../assets/doctor.png')}/>
+      <Image style={styles.image} source={{uri:user.avatar.url}}/>
       <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
       {
         invitesList.map((invites) => {

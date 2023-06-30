@@ -1,5 +1,5 @@
 import React,{useContext} from 'react'
-import {View,Text,StyleSheet, TouchableOpacity,Image} from 'react-native'
+import {View,Text,StyleSheet, TouchableOpacity,Image,ScrollView} from 'react-native'
 import { AuthContext } from '../../../context/AuthContext'
 import { fetchGlobal, getExercises } from '../../../APIs'
 import { useEffect, useState } from 'react'
@@ -27,42 +27,97 @@ export default function ListExercisesScreen({navigation, route}) {
           <Text style={global.userNameText}>Dr.{user.first_name}</Text>
         </Text>
         <View style={global.imageContainer}>
-          <Image style={global.profileImage} source={require('../../../assets/doctor.png')}/>
+          <Image style={global.profileImage} source={{uri:user.avatar.url}}/>
         </View>
       </View>
-      <View>
-        <Text style={global.title}>Exercises</Text>
+        <Text style={styles.title}>Exercises</Text>
+      <ScrollView style={styles.exercisesViewContainer}>
         {exercises.length == 0 ? 
         <Text style={global.notFoundText}>No exercises available</Text> :
-        exercises.map((exercise) => {
+        <View style={styles.exerciselistContainer}>
+          {exercises.map((exercise,index) => {
             return (
-            <View style={styles.exerciseContainer} key={exercise.id}>
-              <TouchableOpacity onPress={()=>{navigation.navigate("ExerciseDetailsScreen", {patient_id: route.params.patient_id, exercise: exercise, type: "create"})}}>
-                <Text>{exercise.name}</Text>
+              <TouchableOpacity key={exercise.id} onPress={()=>{navigation.navigate("ExerciseDetailsScreen", {patient_id: route.params.patient_id, exercise: exercise, type: "create"})}} style={[styles.exerciseContainer,index == 0 && styles.firstExercise || index == 1 && styles.secondExercise || index == 2 && styles.thirdExercise]} >
+                <Text style={styles.exerciseText}>{exercise.name}</Text>
+                <Image style={styles.exerciseImage} resizeMode='contain' source={{uri:exercise.image}} />
               </TouchableOpacity>
-            </View>
             )
-          })
+          })}
+        </View>
         }
+       </ScrollView>
+       <View style={styles.requestView}>
+          <TouchableOpacity onPress={()=>navigation.navigate('RequestExerciseScreen')} style={styles.requestBtn}>
+            <Text style={styles.requestText}>Request Exercise</Text>
+          </TouchableOpacity>
        </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  exercisesViewContainer:{
+    backgroundColor:'#21202E',
+    borderRadius:15,
+    marginBottom:10,
+  },
+  requestView:{
+    // marginTop:'auto',
+    margin:10,
+    height:"6%"
+  },
+  requestBtn:{
+    backgroundColor:'#6C63FF',
+    borderRadius:20,
+    alignItems:'center',
+    marginTop:'auto',
+    height:"100%"
+  },
+  requestText:{
+    fontSize:20,
+    color:'white',
+    fontWeight:'bold',
+    paddingTop:10,
+  },
   container:{
     flex:1,
-    padding:10
+    padding:10,
+    flexDirection:'column',
+  },
+  title:{
+    paddingLeft:10,
+    fontSize:30,
+    color:'#fff',
+    fontWeight:'bold',
+    marginBottom:5,
+  },
+  exerciselistContainer:{
+    width:"100%",
   },
   exerciseContainer:{
-    marginTop:10,
-    padding:10,
-    paddingTop:20,
-    backgroundColor:'#21202E',
-    marginLeft:10,
-    marginRight:10,
+    padding:15,
+    margin:15,
     borderRadius:15,
-    height:'90%',
-    marginBottom:20,
+    flexDirection:'row',
+    justifyContent: 'space-between',  
+  },
+  exerciseText:{
+    fontSize:40,
+    color:'#fff',
+    fontWeight:'bold',
+  },
+  exerciseImage:{
+    alignSelf:'center',
+    width:135,
+    height:135,
+  },
+  firstExercise:{
+    backgroundColor:"#ff3b30",
+  },
+  secondExercise:{
+    backgroundColor:"#26ae60",
+  },
+  thirdExercise:{
+    backgroundColor:"#017aff",
   },
 })

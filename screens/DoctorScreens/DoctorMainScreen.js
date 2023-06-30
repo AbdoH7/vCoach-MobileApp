@@ -9,10 +9,8 @@ import assignExerciseIcon from '../../assets/addKeyframes.png';
 import assignedExercisesIcon from '../../assets/assignedExercises.png';
 import homeOffIcon from '../../assets/homeOff.png';
 import messagesOffIcon from '../../assets/messagesOff.png';
-import notificationOffIcon from '../../assets/notificationOff.png';
 import homeOnIcon from '../../assets/homeOn.png';
 import messagesOnIcon from '../../assets/messagesOn.png';
-import notificationOnIcon from '../../assets/notificationOn.png';
 import global from '../../styles/global';
 export default function DoctorMainScreen({navigation}) {
     const {user,logout} = useContext(AuthContext)
@@ -36,13 +34,12 @@ export default function DoctorMainScreen({navigation}) {
       if(index == 3)
         logout()
     }
-
-    const hideDropMenu = () => {
-      //hide all drop menus when pressing anywhere...
+    const removePatient = async (patientId) => {
+      //need to figure out how to rerender
+      await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, {id: patientId})
+      setPatients((patients) => patients.filter((patient) => patient.id !== patientId))
     }
-    
     return (
-    <TouchableWithoutFeedback onPress={hideDropMenu}>
       <View style={[global.defaultBackgroundColor,styles.container]}>
           <View style={[global.userInfo,styles.userInfoContainer]}>
             <Text style={global.userInfoText}>
@@ -51,7 +48,7 @@ export default function DoctorMainScreen({navigation}) {
               <Text style={[global.userNameText,styles.userName]}>Dr.{user.first_name}</Text>
             </Text>
             <View style={global.imageContainer}>
-              <Image style={global.profileImage} source={require('../../assets/doctor.png')}/>
+              <Image style={global.profileImage} source={{uri:user.avatar.url}}/>
             </View>
           </View>
           <View style={styles.actionsMenuContainer}>
@@ -90,9 +87,11 @@ export default function DoctorMainScreen({navigation}) {
             </TouchableOpacity>
           </View>
           <ScrollView alwaysBounceVertical={true} bounces={true} style={styles.patientInfoContainer}>
-            {
-              patients.length == 0 ? <Text style={styles.noPatientText}>No Patients assigned</Text> : <Patient patients={patients}/>
-            }
+            {patients.slice(0,3).map((patient,index) => (
+              <View key={patient.id} style={index == 2 ? styles.hideLastPatientBorder : styles.showPatientBorder}>
+                <Patient  key={patient.id} patient={patient} removePatient={removePatient}/>
+              </View>
+            ))}
           </ScrollView>
           </View>
         <View style={styles.quickAccessMenuContainer}>
@@ -110,23 +109,30 @@ export default function DoctorMainScreen({navigation}) {
           </View>
           <View style={styles.quickAccessItem}>
           <TouchableOpacity onPress={()=>navigateToTab(3,'LogOut')}  style={styles.quickAccessItemBtn}>
-            <Image source={imageIndex == 3 ? notificationOnIcon : notificationOffIcon} />
+            <Image source={require('../../assets/signOut.png')} />
             <Text style={styles.quickAccessItemText}>LogOut</Text>
           </TouchableOpacity>
           </View>
         </View>
       </View>
-    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex : 1,
-    padding: 15,
+  },
+  showPatientBorder:{
+    borderBottomWidth:1,
+    borderColor:'gray',
+    paddingVertical:10,
+  },  
+  hideLastPatient:{
+    borderBottomWidth:0,
   },
   userInfoContainer:{
-    marginBottom:30
+    marginBottom:30,
+    padding:15,
   },
   btnText:{
     color:'white',
@@ -148,10 +154,12 @@ const styles = StyleSheet.create({
   actionsMenuContainer:{
     flexDirection:'row',
     width:"100%",
+    padding:5,
   },
   actionsMenuText:{
     flexDirection:'row',
-    marginTop:10
+    marginTop:10,
+    padding:5,
   },
   button:{
     borderColor:'gray',
@@ -175,7 +183,14 @@ const styles = StyleSheet.create({
     fontSize:20,
   },
   patientInfoContainer:{
-    marginTop:5
+    padding:10,
+    paddingBottom:0,
+    paddingTop:0,
+    margin:10,
+    marginBottom:5,
+    flexDirection:'column',
+    backgroundColor:'#21202E',
+    borderRadius:15,
   },
   patientText:{
     fontSize:20,
@@ -184,7 +199,7 @@ const styles = StyleSheet.create({
     alignSelf:'flex-end',
   },
   seeAllPatients:{
-    paddingTop:20,
+    padding:10,
     flexDirection:'row',
   },
   seeAllText:{
@@ -195,8 +210,8 @@ const styles = StyleSheet.create({
     borderRadius:30
   },
   quickAccessMenuContainer:{
-    height:"50%",
     flexDirection:'row',
+    marginTop:'auto'
   },
   quickAccessItem:{
     width:"33%",

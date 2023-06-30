@@ -5,7 +5,7 @@ export default function RequestExerciseScreen() {
   const {user} = useContext(AuthContext)
   return (
     <View>
-      <Image style={styles.image} source={require('../../assets/doctor.png')}/>
+      <Image style={styles.image} source={{uri:user.avatar.url}}/>
       <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
       <Text>Some Text</Text>
     </View>
