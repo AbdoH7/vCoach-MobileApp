@@ -155,15 +155,15 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
                     />
                   </View>
                 </View>
-				{type === "create" && calendarStatus && (
+				{type === "create" && (
 				<View style={styles.calendarView}>
 				<TouchableOpacity
 					style={styles.calendarBtn}
 					onPress={toggleCalendar}
 				>
-					<Text style={styles.submitText}>Select Dates</Text>
+					<Text style={styles.submitText}>{!calendarStatus? "Select Dates" : "Close"}</Text>
 				</TouchableOpacity>
-					<Calendar
+					{calendarStatus &&<Calendar
 						markedDates={selectedDates}
 						markingType="multi-dot"
 						onDayPress={handleDateSelect}
@@ -176,7 +176,7 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
 							monthTextColor: "#ffffff",
 							textDisabledColor: "#C5C5C5",
 						}}
-					/>
+					/>}
 				</View>
 				)}
                 <View style={styles.submitButtonView}>
