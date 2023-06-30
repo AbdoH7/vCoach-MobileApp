@@ -3,7 +3,7 @@ import {View,Button,Text} from 'react-native'
 import React,{useState,useEffect} from 'react'
 
 const DateField = (props)=>{
-    const [date, setDate] = useState(new Date.now());
+    const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const onChange = async (event, selectedDate) => {
@@ -12,6 +12,7 @@ const DateField = (props)=>{
         await setDate(currentDate);
       };
       const showMode = (currentMode) => {
+        console.log('test');
         if (Platform.OS === 'android') {
           setShow(false);
           // for iOS, add a button that closes the picker
@@ -19,12 +20,14 @@ const DateField = (props)=>{
         setMode(currentMode);
       };
       const showDatepicker = () => {
+        console.log('test');
         showMode('date');
         setShow(true)
       };
       useEffect(() => {
+        console.log('test');
         let holderDate = date
-        dateString = date_TO_String(holderDate)
+        let dateString = date_TO_String(holderDate)
         props.updateDate(dateString)
       }, [date])
       return(

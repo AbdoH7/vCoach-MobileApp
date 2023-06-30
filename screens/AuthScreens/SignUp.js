@@ -32,7 +32,7 @@ export default function SignUp({route,navigation}) {
         user_type:`${route.params.user_type}`,
         invite_token:''
     }
-    const [date, setDate] = useState(new Date.now());
+    const [date, setDate] = useState(new Date(1598051730000));
     const updateDate = async (dateString) => {
         await setDate(dateString);
     }

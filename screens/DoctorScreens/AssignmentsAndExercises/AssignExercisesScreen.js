@@ -1,50 +1,93 @@
-import React,{useContext} from 'react'
-import {View,Text,StyleSheet, TouchableOpacity} from 'react-native'
-import { AuthContext } from '../../../context/AuthContext'
-import { fetchGlobal, DoctorPatientAssignmentsEndpoint } from '../../../APIs'
-import { useEffect, useState } from 'react'
-
-export default function AssignExercisesScreen({navigation}) {
-  const [patients, setPatients] = useState([])
-    useEffect(() => {
-      const fetchPatients = async () => {
-        try {
-          const response = await fetchGlobal(DoctorPatientAssignmentsEndpoint);
-          setPatients(response.data.users);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
+import React, { useContext } from "react";
+import { View, Text, StyleSheet,ScrollView, TouchableOpacity, Button } from "react-native";
+import { AuthContext } from "../../../context/AuthContext";
+import { fetchGlobal, DoctorPatientAssignmentsEndpoint } from "../../../APIs";
+import { useEffect, useState } from "react";
+import Patient from "../../../Components/DoctorComponents/Patient";
+export default function AssignExercisesScreen({ navigation }) {
+  const [patients, setPatients] = useState([]);
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await fetchGlobal(DoctorPatientAssignmentsEndpoint);
+        setPatients(response.data.users);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-      fetchPatients()
-    },[])
-  const {user} = useContext(AuthContext)
-
+    };
+    fetchPatients();
+  }, []);
+  const { user } = useContext(AuthContext);
+  const itemHeight = 75; // Adjust the height of each patient item as needed
+  const maxHeight = patients.length * itemHeight;
   return (
-    <View>
-      <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
-      <Text>Some Text</Text>
-      {patients.length == 0 && <Text>No Patients assigned</Text>}
-      {patients.map((patient) => {
-          return (
-            
-          <View key={patient.id}>
-            <TouchableOpacity onPress={()=>{navigation.navigate('ListExercisesScreen', {patient_id: patient.id})}}>
-              <Text>{patient.first_name} {patient.last_name}</Text>
-              <Text>{patient.email}</Text>
-            </TouchableOpacity>
-          </View>
-          )
-          }
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Patients</Text>
+      </View>
+      {patients.length == 0 && (
+        <Text style={styles.title}>No Patients assigned</Text>
       )}
+      <ScrollView style={[styles.patientContainer,{maxHeight:maxHeight}]}>
+        <View style={styles.patientListContainer}>
+          {patients.map((patient,index) => (
+            <View key={patient.id} style={index == patients.length-1 ? styles.hideLastPatientBorder : styles.showPatientBorder}>
+              <Patient key={patient.id} patient={patient} />
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+        <TouchableOpacity onPress={()=>{navigation.navigate('ListExercisesScreen',{patient_id:patients[0].id})}}>
+          <Text style={{color:'white'}}>Press to assign exercises to patient 63(patient@gmail.com,tempo till we fix stylin)</Text>
+        </TouchableOpacity>
+      {/* <View style={styles.patientsContainer}>
+
+      </View> */}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  image:{
-    borderRadius:30,
-    width:50,
-    height:50,
-    alignSelf:'center',
-  }
-})
+  container:{
+    flex: 1,
+    backgroundColor: "#1B1620",
+  },
+  patientContainer:{
+    padding:10,
+    paddingBottom:0,
+    paddingTop:0,
+    margin:10,
+    marginBottom:5,
+    flexDirection:'column',
+    backgroundColor:'#21202E',
+    borderRadius:15,
+  },
+  showPatientBorder:{
+    borderBottomWidth:1,
+    borderColor:'gray',
+    paddingVertical:10,
+  },  
+  hideLastPatient:{
+    borderBottomWidth:0,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    marginBottom: 20,
+  },
+  header: {
+    backgroundColor: "#6C63FF",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    alignItems: "center",
+  },
+  image: {
+    borderRadius: 30,
+    width: 50,
+    height: 50,
+    alignSelf: "center",
+  },
+});
