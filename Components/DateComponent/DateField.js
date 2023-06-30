@@ -12,7 +12,6 @@ const DateField = (props)=>{
         await setDate(currentDate);
       };
       const showMode = (currentMode) => {
-        console.log('test');
         if (Platform.OS === 'android') {
           setShow(false);
           // for iOS, add a button that closes the picker
@@ -20,12 +19,10 @@ const DateField = (props)=>{
         setMode(currentMode);
       };
       const showDatepicker = () => {
-        console.log('test');
         showMode('date');
         setShow(true)
       };
       useEffect(() => {
-        console.log('test');
         let holderDate = date
         let dateString = date_TO_String(holderDate)
         props.updateDate(dateString)
