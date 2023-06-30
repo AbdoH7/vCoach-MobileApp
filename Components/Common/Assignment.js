@@ -7,9 +7,9 @@ import {
   removeAssignment,
 } from "../../APIs";
 import { AuthContext } from "../../context/AuthContext";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 
-export default function Assignment({ assignmentProp, navigation }) {
+export default function Assignment({ outerIndex,assignmentProp, navigation }) {
   const { user } = useContext(AuthContext);
   const [assignment, setAssignment] = useState(assignmentProp);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -39,9 +39,9 @@ export default function Assignment({ assignmentProp, navigation }) {
   };
 
   return (
-    <>
+    <View key={outerIndex}>
       {!isDeleted && (
-        <View key={assignment.id} style={styles.assignmentContainer}>
+        <View style={styles.assignmentContainer}>
           <View style={styles.flexContainer}>
             <View>
               <View style={styles.textContainer}>
@@ -80,10 +80,12 @@ export default function Assignment({ assignmentProp, navigation }) {
                 <Text style={styles.label}>Date: </Text>
                 <Text style={styles.text}>{assignment.date}</Text>
               </View>
-              {assignment.model_available && (
-                <Text
-                  style={styles.label}
-                >{`Accuracy: ${assignment.accuracy}`}</Text>
+              {assignment.exercise.model_available && (
+                <Text style={styles.label}>
+                  {assignment.accuracy
+                    ? `Accuracy: ${assignment.accuracy}`
+                    : "Accuracy: Not Available"}
+                </Text>
               )}
               {assignment.notes && (
                 <View style={styles.textContainer}>
@@ -94,25 +96,34 @@ export default function Assignment({ assignmentProp, navigation }) {
               <View style={styles.textContainer}>
                 <Text style={styles.label}>AI Availability: </Text>
                 <Text style={styles.text}>
-                  {assignment.model_available ? "Available" : "Not Available"}
+                  {assignment.exercise.model_available ? "Available" : "Not Available"}
                 </Text>
               </View>
-              {Object.keys(assignment.instructions).map((key) => (
-                <View style={styles.textContainer}>
-                  <Text key={key} style={styles.label}>{`${key}: `}</Text>
+              {Object.keys(assignment.instructions).map((key,innerIndex) => (
+                <View key={`${innerIndex}${outerIndex}`} style={styles.textContainer}>
+                  <Text style={styles.label}>{`${key}: `}</Text>
                   <Text style={styles.text}>
                     {assignment.instructions[key]}
                   </Text>
                 </View>
               ))}
             </View>
-						{user.user_type === "doctor" && (	
-            <View style={styles.editBtn}>
-							<TouchableOpacity onPress={() => navigation.navigate("ExerciseDetailsScreen", {patient_id: assignment.patient.id,exercise:assignment.exercise , type:"update", assignment:assignment})}>
-								<AntDesign name="edit" size={32} color="white" />
-							</TouchableOpacity>
-            </View>
-						)}
+            {user.user_type === "doctor" && (
+              <View style={styles.editBtn}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ExerciseDetailsScreen", {
+                      patient_id: assignment.patient.id,
+                      exercise: assignment.exercise,
+                      type: "update",
+                      assignment: assignment,
+                    })
+                  }
+                >
+                  <AntDesign name="edit" size={32} color="white" />
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
           {user.user_type === "patient" && (
             <TouchableOpacity
@@ -146,9 +157,19 @@ export default function Assignment({ assignmentProp, navigation }) {
           >
             <Text style={styles.buttonText}>See Exercise</Text>
           </TouchableOpacity>
+          {user.user_type === "patient" && assignment.exercise.name === "Pushup" && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate('ModelScreen')
+              }}
+            >
+              <Text style={styles.buttonText}>Start Training</Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
-    </>
+    </View>
   );
 }
 
@@ -163,10 +184,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
   },
-	editBtn: {
-		alignSelf: "flex-start",
-		marginLeft: "auto",
-	},
+  editBtn: {
+    alignSelf: "flex-start",
+    marginLeft: "auto",
+  },
   status: {
     fontSize: 16,
     fontWeight: "bold",

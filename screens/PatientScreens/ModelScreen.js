@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, Text, View, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Platform, TouchableOpacity } from 'react-native';
 import {CountDown} from 'react-native-countdown-component';
 import { Camera } from 'expo-camera';
 import * as tf from '@tensorflow/tfjs';
@@ -46,7 +46,7 @@ const AUTO_RENDER = false;
 // Whether to load model from app bundle (true) or through network (false).
 const LOAD_MODEL_FROM_BUNDLE = true;
 
-export default function ModelScreen() {
+export default function ModelScreen({navigation}) {
   const cameraRef = useRef(null);
   const [tfReady, setTfReady] = useState(false);
   const [model, setModel] = useState();
@@ -163,6 +163,8 @@ export default function ModelScreen() {
       return 360-angle
     return angle
   }
+  const [completed,setComplete] = React.useState(true);
+  const [results,setResults] = React.useState([1,2,3]);
   const [timer1, setTimer1] = React.useState(true);
   const [timer2, setTimer2] = React.useState(false);
   const [frames,setFrames] = React.useState({frames:[]});
@@ -229,7 +231,8 @@ export default function ModelScreen() {
             clearInterval(T1)
             clearInterval(T2)
             //here need to send the request to whatever the backend is
-            postGlobal(modelEndPoint,frames)
+            postGlobal(modelEndPoint,frames)// need to store the response here
+            setCompleted(true)
           }
         }
       return <Svg style={styles.svg}>{keypoints}{angle > 150 && triggerStart!= 1 ? 
@@ -306,7 +309,15 @@ export default function ModelScreen() {
         return 0;
     }
   };
-
+  const completeTraining = () => {
+    return(
+      <TouchableOpacity style={styles.completeBtn} onPress={()=>{navigation.navigate("ResultsScreen",{results:results})}}>
+        <Text style={styles.title}>
+          Complete Training
+        </Text>
+      </TouchableOpacity>
+    )
+  }
   if (!tfReady) {
     return (
       <View style={styles.loadingMsg}>
@@ -337,12 +348,28 @@ export default function ModelScreen() {
         {renderPose()}
         {renderFps()}
         {/* {renderCameraTypeSwitcher()} */}
+        {completed && completeTraining()}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  title:{
+    paddingTop:5,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  completeBtn:{
+    marginTop:10,
+    backgroundColor: '#6C63FF',
+    alignItems: 'center',
+    borderRadius: 15,
+    width:"50%",
+    height:"7%",
+    alignSelf: 'center',
+  },
   containerPortrait: {
     position: 'relative',
     width: CAM_PREVIEW_WIDTH,

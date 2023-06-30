@@ -15,7 +15,6 @@ export default function SeeAssignedExercises({ navigation }) {
         console.error('Error fetching data:', error);
       }
     };
-    console.log("invoked")
 
     const unsubscribe = navigation.addListener('focus', fetchAssignments);
 
@@ -30,8 +29,7 @@ export default function SeeAssignedExercises({ navigation }) {
 			</View>
 			<ScrollView style={styles.container}>
 				{assignments?.map((assignment) => (
-          <Assignment key={assignment.id} assignmentProp={assignment} navigation={navigation} />
-
+          <Assignment outerIndex={assignment.id} assignmentProp={assignment} navigation={navigation} />
 				))}
     	</ScrollView>
 		</ScrollView>

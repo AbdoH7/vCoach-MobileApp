@@ -83,7 +83,7 @@ export default function ListExercisesScreen({ navigation, route }) {
       </ScrollView>
       <View style={styles.requestView}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("RequestExerciseScreen")}
+          onPress={() => navigation.navigate("RequestExerciseScreen",{exercises:exercises})}
           style={styles.requestBtn}
         >
           <Text style={styles.requestText}>Request Exercise</Text>

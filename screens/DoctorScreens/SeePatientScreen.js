@@ -9,12 +9,7 @@ export default function SeePatientScreen({navigation,route}) {
     const {patients} = route.params
     const itemHeight = 75; // Adjust the height of each patient item as needed
     const maxHeight = patients.length * itemHeight;
-    const removePatient = async (patientId) => {
-      //need to figure out how to rerender
-      await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, {id: patientId})
-      setPatients((patients) => patients.filter((patient) => patient.id !== patientId))
-    }
-    
+
     return (
     <View style={[styles.container,global.defaultBackgroundColor]}>
       <View style={[global.userInfo,styles.userInfoContainer]}>
@@ -34,7 +29,7 @@ export default function SeePatientScreen({navigation,route}) {
         <View style={styles.patientListContainer}>
           {patients.map((patient,index) => (
             <View key={patient.id} style={index == patients.length-1 ? styles.hideLastPatientBorder : styles.showPatientBorder}>
-              <Patient  key={patient.id} patient={patient} removePatient={removePatient}/>
+              <Patient  key={patient.id} patient={patient}/>
             </View>
           ))}
         </View>
