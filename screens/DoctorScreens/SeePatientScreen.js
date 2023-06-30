@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View,Image, TouchableOpacity,ScrollView} from 'react-native';
 import React,{useContext, useEffect, useState} from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { postGlobal,DoctorPatientAssignmentsRemoveEndpoint } from '../../APIs';
@@ -7,31 +7,42 @@ import Patient from '../../Components/DoctorComponents/Patient';
 export default function SeePatientScreen({navigation,route}) {
     const {user} = useContext(AuthContext)
     const {patients} = route.params
+    const itemHeight = 75; // Adjust the height of each patient item as needed
+    const maxHeight = patients.length * itemHeight;
     const removePatient = async (patientId) => {
       //need to figure out how to rerender
       await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, {id: patientId})
       setPatients((patients) => patients.filter((patient) => patient.id !== patientId))
     }
-    const hideDropMenu = () => {
-
-    }
+    
     return (
-    <View onTouchEnd={hideDropMenu} style={[global.container,global.defaultBackgroundColor]}>
-      <View style={global.userInfo}>
+    <View style={[styles.container,global.defaultBackgroundColor]}>
+      <View style={[global.userInfo,styles.userInfoContainer]}>
         <Text style={global.userInfoText}>
           <Text style={global.helloText}>Hello,</Text>
           <Text>{'\n'}</Text>
           <Text style={global.userNameText}>Dr.{user.first_name}</Text>
         </Text>
         <View style={global.imageContainer}>
-          <Image style={global.profileImage} source={require('../../assets/doctor.png')}/>
+          <Image style={global.profileImage} source={{uri:user.avatar.url}}/>
         </View>
       </View>
-      <Text style={global.listTitles}>Patients</Text>
-      <View style={styles.patientContainer}>
-        {
-          patients.length == 0 ? <Text style={global.notFoundText}>No Patients assigned</Text> : <Patient patients={patients} removePatient={removePatient} /> 
-        }
+      <View style={styles.patientContainerTitle}>
+        <Text style={styles.patientContainerTitleText}>Patients</Text>
+      </View>
+      <ScrollView style={[styles.patientContainer,{maxHeight:maxHeight}]}>
+        <View style={styles.patientListContainer}>
+          {patients.map((patient,index) => (
+            <View key={patient.id} style={index == patients.length-1 ? styles.hideLastPatientBorder : styles.showPatientBorder}>
+              <Patient  key={patient.id} patient={patient} removePatient={removePatient}/>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+      <View style={styles.addPatientBtnContainer}>
+        <TouchableOpacity onPress={()=>navigation.navigate('AssignPatientScreen')} style={styles.addPatientBtn}>
+          <Text style={styles.addPatientBtnText}>Add Patient</Text>
+        </TouchableOpacity>
       </View>
     </View>
 
@@ -39,12 +50,63 @@ export default function SeePatientScreen({navigation,route}) {
 }
 
 const styles = StyleSheet.create({
+  showPatientBorder:{
+    borderBottomWidth:1,
+    borderColor:'gray',
+    paddingVertical:10,
+  },  
+  hideLastPatient:{
+    borderBottomWidth:0,
+  },
+  container:{
+    flex:1,
+    flexDirection:'column',
+  },
+  userInfoContainer:{
+    padding:10,
+  },
+  patientContainer:{
+    padding:10,
+    paddingBottom:0,
+    paddingTop:0,
+    margin:10,
+    marginBottom:5,
+    flexDirection:'column',
+    backgroundColor:'#21202E',
+    borderRadius:15,
+  },
+  patientContainerTitle:{
+    padding:10,
+    paddingBottom:0,
+  },
+  patientContainerTitleText:{
+    fontSize:25,
+    fontWeight:'bold',
+    color:'white',
+  },
+  patientListContainer:{
+    
+  },
+  addPatientBtnContainer:{
+    margin:10,
+    height:'6%',
+    marginTop:'auto'
+  },
+  addPatientBtn:{
+    borderRadius:20,
+    backgroundColor:'#6C63FF',
+    height:'100%',
+  },
+  addPatientBtnText:{
+    color:'white',
+    fontSize:20,
+    alignSelf:'center',
+    fontWeight:'bold',
+    paddingTop:15,
+  },
   image:{
     width:60,
     height:60,
     borderRadius:30
   },
-  patientContainer:{
-    padding:10,
-  }
 });

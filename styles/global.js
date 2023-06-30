@@ -66,7 +66,7 @@ export default StyleSheet.create({
         display:'none'
     },
     userInfo:{
-        paddingLeft:10,
+        // paddingLeft:10,
         paddingTop:25,
         // borderColor:'#FFF',
         // borderWidth:1,
@@ -96,6 +96,6 @@ export default StyleSheet.create({
     listTitles:{
         fontSize:20,
         color:'white',
-        marginLeft:10,
+        // marginLeft:10,
     }
 });
