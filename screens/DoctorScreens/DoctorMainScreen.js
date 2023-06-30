@@ -68,7 +68,7 @@ export default function DoctorMainScreen({navigation}) {
               </TouchableOpacity>
             </View>
             <View style={styles.actionsMenuButtons}>
-              <TouchableOpacity onPress={()=> navigation.navigate('ListAssignmentsScreen')} style={styles.button}>
+              <TouchableOpacity onPress={()=> navigation.navigate('SeeAssignedExercises')} style={styles.button}>
                 <Image source={assignedExercisesIcon} />
               </TouchableOpacity>
             </View>
@@ -77,7 +77,7 @@ export default function DoctorMainScreen({navigation}) {
             <Text onPress={()=> navigation.navigate('AssignPatientScreen')} style={styles.buttonText}>New Patient</Text>
             <Text onPress={()=> navigation.navigate('AssignExercisesScreen')} style={styles.buttonText}>Assign Exercises</Text>
             <Text onPress={()=> navigation.navigate('ListExercisesScreen')} style={styles.buttonText}>See list of exercises</Text>
-            <Text onPress={()=> navigation.navigate('ListAssignmentsScreen')} style={styles.buttonText}>See Assigned Exercises</Text>
+            <Text onPress={()=> navigation.navigate('SeeAssignedExercises')} style={styles.buttonText}>See Assigned Exercises</Text>
           </View>
           <View>
           <View style={styles.seeAllPatients}>

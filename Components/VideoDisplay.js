@@ -4,10 +4,10 @@ import { Video } from 'expo-av';
 
 function VideoDisplay({video}) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
       <Video
         source={{ uri: video }}
-        style={{ width: 300, height: 200 }}
+        style={{ width: 360, height: 240 }}
         useNativeControls
       />
     </View>

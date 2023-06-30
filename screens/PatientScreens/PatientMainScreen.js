@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View,Image,Button,TouchableOpacity} from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import React,{useContext} from 'react';
+import global from '../../styles/global';
 
 export default function DoctorMainScreen({navigation}) {
     const {user,logout} = useContext(AuthContext)
     return (
-    <View style={styles.container}>
+    <View style={[styles.container, global.defaultBackgroundColor]}>
       <Image style={styles.image} source={require('../../assets/patient.png')}/>
       <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
         <View style={{flex:1}}>

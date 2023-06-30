@@ -48,69 +48,15 @@ const styles = StyleSheet.create({
     flex:1,
     padding: 100
   },
-  input: {
-    backgroundColor: 'white',
-    borderColor: 'black',
-    borderWidth:1,
-    height: 40,
-    color: 'black',
-    paddingLeft: 10,
-    },
   helloText: {
     fontSize: 20,
     marginBottom: 50,
     textAlign: 'center'
   },
   image:{
-borderRadius:30,
+  borderRadius:30,
     width:50,
     height:50,
     alignSelf:'center',
   },
-  content:{
-borderRadius:30,
- 
-    //borderWidth:5,
-    //borderColor:'red'
-  },
-  btnText:{
-    color:'white',
-    fontSize: 20,
-  },
-  submitButton:{
-    borderRadius:30,
-    flex:.2,
-    backgroundColor:'#6495ED',
-    marginTop:50,
-    textAlign:'center',
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  boldText: {
-    marginLeft: 10,
-  }
-  ,icon:{
-   marginLeft:40,
-    width:300,
-   height:110,
-   marginBottom:20
-  },
-  text:{
-    marginLeft:70,
-    fontSize: 10,
-    //fontWeight: '200',
-    marginRight:30,
-    marginBottom:40
-  },
-  text1:{
-  fontSize:10,
-//fontStyle:'italic',
-  },
-  bt:{
-    padding: 50,
-    borderRadius:30,
-  },
-  btnContainer:{
-       alignItems:'center'
-  }
 });

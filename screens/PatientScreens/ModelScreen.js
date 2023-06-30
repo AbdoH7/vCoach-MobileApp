@@ -8,7 +8,8 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import {
   cameraWithTensors,
 } from '@tensorflow/tfjs-react-native';
-import Svg, { Circle,Line } from 'react-native-svg';
+import Svg, { Circle } from 'react-native-svg';
+import { postGlobal,modelEndPoint } from '../../APIs';
 // "expo-gl": "^11.4.0",
 // "react-native-fs": "2.14.1" both of these needs to be added manually other than those different things in package.json in main app
 
@@ -164,7 +165,7 @@ export default function ModelScreen() {
   }
   const [timer1, setTimer1] = React.useState(true);
   const [timer2, setTimer2] = React.useState(false);
-  const [frames,setFrames] = React.useState([]);
+  const [frames,setFrames] = React.useState({frames:[]});
   const renderPose = () => {
     if (poses != null && poses.length > 0) {
       // const lines = drawLines(poses[0])
@@ -201,7 +202,7 @@ export default function ModelScreen() {
           if(timer1){
             setTimer1(false)
             T1 = setInterval(()=>{
-            setFrames([...frames,poses[0]])
+            setFrames({frames:[...frames.frames,poses[0]]})
             setTimer2(true)
             },100)
           }
@@ -222,19 +223,21 @@ export default function ModelScreen() {
             setFlag(1)
             setStage('down')
           }
-          if (pushUpCount>=3){
+          if (pushUpCount>=5){
             setTriggerStart(0)
             setPushUpCount(0);
             clearInterval(T1)
             clearInterval(T2)
             //here need to send the request to whatever the backend is
+            postGlobal(modelEndPoint,frames)
           }
         }
-      return <Svg style={styles.svg}>{keypoints}{angle > 135 && triggerStart!= 1 ? 
+      return <Svg style={styles.svg}>{keypoints}{angle > 150 && triggerStart!= 1 ? 
         (hideCounter == 1 ? <View></View> : <CountDown style={{paddingTop:150}} until={counter} size={20} timeToShow={['S']} onFinish={()=> showPushUpCount()} />)
-        : (hideText == 1 ? <View></View>:<Text style={{position:'absolute',padding:150,fontSize:25,color:'red',fontWeight:'bold',fontFamily:'Times New Roman'}}>Not-Positioned</Text>)}</Svg>;
+        : (hideText == 1 ? <View></View>:<Text style={{position:'absolute',padding:150,fontSize:25,color:'red',fontWeight:'bold'}}>Not-Positioned</Text>)}</Svg>;
     } else {
-      return <View></View>;
+      return <View>
+      </View>;
     }
   };
 
