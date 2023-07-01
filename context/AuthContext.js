@@ -33,7 +33,7 @@ export const AuthProvider = ({children}) =>{
     const signup = async (data) =>{
         setIsLoading(true)
         try{
-            const response = await axios.post(`${SignupEndpoint}`,data)
+            const response = await axios.post(`${SignupEndpoint}`,data, {headers: {'Content-Type': 'multipart/form-data'}})
             await FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}${TokenFile}`,response.data.token)
             await FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}${UserFile}`,JSON.stringify(response.data.user))
             setUserToken(response.data.token)

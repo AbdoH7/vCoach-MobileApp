@@ -13,6 +13,7 @@ import { AuthContext } from "../../context/AuthContext";
 import * as ImagePicker from "expo-image-picker";
 import DateField from "../../Components/DateComponent/DateField";
 import * as Yup from "yup";
+import FormData from "form-data";
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required("First name is required"),
   last_name: Yup.string().required("Last name is required"),
@@ -41,7 +42,6 @@ export default function SignUp({ route, navigation }) {
     DOB: "",
     user_type: user_type,
     invite_token: "",
-    avatar: "",
   };
   const [date, setDate] = useState(new Date(1598051730000));
   const updateDate = async (dateString) => {
@@ -68,10 +68,23 @@ export default function SignUp({ route, navigation }) {
     }
   };
   const handleSubmit = async (values) => {
+    const formData = new FormData();
     values.DOB = date;
-    values.avatar = image;
-    console.log(values);
-    // await signup(values);
+    if (image) {
+      const fileUri = image;
+      const fileName = fileUri.split("/").pop();
+      const fileType = `image/${fileName.split(".").pop()}`;
+      formData.append("avatar", {
+        uri: fileUri,
+        name: fileName,
+        type:  fileType,
+      });
+    }
+    Object.keys(values).forEach((key) => {
+      formData.append(key, values[key]);
+    });
+  
+    await signup(formData);
   };
   return (
     <View style={styles.container}>
