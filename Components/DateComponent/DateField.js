@@ -1,9 +1,10 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {View,Button,Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native'
 import React,{useState,useEffect} from 'react'
+import { AntDesign } from '@expo/vector-icons';
 
 const DateField = (props)=>{
-    const [date, setDate] = useState(new Date(1598051730000));
+    const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const onChange = async (event, selectedDate) => {
@@ -28,11 +29,7 @@ const DateField = (props)=>{
         props.updateDate(dateString)
       }, [date])
       return(
-        <View>
-            {/* <Button style={styles.button}  title="Select Date of Birth" /> */}
-            <TouchableOpacity onPress={showDatepicker} style={styles.dateBtn}>
-                <Text style={{ fontSize:16,alignItems:'center',textAlign:'center',color:'white'}}>Select Date of Birth</Text>
-            </TouchableOpacity>
+        <View style={styles.container}>
                 {show && (
                     <DateTimePicker
                     testID="dateTimePicker"
@@ -42,6 +39,10 @@ const DateField = (props)=>{
                     />
                 )}
                 <TextInput editable={false} style={styles.textInput} placeholderTextColor={'#DCDAFF'} placeholder={`Date of Birth: ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`} />
+            <TouchableOpacity onPress={showDatepicker} style={styles.dateBtn}>
+                {/* <Text style={{ fontSize:16,alignItems:'center',textAlign:'center',color:'white'}}>Select Date of Birth</Text> */}
+                <AntDesign name="calendar" size={35} color="black" />
+            </TouchableOpacity>
         </View>
       )
 }
@@ -59,18 +60,28 @@ export default DateField
 
 
 const styles = StyleSheet.create({
+  container:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+  },
   dateBtn: {
     backgroundColor: "#6C63FF",
     borderRadius: 15,
-    height: 35,
+    height: 55,
+    width: 55,
     alignItems: "center",
     justifyContent: "center",
+    padding:5,
+    marginTop:0,
     },
-    textInput:{
-      backgroundColor: "#21202E",   
-      fontSize:14,   
-      borderRadius: 15,
-      padding:5,
-      paddingLeft:10,
-      marginTop:10,
-    }})
+  textInput:{
+    backgroundColor: "#21202E",   
+    height: 55,
+    fontSize:14,   
+    borderRadius: 15,
+    padding:5,
+    paddingLeft:10,
+    marginTop:0,
+    width:'82%'
+  }})
