@@ -10,7 +10,7 @@ import {
 import { AuthContext } from "../../../context/AuthContext";
 import { fetchGlobal, DoctorPatientAssignmentsEndpoint } from "../../../APIs";
 import { useEffect, useState } from "react";
-import Patient from "../../../Components/DoctorComponents/Patient";
+import User from "../../../Components/Common/User";
 export default function AssignExercisesScreen({ navigation, route }) {
   const { patients } = route.params;
 
@@ -35,7 +35,7 @@ export default function AssignExercisesScreen({ navigation, route }) {
                   : styles.showPatientBorder
               }
             >
-              <Patient key={patient.id} patient={patient} />
+              <User key={patient.id} patient={patient} />
             </View>
           ))}
         </View>
