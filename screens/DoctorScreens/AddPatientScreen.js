@@ -3,7 +3,7 @@ import React,{useContext, useEffect, useState} from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { InvitesEndpoint, postGlobal } from '../../APIs';
 import global from '../../styles/global';
-export default function AssignPatientScreen({navigation}) {
+export default function AddPatientScreen({navigation}) {
     const {user} = useContext(AuthContext)
     const [email, setText] = useState('')
     const [textInputStyle, setStyle] = useState(styles.textInput)

@@ -1,9 +1,9 @@
 import React, { useState,useRef,useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { TouchableWithoutFeedback } from "react-native";
-export default function Patient({ patient, index }) {
+export default function User({ patient, index }) {
   // const [dropdownStates, setDropdownStates] = useState([false, false, false]);
-  const removePatient = async (patientId) => {
+  const removeUser = async (patientId) => {
     //need to figure out how to rerender
     await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, {id: patientId})
     setPatients((patients) => patients.filter((patient) => patient.id !== patientId))

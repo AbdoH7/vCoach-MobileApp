@@ -3,10 +3,14 @@ import React,{useContext, useEffect, useState} from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { postGlobal,DoctorPatientAssignmentsRemoveEndpoint } from '../../APIs';
 import global from '../../styles/global';
-import Patient from '../../Components/DoctorComponents/Patient';
+import User from '../../Components/Common/User';
 export default function SeePatientScreen({navigation,route}) {
     const {user} = useContext(AuthContext)
+    console.log(route)
+    //rename it to users
     const {patients} = route.params
+    const routeName = route.name
+    console.log(routeName)
     const itemHeight = 75; // Adjust the height of each patient item as needed
     const maxHeight = patients.length * itemHeight;
 
@@ -16,28 +20,36 @@ export default function SeePatientScreen({navigation,route}) {
         <Text style={global.userInfoText}>
           <Text style={global.helloText}>Hello,</Text>
           <Text>{'\n'}</Text>
-          <Text style={global.userNameText}>Dr.{user.first_name}</Text>
+          <Text style={global.userNameText}>{routeName=="SeeDoctorScreens"&& "Dr. "}{user.first_name}</Text>
         </Text>
         <View style={global.imageContainer}>
           <Image style={global.profileImage} source={{uri:user.avatar.url}}/>
         </View>
       </View>
       <View style={styles.patientContainerTitle}>
-        <Text style={styles.patientContainerTitleText}>Patients</Text>
+        <Text style={styles.patientContainerTitleText}>{routeName == "SeeDoctorScreen"? "Doctors" : "Patients" }</Text>
       </View>
       <ScrollView style={[styles.patientContainer,{maxHeight:maxHeight}]}>
         <View style={styles.patientListContainer}>
           {patients.map((patient,index) => (
             <View key={patient.id} style={index == patients.length-1 ? styles.hideLastPatientBorder : styles.showPatientBorder}>
-              <Patient  key={patient.id} patient={patient}/>
+              <User  key={patient.id} patient={patient}/>
             </View>
           ))}
         </View>
       </ScrollView>
       <View style={styles.addPatientBtnContainer}>
-        <TouchableOpacity onPress={()=>navigation.navigate('AssignPatientScreen')} style={styles.addPatientBtn}>
-          <Text style={styles.addPatientBtnText}>Add Patient</Text>
-        </TouchableOpacity>
+        {routeName == "SeePatientScreen" &&
+          <TouchableOpacity onPress={()=>navigation.navigate('AddPatientScreen')} style={styles.addPatientBtn}>
+            <Text style={styles.addPatientBtnText}>Add Patient</Text>
+          </TouchableOpacity>
+        }
+
+        {routeName == "SeeDoctorScreen" &&
+          <TouchableOpacity onPress={()=>navigation.navigate('AddDoctorScreen')} style={styles.addPatientBtn}>
+            <Text style={styles.addPatientBtnText}>Add Doctor</Text>
+          </TouchableOpacity>
+        } 
       </View>
     </View>
 
