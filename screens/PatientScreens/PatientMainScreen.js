@@ -33,7 +33,6 @@ export default function DoctorMainScreen({navigation}) {
         }
       }
       fetchDoctors()
-      console.log(doctors)
     },[])
 
     useEffect(() => {
@@ -46,12 +45,11 @@ export default function DoctorMainScreen({navigation}) {
         }
       }
       fetchAssignments()
-      console.log(doctors)
     },[])
 
     const navigateToTab = (index,tabName) => {
       setImageIndex(index)
-      // navigation.navigate(tabName)
+      navigation.navigate(tabName)
       if(index == 3)
         logout()
     }
@@ -119,13 +117,13 @@ export default function DoctorMainScreen({navigation}) {
           </View>
           <View style={styles.quickAccessMenuContainer}>
           <View style={styles.quickAccessItem}>
-          <TouchableOpacity onPress={()=>navigateToTab(1,'Home')} style={styles.quickAccessItemBtn}>
+          <TouchableOpacity onPress={()=>navigateToTab(1,'PatientMainScreen')} style={styles.quickAccessItemBtn}>
             <Image source={imageIndex == 1 ? homeOnIcon : homeOffIcon} />
             <Text style={styles.quickAccessItemText}>Home</Text>
           </TouchableOpacity>
           </View>
           <View style={styles.quickAccessItem}>
-          <TouchableOpacity onPress={()=>navigateToTab(2,'Messages')} style={styles.quickAccessItemBtn}>
+          <TouchableOpacity onPress={()=>navigateToTab(2,'AnnouncmentsScreen')} style={styles.quickAccessItemBtn}>
             <Image source={imageIndex == 2 ? messagesOnIcon : messagesOffIcon} />
             <Text style={styles.quickAccessItemText}>Messages</Text>
           </TouchableOpacity>

@@ -14,6 +14,12 @@ export const createAssignment = '/assignments'
 export const updateAssignment = (id) => `/assignments/${id}`
 export const removeAssignment = (id) => `/assignments/${id}`
 export const doctorUpdateAssignment = (id) => `/assignments/${id}/doctor_update`
+export const Announcements = '/announcements'
+export const Announcement = (id) => `/announcements/${id}`
+export const Likes = '/likes'
+export const Like = (id) => `/likes/${id}`
+export const Comments = '/comments'
+export const Comment = (id) => `/comments/${id}`
 export const modelEndPoint = 'http://3.80.214.39/model'
 export const fetchGlobal = async (endpoint) =>{
     try{
