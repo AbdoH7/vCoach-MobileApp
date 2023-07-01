@@ -3,6 +3,7 @@ export const LoginEndpoint = '/users/login'
 export const SignupEndpoint = '/users'
 export const TokenFile = 'token'
 export const UserFile = 'user'
+export const firstTimeFile = '/first_time'
 export const DoctorPatientAssignmentsEndpoint = '/doctor_patient_assignments'
 export const InvitesEndpoint = '/invites'
 export const DoctorPatientAssignmentsRemoveEndpoint = '/doctor_patient_assignments/remove'
@@ -14,7 +15,6 @@ export const updateAssignment = (id) => `/assignments/${id}`
 export const removeAssignment = (id) => `/assignments/${id}`
 export const doctorUpdateAssignment = (id) => `/assignments/${id}/doctor_update`
 export const modelEndPoint = 'http://3.80.214.39/model'
-
 export const fetchGlobal = async (endpoint) =>{
     try{
         const response = await axios.get(endpoint)

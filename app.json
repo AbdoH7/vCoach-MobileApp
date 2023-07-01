@@ -6,6 +6,12 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins":[
+      ["expo-image-picker",
+      {
+        "photosPermission":"The app accesses your gallery to upload photos"
+      }]
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

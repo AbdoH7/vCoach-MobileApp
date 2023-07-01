@@ -88,8 +88,8 @@ export default function DoctorMainScreen({navigation}) {
           </View>
           <ScrollView alwaysBounceVertical={true} bounces={true} style={styles.patientInfoContainer}>
             {patients.slice(0,3).map((patient,index) => (
-              <View key={patient.id} style={index == 2 ? styles.hideLastPatientBorder : styles.showPatientBorder}>
-                <User  key={patient.id} patient={patient} removePatient={removePatient}/>
+              <View key={patient.id} style={index == patients.slice(0,3).length-1 ? styles.hideLastPatientBorder : styles.showPatientBorder}>
+                <Patient  key={patient.id} patient={patient} removePatient={removePatient}/>
               </View>
             ))}
           </ScrollView>

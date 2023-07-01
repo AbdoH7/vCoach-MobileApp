@@ -155,6 +155,7 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
                     />
                   </View>
                 </View>
+
 				{type === "create" && (
 				<View style={styles.calendarView}>
 				<TouchableOpacity
