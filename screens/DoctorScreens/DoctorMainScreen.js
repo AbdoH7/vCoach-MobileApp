@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthContext';
 import React,{useContext,useEffect,useState} from 'react';
 import { fetchGlobal,DoctorPatientAssignmentsEndpoint } from '../../APIs';
 import invitesList from '../../assets/invitesList.png';
-import Patient from '../../Components/DoctorComponents/Patient';
+import User from '../../Components/Common/User';
 import assignPatientIcon from '../../assets/addUser.png';
 import assignExerciseIcon from '../../assets/addKeyframes.png';
 import assignedExercisesIcon from '../../assets/assignedExercises.png';
@@ -53,7 +53,7 @@ export default function DoctorMainScreen({navigation}) {
           </View>
           <View style={styles.actionsMenuContainer}>
             <View style={styles.actionsMenuButtons}>
-              <TouchableOpacity onPress={()=> navigation.navigate('AssignPatientScreen')} style={styles.button}>
+              <TouchableOpacity onPress={()=> navigation.navigate('AddPatientScreen')} style={styles.button}>
                 <Image source={assignPatientIcon} />
               </TouchableOpacity>
             </View>
@@ -74,7 +74,7 @@ export default function DoctorMainScreen({navigation}) {
             </View>
           </View>
           <View style={styles.actionsMenuText}>
-            <Text onPress={()=> navigation.navigate('AssignPatientScreen')} style={styles.buttonText}>New Patient</Text>
+            <Text onPress={()=> navigation.navigate('AddPatientScreen')} style={styles.buttonText}>New Patient</Text>
             <Text onPress={()=> navigation.navigate('AssignExercisesScreen')} style={styles.buttonText}>Assign Exercises</Text>
             <Text onPress={()=> navigation.navigate('ListExercisesScreen')} style={styles.buttonText}>See list of exercises</Text>
             <Text onPress={()=> navigation.navigate('SeeAssignedExercises')} style={styles.buttonText}>See Assigned Exercises</Text>

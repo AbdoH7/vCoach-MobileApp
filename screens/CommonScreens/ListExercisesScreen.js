@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,9 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { AuthContext } from "../../../context/AuthContext";
-import { fetchGlobal, getExercises } from "../../../APIs";
-import { useEffect, useState } from "react";
-import global from "../../../styles/global";
+import { AuthContext } from "../../context/AuthContext";
+import { fetchGlobal, getExercises } from "../../APIs";
+import global from "../../styles/global";
 export default function ListExercisesScreen({ navigation, route }) {
   const [exercises, setExercises] = useState([]);
   useEffect(() => {
@@ -81,6 +80,7 @@ export default function ListExercisesScreen({ navigation, route }) {
           </View>
         )}
       </ScrollView>
+      {user.user_type == "doctor" && (
       <View style={styles.requestView}>
         <TouchableOpacity
           onPress={() => navigation.navigate("RequestExerciseScreen",{exercises:exercises})}
@@ -89,6 +89,7 @@ export default function ListExercisesScreen({ navigation, route }) {
           <Text style={styles.requestText}>Request Exercise</Text>
         </TouchableOpacity>
       </View>
+      )}
     </View>
   );
 }

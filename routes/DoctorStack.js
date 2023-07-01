@@ -1,12 +1,12 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DoctorMainScreen from '../screens/DoctorScreens/DoctorMainScreen';
-import AssignPatientScreen from '../screens/DoctorScreens/AssignPatientScreen';
-import SeePatientScreen from '../screens/DoctorScreens/SeePatientScreen';
+import AddPatientScreen from '../screens/DoctorScreens/AddPatientScreen';
+import SeeUsersScreen from '../screens/CommonScreens/SeeUsersScreen';
 import SeeInvitesList from '../screens/DoctorScreens/SeeInvitesList';
 import AssignExercisesScreen from '../screens/DoctorScreens/AssignmentsAndExercises/AssignExercisesScreen';
 import RequestExerciseScreen from '../screens/DoctorScreens/RequestExerciseScreen';
-import ListExercisesScreen from '../screens/DoctorScreens/AssignmentsAndExercises/ListExercisesScreen';
+import ListExercisesScreen from '../screens/CommonScreens/ListExercisesScreen';
 import ExerciseDetailsScreen from '../screens/DoctorScreens/AssignmentsAndExercises/ExerciseDetailsScreen';
 import SeeAssignedExercises from '../screens/CommonScreens/SeeAssignedExercises';
 import ExerciseContainer from '../screens/CommonScreens/ExerciseContainer';
@@ -30,13 +30,13 @@ const DoctorStack = () => {
             options={{defaultOptions}}
             />
             <Stack.Screen
-            name="AssignPatientScreen"
-            component={AssignPatientScreen}
+            name="AddPatientScreen"
+            component={AddPatientScreen}
             options={{defaultOptions}}
             />
             <Stack.Screen
             name="SeePatientScreen"
-            component={SeePatientScreen}
+            component={SeeUsersScreen}
             options={{defaultOptions}}
             />
             <Stack.Screen

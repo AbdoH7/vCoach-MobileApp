@@ -1,12 +1,13 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import PatientMainScreen from '../screens/PatientScreens/PatientMainScreen';
-import SeeDoctorScreen from '../screens/PatientScreens/SeeDoctorScreen';
 import AddDoctorScreen from '../screens/PatientScreens/AddDoctorScreen';
 import SeeAsignedExercises from '../screens/CommonScreens/SeeAssignedExercises';
 import ModelScreen from '../screens/PatientScreens/ModelScreen.js';
 import ExerciseContainer from '../screens/CommonScreens/ExerciseContainer';
 import ResultsScreen from '../screens/PatientScreens/ResultsScreen';
+import SeeUsersScreen from '../screens/CommonScreens/SeeUsersScreen';
+import ListExercisesScreen from '../screens/CommonScreens/ListExercisesScreen';
 const defaultOptions = {
     headerStyle: {
       backgroundColor: '#6495ED', // Replace with your desired background color
@@ -24,11 +25,6 @@ const PatientStack = () => {
             <Stack.Screen
             name="PatientMainScreen"
             component={PatientMainScreen}
-            options={{defaultOptions}}
-            />
-            <Stack.Screen
-            name="SeeDoctorScreen"
-            component={SeeDoctorScreen}
             options={{defaultOptions}}
             />
             <Stack.Screen
@@ -56,6 +52,17 @@ const PatientStack = () => {
             component={ResultsScreen}
             options={{defaultOptions}}
             />
+            <Stack.Screen
+            name="SeeDoctorScreen"
+            component={SeeUsersScreen}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
+            name="ListExercisesScreen"
+            component={ListExercisesScreen}
+            options={{defaultOptions}}
+            />
+
         </Stack.Navigator>
     )
 }
