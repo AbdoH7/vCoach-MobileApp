@@ -84,7 +84,6 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
           },
           {}
         ),
-        date: [date, date + 1, date + 2],
       };
       const response = await putGlobal(
         doctorUpdateAssignment(assignment.id),
