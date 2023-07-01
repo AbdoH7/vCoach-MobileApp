@@ -1,6 +1,6 @@
 import React,{createContext,useEffect,useState} from 'react';
 import axios from 'axios';
-import {LoginEndpoint,SignupEndpoint,UserFile,TokenFile} from '../APIs.js'
+import {LoginEndpoint,SignupEndpoint,UserFile,TokenFile,firstTimeFile} from '../APIs.js'
 import * as FileSystem from 'expo-file-system';
 
 export const AuthContext = createContext();
@@ -46,7 +46,6 @@ export const AuthProvider = ({children}) =>{
     }
     const isLoggedIn = async () =>{
         try{
-            setIsLoading(true)
             const directoryPath = FileSystem.documentDirectory
             const fileNames = await FileSystem.readDirectoryAsync(directoryPath)
             if(fileNames.includes(TokenFile)){
@@ -56,17 +55,31 @@ export const AuthProvider = ({children}) =>{
                 setUserToken(getCurrentToken)
                 setUser(JSON.parse(getCurrentUser))
             }
-            setIsLoading(false)
         }
         catch(err){
             console.log(`LoggedIn Error: ${err}`);
+        }
+    }
+    const checkFirstTime = async () => {
+        try{
+            const response = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}${firstTimeFile}`)
+            if(response.exists){
+                return false
+            }
+            else{
+                await FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}${firstTimeFile}`,'first')
+                return true
+            }
+        }
+        catch(err){
+            console.log('Error')
         }
     }
     useEffect(()=>{
         isLoggedIn()
     },[])
     return(
-        <AuthContext.Provider value={{login,logout,userToken,user,isLoading,signup}}>
+        <AuthContext.Provider value={{login,logout,userToken,user,isLoading,signup,checkFirstTime}}>
             {children}
         </AuthContext.Provider>
     )

@@ -29,6 +29,7 @@ export default function AuthMain({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex:1,
+    backgroundColor:"#1B1620"
   },
   imageContainer:{
     flex:.6,
@@ -45,8 +46,9 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   boldText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+    color:'white'
   }
   ,icon:{
     alignSelf:'center',
@@ -55,17 +57,20 @@ const styles = StyleSheet.create({
     marginBottom:15
   },
   text:{
-    fontSize: 15,
+    fontSize: 16,
     textAlign:'center',
-    marginBottom:10
+    marginBottom:10,
+    marginTop:10,
+    color:'white',
   },
   textContainer:{
     marginLeft:'auto',
     marginRight:'auto',
     width:'80%',
+    color:'white',
   },
   signUpButton:{
-    backgroundColor:'#359960', //6495ED
+    backgroundColor:'#6C63FF', //6495ED
     padding: 15,
     borderRadius:15,
     width:200,
@@ -74,6 +79,7 @@ const styles = StyleSheet.create({
     color:'white',
     textAlign:'center',
     fontSize: 20,
+    fontWeight: 'bold',
   },
   btnContainer:{    
     alignItems:'center',

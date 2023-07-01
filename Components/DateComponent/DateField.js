@@ -1,5 +1,5 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {View,Button,Text} from 'react-native'
+import {View,Button,Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native'
 import React,{useState,useEffect} from 'react'
 
 const DateField = (props)=>{
@@ -29,8 +29,10 @@ const DateField = (props)=>{
       }, [date])
       return(
         <View>
-            <Button onPress={showDatepicker} title="Select Date of Birth" />
-                <Text style={{alignItems:'center',textAlign:'center'}}>Selected: {`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`}</Text>
+            {/* <Button style={styles.button}  title="Select Date of Birth" /> */}
+            <TouchableOpacity onPress={showDatepicker} style={styles.dateBtn}>
+                <Text style={{ fontSize:16,alignItems:'center',textAlign:'center',color:'white'}}>Select Date of Birth</Text>
+            </TouchableOpacity>
                 {show && (
                     <DateTimePicker
                     testID="dateTimePicker"
@@ -39,6 +41,7 @@ const DateField = (props)=>{
                     onChange={onChange}
                     />
                 )}
+                <TextInput editable={false} style={styles.textInput} placeholderTextColor={'#DCDAFF'} placeholder={`Date of Birth: ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`} />
         </View>
       )
 }
@@ -53,3 +56,21 @@ function date_TO_String(date_Object) {
     return date_String;
  }
 export default DateField
+
+
+const styles = StyleSheet.create({
+  dateBtn: {
+    backgroundColor: "#6C63FF",
+    borderRadius: 15,
+    height: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    },
+    textInput:{
+      backgroundColor: "#21202E",   
+      fontSize:14,   
+      borderRadius: 15,
+      padding:5,
+      paddingLeft:10,
+      marginTop:10,
+    }})
