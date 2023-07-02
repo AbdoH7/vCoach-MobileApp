@@ -57,6 +57,7 @@ export default function AnnouncmentsScreen({ navigation }) {
             announcementt={announcement}
             navigation={navigation}
             key={index}
+						submitted={setSubmitted}
           />
         );
       })}

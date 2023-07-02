@@ -16,8 +16,6 @@ import ExerciseContainer from './../CommonScreens/ExerciseContainer';
 import { text } from '@fortawesome/fontawesome-svg-core';
 import PreviewAssignment from '../../Components/PatientComponents/PreviewAssignment';
 
-
-
 export default function DoctorMainScreen({navigation}) {
     const {user,logout} = useContext(AuthContext)
     const [doctors, setDoctors] = useState([])
@@ -49,9 +47,8 @@ export default function DoctorMainScreen({navigation}) {
 
     const navigateToTab = (index,tabName) => {
       setImageIndex(index)
+      if(index == 3) return logout()
       navigation.navigate(tabName)
-      if(index == 3)
-        logout()
     }
 
     return (
@@ -125,7 +122,7 @@ export default function DoctorMainScreen({navigation}) {
           <View style={styles.quickAccessItem}>
           <TouchableOpacity onPress={()=>navigateToTab(2,'AnnouncmentsScreen')} style={styles.quickAccessItemBtn}>
             <Image source={imageIndex == 2 ? messagesOnIcon : messagesOffIcon} />
-            <Text style={styles.quickAccessItemText}>Messages</Text>
+            <Text style={styles.quickAccessItemText}>Announcements</Text>
           </TouchableOpacity>
           </View>
           <View style={styles.quickAccessItem}>
@@ -245,7 +242,7 @@ const styles = StyleSheet.create({
     marginTop:'auto'
   },
   quickAccessItem:{
-    width:"33%",
+    width:"34%",
     padding:15,
     marginTop:"30%",
     borderTopColor:'gray',

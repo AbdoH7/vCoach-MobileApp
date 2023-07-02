@@ -4,14 +4,16 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import {  Likes, Comments, postGlobal, deleteGlobal, Like, Announcement } from '../../../APIs';
+import { AuthContext } from '../../../context/AuthContext';
 
-export default function ViewAnnouncment({ announcementt, navigation }) {
+export default function ViewAnnouncment({ announcementt, navigation, submitted }) {
 	const [announcement, setAnnouncement] = useState(announcementt);
 	const [isLiked, setIsLiked] = useState(announcement.is_liked);
 	const [commentsCount, setCommentsCount] = useState(announcement.comments_count);
 	const [viewInput, setViewInput] = useState(false);
 	const [viewAllComments, setViewAllComments] = useState(false);
 	const [inputValue, setInputValue] = useState('');
+	const { user } = useContext(AuthContext);
 
 	const handleLike = async () => {
 		if(!isLiked){
@@ -49,6 +51,7 @@ export default function ViewAnnouncment({ announcementt, navigation }) {
 	const deleteAnnouncement = async () => {
 		try {
 			await deleteGlobal(Announcement(announcement.id));
+			submitted(true);
 			navigation.navigate('AnnouncementsScreen');
 		} catch (error) {
 			console.error( error);
@@ -67,9 +70,10 @@ return (
 				<Text style={styles.posterName}>{announcement.user.full_name}</Text>
 				<Text style={styles.date}>{announcement.created_at}</Text>
 			</View>
+			{user.user_type == 'doctor' &&
 			<TouchableOpacity style={styles.deleteBtn} onPress={deleteAnnouncement}>
 				<AntDesign name="delete" size={24} color="white" />
-			</TouchableOpacity>
+			</TouchableOpacity>}
 		</View>
 		<Text style={styles.content}>{announcement.content}</Text>
 		<View style={styles.actions}>
