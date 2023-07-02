@@ -13,6 +13,7 @@ export default function AddAnouncement({ navigation,submitted }) {
 		try {
 			await postGlobal(Announcements, { content: content });
 			setContent("");
+			setIsClicked(false);
 			submitted(true);
 			navigation.navigate("AnnouncementsScreen");
 			
