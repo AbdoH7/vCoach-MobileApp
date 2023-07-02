@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { AuthContext } from "../../../context/AuthContext";
-import { fetchGlobal, DoctorPatientAssignmentsEndpoint } from "../../../APIs";
-import { useEffect, useState } from "react";
 import User from "../../../Components/Common/User";
+import BottomBar from "../../../Components/Common/BottomBar";
 export default function AssignExercisesScreen({ navigation, route }) {
   const { patients } = route.params;
 
+  const runAction = (index,action) => {
+    navigation.navigate('ListExercisesScreen',{patient_id:patients[index].id,patient_name:`${patients[index].first_name} ${patients[index].last_name}`})
+  }
   const itemHeight = 75; // Adjust the height of each patient item as needed
   const maxHeight = patients.length * itemHeight;
   return (
@@ -24,37 +25,23 @@ export default function AssignExercisesScreen({ navigation, route }) {
       {patients.length == 0 && (
         <Text style={styles.title}>No Patients assigned</Text>
       )}
-      <ScrollView style={[styles.patientContainer, { maxHeight: maxHeight }]}>
+      <ScrollView style={[styles.patientContainer]}>
         <View style={styles.patientListContainer}>
-          {patients.map((patient, index) => (
-            <View
-              key={patient.id}
-              style={
-                index == patients.length - 1
-                  ? styles.hideLastPatientBorder
-                  : styles.showPatientBorder
-              }
-            >
-              <User key={patient.id} patient={patient} />
+          {patients.map((patient,index) => (
+            <View key={patient.id} style={[styles.allContainer,index == patients.length-1 && styles.hideLastPatient]}>
+            <View style={styles.showPatientBorder}>
+              <User index={index}  key={patient.id} patient={patient}/>
+            </View>
+            <View style={styles.btnView}>
+              <TouchableOpacity style={[styles.removeButton]} onPress={()=>{runAction(index,'assign')}}>
+                <Text style={[{color:'#26ae60'},styles.removeButtonText]}>+</Text>
+              </TouchableOpacity>
+            </View>
             </View>
           ))}
         </View>
       </ScrollView>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("ListExercisesScreen", {
-            patient_id: patients[0].id,
-          });
-        }}
-      >
-        <Text style={{ color: "white" }}>
-          Press to assign exercises to patient 63(patient@gmail.com,tempo till
-          we fix stylin)
-        </Text>
-      </TouchableOpacity>
-      {/* <View style={styles.patientsContainer}>
-
-      </View> */}
+      <BottomBar/>
     </View>
   );
 }
@@ -64,20 +51,46 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#1B1620",
   },
-  patientContainer: {
-    padding: 10,
-    paddingBottom: 0,
-    paddingTop: 0,
-    margin: 10,
-    marginBottom: 5,
-    flexDirection: "column",
-    backgroundColor: "#21202E",
-    borderRadius: 15,
+  patientContainer:{
+    padding:10,
+    paddingBottom:0,
+    paddingTop:0,
+    margin:10,
+    marginBottom:"30%",
+    flexDirection:'column',
+    backgroundColor:'#21202E',
+    borderRadius:15,
   },
-  showPatientBorder: {
-    borderBottomWidth: 1,
-    borderColor: "gray",
-    paddingVertical: 10,
+  allContainer:{
+    flexDirection:'row',
+    borderBottomWidth:1,
+    borderColor:'gray',
+  },
+  hideLastPatient:{
+    borderBottomWidth:0,
+  },
+  showPatientBorder:{
+    paddingVertical:10,
+    width:'80%',
+  },  
+  btnView:{
+    flexDirection:'row',
+    width:'20%',
+    justifyContent:'center',
+  },
+  removeButton:{
+    marginTop:'50%',
+    borderColor:'white',
+    borderWidth:1,
+    borderRadius:30,
+    width:25,
+    height:25,
+    marginLeft:10,
+    marginRight:10,
+  },
+  removeButtonText:{
+    fontSize:15,
+    alignSelf:'center',
   },
   hideLastPatient: {
     borderBottomWidth: 0,

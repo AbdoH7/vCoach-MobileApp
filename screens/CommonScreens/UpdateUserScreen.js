@@ -9,7 +9,7 @@ import {
   TextInput,
 } from "react-native";
 import { Formik } from "formik";
-import { AuthContext } from "../../context/AuthContext";
+import {updateUserInfo,putGlobal} from "../../APIs";
 import * as ImagePicker from "expo-image-picker";
 import DateField from "../../Components/DateComponent/DateField";
 import * as Yup from "yup";
@@ -27,23 +27,21 @@ const validationSchema = Yup.object().shape({
     .email("Invalid email format, must have @ and .")
     .required("Required"),
   phone_number: Yup.string().required("Phone number is required"),
-  invite_token: Yup.string(),
 });
 
 export default function SignUp({ route, navigation }) {
-  const { signup } = useContext(AuthContext);
-  const { user_type } = route.params;
+  const {DOB,avatar,email,first_name,last_name,phone_number,user_type,id} = route.params.user;
+  const [userDateExists, setUserDateExists] = useState(DOB? true:false);
   const initialValues = {
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    phone_number: "",
-    DOB: "",
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    new_password: "",
+    phone_number: phone_number,
+    DOB: DOB,
     user_type: user_type,
-    invite_token: "",
   };
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(DOB);
   const updateDate = async (dateString) => {
     try {
       await setDate(dateString);
@@ -83,14 +81,19 @@ export default function SignUp({ route, navigation }) {
     Object.keys(values).forEach((key) => {
       formData.append(key, values[key]);
     });
-    console.log(formData);
-    await signup(formData);
+    try{
+      console.log(formData);
+        const res = await putGlobal(updateUserInfo(id),formData);
+        console.log(res)
+    }catch(err){
+        console.log("Update User Request Error:",err);
+    }    
   };
   return (
     <View style={styles.container}>
       <View style={styles.headerTextView}>
-        <Text style={styles.headerTextTitle}>Getting to know you</Text>
-        <Text style={styles.headerTextDescription}>Tell us who are you?</Text>
+        <Text style={styles.headerTextTitle}>Update your information</Text>
+        <Text style={styles.headerTextDescription}>Please fill out the fields</Text>
       </View>
       <ScrollView style={styles.formView}>
         <Formik
@@ -112,8 +115,8 @@ export default function SignUp({ route, navigation }) {
                   style={styles.imageButton}
                   onPress={pickImage}
                 >
-                  {image ? (
-                    <Image source={{ uri: image }} style={styles.image} />
+                  {image || avatar.url ? (
+                    <Image source={{ uri: image || avatar.url  }} style={styles.image} />
                   ) : (
                     <View style={styles.imagePlacerHolder}>
                       <Text style={styles.imagePlacerHolderText}>
@@ -127,7 +130,7 @@ export default function SignUp({ route, navigation }) {
                 <View style={styles.inputFieldView}>
                   <TextInput
                     style={styles.inputField}
-                    placeholder="First Name"
+                    placeholder={'Enter your first name'}
                     placeholderTextColor={"#DCDAFF"}
                     onChangeText={handleChange("first_name")}
                     onBlur={handleBlur("first_name")}
@@ -140,7 +143,7 @@ export default function SignUp({ route, navigation }) {
                 <View style={styles.inputFieldView}>
                   <TextInput
                     style={styles.inputField}
-                    placeholder="Last Name"
+                    placeholder={'Enter your last name'}
                     placeholderTextColor={"#DCDAFF"}
                     onChangeText={handleChange("last_name")}
                     onBlur={handleBlur("last_name")}
@@ -153,7 +156,7 @@ export default function SignUp({ route, navigation }) {
                 <View style={styles.inputFieldView}>
                   <TextInput
                     style={styles.inputField}
-                    placeholder="Email"
+                    placeholder={'Enter your email'}
                     placeholderTextColor={"#DCDAFF"}
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
@@ -167,7 +170,7 @@ export default function SignUp({ route, navigation }) {
                   <TextInput
                     style={styles.inputField}
                     secureTextEntry={true}
-                    placeholder="Password"
+                    placeholder="Enter your old password"
                     placeholderTextColor={"#DCDAFF"}
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
@@ -180,7 +183,21 @@ export default function SignUp({ route, navigation }) {
                 <View style={styles.inputFieldView}>
                   <TextInput
                     style={styles.inputField}
-                    placeholder="Phone Number"
+                    secureTextEntry={true}
+                    placeholder="Enter your new password"
+                    placeholderTextColor={"#DCDAFF"}
+                    onChangeText={handleChange("new_password")}
+                    onBlur={handleBlur("new_password")}
+                    value={values.new_password}
+                  />
+                  {touched.password && errors.password && (
+                    <Text style={styles.errorText}>{errors.password}</Text>
+                  )}
+                </View>
+                <View style={styles.inputFieldView}>
+                  <TextInput
+                    style={styles.inputField}
+                    placeholder={'Enter your phone number'}
                     placeholderTextColor={"#DCDAFF"}
                     onChangeText={handleChange("phone_number")}
                     onBlur={handleBlur("phone_number")}
@@ -190,28 +207,16 @@ export default function SignUp({ route, navigation }) {
                     <Text style={styles.errorText}>{errors.phone_number}</Text>
                   )}
                 </View>
-                {user_type === "patient" && (
-                  <View style={styles.inputFieldView}>
-                    <TextInput
-                      style={styles.inputField}
-                      placeholder="Invite Token"
-                      placeholderTextColor={"#DCDAFF"}
-                      onChangeText={handleChange("invite_token")}
-                      onBlur={handleBlur("invite_token")}
-                      value={values.invite_token}
-                    />
-                  </View>
-                )}
                 <View style={styles.inputFieldView}>
-                  <DateField type={'create'} date={date} updateDate={updateDate} />
+                  <DateField type={"update"} userDate={DOB} setUserDateExists={setUserDateExists} userDateExists={userDateExists} currentDate={date} updateDate={updateDate} />
                 </View>
                 <View style={styles.inputFieldView}>
                   <TouchableOpacity
-                    style={[styles.button, !isValid ? styles.disabled : null]}
+                    style={[styles.button, !isValid && !dirty ? styles.disabled : null]}
                     onPress={() => handleSubmit(values)}
                     disabled={!isValid}
                   >
-                    <Text style={styles.buttonText}>Sign Up</Text>
+                    <Text style={styles.buttonText}>Update</Text>
                   </TouchableOpacity>
                 </View>
               </View>
