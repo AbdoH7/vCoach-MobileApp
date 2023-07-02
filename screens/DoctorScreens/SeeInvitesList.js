@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, ScrollView, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchGlobal, InvitesEndpoint } from "../../APIs";
+import BottomBar from "../../Components/Common/BottomBar";
 export default function SeeInvitesList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [invitesList, setList] = useState([]);
@@ -77,7 +78,7 @@ export default function SeeInvitesList() {
           </View>
         )}
       </ScrollView>
-      {/* {invitesList.length == 0 ? <Text>No Invites</Text> : invitesList.map((invites) => {<Text>{invites.id}</Text>})} */}
+      <BottomBar/>
     </View>
   );
 }
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
   },
   invitesContainer: {
     margin: 10,
+    marginBottom:"20%"
   },
   invite: {
     flexDirection: "column",

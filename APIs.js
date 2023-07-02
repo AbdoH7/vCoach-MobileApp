@@ -13,8 +13,10 @@ export const showAssignment = (id) => `/assignments/${id}`
 export const createAssignment = '/assignments'
 export const updateAssignment = (id) => `/assignments/${id}`
 export const removeAssignment = (id) => `/assignments/${id}`
+export const updateUserInfo = (id) => `/users/${id}`
 export const doctorUpdateAssignment = (id) => `/assignments/${id}/doctor_update`
 export const modelEndPoint = 'http://3.80.214.39/model'
+
 export const fetchGlobal = async (endpoint) =>{
     try{
         const response = await axios.get(endpoint)

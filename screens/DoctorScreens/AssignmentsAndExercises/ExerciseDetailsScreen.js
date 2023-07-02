@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -19,7 +19,7 @@ import { Formik } from "formik";
 import { Calendar } from "react-native-calendars";
 
 export default function ExerciseDetailsScreen({ navigation, route }) {
-  const { patient_id, exercise, type, assignment } = route.params;
+  const { patient_id, exercise, type, assignment,patient_name } = route.params;
   const [selectedDates, setSelectedDates] = useState({});
   const [dates, setDate] = useState([]);
   const [calendarStatus, setCalendarStatus] = useState(false);
@@ -34,6 +34,8 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
       { notes: Yup.string() }
     )
   );
+  useEffect(() => {
+}), [navigation];
   const initialValues = exercise.instructions.instructions.reduce(
     (acc, instruction) => {
       if (type === "create") acc[instruction] = "";
@@ -57,7 +59,6 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values);
     if (type === "create") {
       const payload = {
         exercise_id: exercise.id,
@@ -102,7 +103,7 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
       </View>
       <View style={styles.patientInfo}>
         <Text style={styles.label}>
-          Assigning Exercise <Text style={{color:'#FF0F6C'}}>{exercise.name}</Text> to patient {patient_id}
+          Assigning Exercise <Text style={{color:'#FF0F6C'}}>{exercise.name}</Text> to patient<Text style={{color:"#26ae60"}}> {patient_name}</Text>
         </Text>
       </View>
       <View style={styles.form}>

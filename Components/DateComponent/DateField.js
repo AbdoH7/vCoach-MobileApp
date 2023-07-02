@@ -1,13 +1,16 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {View,Button,Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native'
+import {View,TextInput, StyleSheet, TouchableOpacity} from 'react-native'
 import React,{useState,useEffect} from 'react'
 import { AntDesign } from '@expo/vector-icons';
 
 const DateField = (props)=>{
+    
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const onChange = async (event, selectedDate) => {
+        if(props.type=="update")
+          props.setUserDateExists(false)
         const currentDate = selectedDate;
         setShow(false);
         await setDate(currentDate);
@@ -38,9 +41,8 @@ const DateField = (props)=>{
                     onChange={onChange}
                     />
                 )}
-                <TextInput editable={false} style={styles.textInput} placeholderTextColor={'#DCDAFF'} placeholder={`Date of Birth: ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`} />
+                <TextInput editable={false} style={styles.textInput} placeholderTextColor={'#DCDAFF'} placeholder={ props.userDateExists ? `Date of Birth: ${props.userDate}`:`Date of Birth: ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`} />
             <TouchableOpacity onPress={showDatepicker} style={styles.dateBtn}>
-                {/* <Text style={{ fontSize:16,alignItems:'center',textAlign:'center',color:'white'}}>Select Date of Birth</Text> */}
                 <AntDesign name="calendar" size={35} color="black" />
             </TouchableOpacity>
         </View>

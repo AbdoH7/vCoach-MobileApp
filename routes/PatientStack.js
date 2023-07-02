@@ -8,6 +8,7 @@ import ExerciseContainer from '../screens/CommonScreens/ExerciseContainer';
 import ResultsScreen from '../screens/PatientScreens/ResultsScreen';
 import SeeUsersScreen from '../screens/CommonScreens/SeeUsersScreen';
 import ListExercisesScreen from '../screens/CommonScreens/ListExercisesScreen';
+import UpdateUserScreen from '../screens/CommonScreens/UpdateUserScreen';
 const defaultOptions = {
     headerStyle: {
       backgroundColor: '#6495ED', // Replace with your desired background color
@@ -62,7 +63,11 @@ const PatientStack = () => {
             component={ListExercisesScreen}
             options={{defaultOptions}}
             />
-
+            <Stack.Screen
+            name="UpdateUserScreen"
+            component={UpdateUserScreen}
+            options={{defaultOptions}}
+            />
         </Stack.Navigator>
     )
 }
