@@ -8,6 +8,7 @@ import ExerciseContainer from '../screens/CommonScreens/ExerciseContainer';
 import ResultsScreen from '../screens/PatientScreens/ResultsScreen';
 import SeeUsersScreen from '../screens/CommonScreens/SeeUsersScreen';
 import ListExercisesScreen from '../screens/CommonScreens/ListExercisesScreen';
+import AnnouncmentsScreen from '../screens/CommonScreens/AnnouncementsScreen';
 import UpdateUserScreen from '../screens/CommonScreens/UpdateUserScreen';
 const defaultOptions = {
     headerStyle: {
@@ -61,6 +62,11 @@ const PatientStack = () => {
             <Stack.Screen
             name="ListExercisesScreen"
             component={ListExercisesScreen}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
+            name="AnnouncmentsScreen"
+            component={AnnouncmentsScreen}
             options={{defaultOptions}}
             />
             <Stack.Screen

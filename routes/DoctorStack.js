@@ -10,6 +10,7 @@ import ListExercisesScreen from '../screens/CommonScreens/ListExercisesScreen';
 import ExerciseDetailsScreen from '../screens/DoctorScreens/AssignmentsAndExercises/ExerciseDetailsScreen';
 import SeeAssignedExercises from '../screens/CommonScreens/SeeAssignedExercises';
 import ExerciseContainer from '../screens/CommonScreens/ExerciseContainer';
+import AnnouncementsScreen from '../screens/CommonScreens/AnnouncementsScreen';
 import UpdateUserScreen from '../screens/CommonScreens/UpdateUserScreen';
 const defaultOptions = {
     headerStyle: {
@@ -73,6 +74,11 @@ const DoctorStack = () => {
             <Stack.Screen
             name="ExerciseContainer"
             component={ExerciseContainer}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
+            name="AnnouncementsScreen"
+            component={AnnouncementsScreen}
             options={{defaultOptions}}
             />
             <Stack.Screen

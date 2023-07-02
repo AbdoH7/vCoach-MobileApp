@@ -28,7 +28,7 @@ export default function BottomBar({navigation}) {
       </View>
       <View style={styles.quickAccessItem}>
         <TouchableOpacity
-          onPress={() => navigateToTab(2, "Announcements")}
+          onPress={() => navigateToTab(2, "AnnouncementsScreen")}
           style={styles.quickAccessItemBtn}
         >
           <Image source={route.name == 'AnnouncementsScreen' ? messagesOnIcon : messagesOffIcon} />
