@@ -55,9 +55,9 @@ export default function ListExercisesScreen({ navigation, route }) {
                   }}
                   style={[
                     styles.exerciseContainer,
-                    (index == 0 && styles.firstExercise) ||
-                      (index == 1 && styles.secondExercise) ||
-                      (index == 2 && styles.thirdExercise),
+                    (index%3 == 0 && styles.firstExercise) ||
+                      (index%3 == 1 && styles.secondExercise) ||
+                      (index%3 == 2 && styles.thirdExercise),
                   ]}
                 >
                   <Text style={styles.exerciseText}>{exercise.name}</Text>
