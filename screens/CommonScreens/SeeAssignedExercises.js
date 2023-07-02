@@ -44,7 +44,7 @@ export default function SeeAssignedExercises({ navigation,route }) {
           <Assignment key={index} outerIndex={assignment.id} assignmentProp={assignment} navigation={navigation} />
 				))}
     	</ScrollView>
-      <BottomBar/>
+      <BottomBar navigation={navigation}/>
 		</View>
     
   );

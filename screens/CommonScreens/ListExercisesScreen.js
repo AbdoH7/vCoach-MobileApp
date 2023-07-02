@@ -82,7 +82,7 @@ export default function ListExercisesScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
       )}
-      <BottomBar/>
+      <BottomBar navigation={navigation}/>
     </View>
   );
 }

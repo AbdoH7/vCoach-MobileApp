@@ -78,7 +78,7 @@ export default function SeeInvitesList() {
           </View>
         )}
       </ScrollView>
-      <BottomBar/>
+      <BottomBar navigation={navigation}/>
     </View>
   );
 }

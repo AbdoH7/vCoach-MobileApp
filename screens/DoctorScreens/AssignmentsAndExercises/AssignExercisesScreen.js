@@ -41,7 +41,7 @@ export default function AssignExercisesScreen({ navigation, route }) {
           ))}
         </View>
       </ScrollView>
-      <BottomBar/>
+      <BottomBar navigation={navigation}/>
     </View>
   );
 }
