@@ -37,7 +37,7 @@ export default function AddPatientScreen({navigation}) {
             <Text style={styles.btnText}>See All Previous Invites</Text>
           </TouchableOpacity>
         </View>
-        <BottomBar/>
+        <BottomBar navigation={navigation}/>
     </View>
 
   );

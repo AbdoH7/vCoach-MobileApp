@@ -114,7 +114,7 @@ export default function DoctorMainScreen({navigation}) {
             ))}
           </ScrollView>
           </View>
-          <BottomBar/>
+          <BottomBar navigation={navigation}/>
     </View>
 
   );

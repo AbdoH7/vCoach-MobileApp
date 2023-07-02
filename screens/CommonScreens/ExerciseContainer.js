@@ -68,7 +68,7 @@ const ExerciseContainer = ({ route }) => {
           </View>
         </View>
       </View>
-      <BottomBar/>
+      <BottomBar navigation={navigation}/>
     </View>
   );
 };

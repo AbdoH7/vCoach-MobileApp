@@ -6,23 +6,25 @@ import messagesOffIcon from '../../assets/messagesOff.png';
 import homeOnIcon from '../../assets/homeOn.png';
 import messagesOnIcon from '../../assets/messagesOn.png';
 import { AuthContext } from "../../context/AuthContext";
-export default function BottomBar() {
+import { useRoute } from '@react-navigation/native';
+export default function BottomBar({navigation}) {
   const [imageIndex, setImageIndex] = useState(1)
   const {logout} = useContext(AuthContext)
+  const route = useRoute();
+  console.log(route.name)
   const navigateToTab = (index,tabName) => {
     setImageIndex(index)
-    // navigation.navigate(tabName)
-    if(index == 3)
-      logout()
+    if(index == 3) return logout()
+    navigation.navigate(tabName)
   }
   return (
     <View style={styles.container}>
       <View style={styles.quickAccessItem}>
         <TouchableOpacity
-          onPress={() => navigateToTab(1, "Home")}
+          onPress={() => navigateToTab(1, "HomeScreen")}
           style={styles.quickAccessItemBtn}
         >
-          <Image source={imageIndex == 1 ? homeOnIcon : homeOffIcon} />
+          <Image source={route.name == 'HomeScreen' ? homeOnIcon : homeOffIcon} />
           <Text style={styles.quickAccessItemText}>Home</Text>
         </TouchableOpacity>
       </View>
@@ -31,7 +33,7 @@ export default function BottomBar() {
           onPress={() => navigateToTab(2, "Announcements")}
           style={styles.quickAccessItemBtn}
         >
-          <Image source={imageIndex == 2 ? messagesOnIcon : messagesOffIcon} />
+          <Image source={route.name == 'AnnouncementsScreen' ? messagesOnIcon : messagesOffIcon} />
           <Text style={styles.quickAccessItemText}>Announcements</Text>
         </TouchableOpacity>
       </View>

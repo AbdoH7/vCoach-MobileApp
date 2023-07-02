@@ -98,7 +98,7 @@ export default function SeePatientScreen({navigation,route}) {
           </TouchableOpacity>
         } 
       </View>
-      <BottomBar/>
+      <BottomBar navigation={navigation}/>
     </View>
 
   );

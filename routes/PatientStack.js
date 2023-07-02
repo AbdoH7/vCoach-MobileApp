@@ -24,7 +24,7 @@ const PatientStack = () => {
     return (
         <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen
-            name="PatientMainScreen"
+            name="HomeScreen"
             component={PatientMainScreen}
             options={{defaultOptions}}
             />

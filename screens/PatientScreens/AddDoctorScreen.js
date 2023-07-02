@@ -35,7 +35,7 @@ export default function AddDoctorScreen({navigation}) {
               <Text style={styles.btnText}>Add</Text>
           </TouchableOpacity>
         </View>
-        <BottomBar/>
+        <BottomBar navigation={navigation}/>
     </View>
 
   );
