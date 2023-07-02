@@ -82,9 +82,7 @@ export default function SignUp({ route, navigation }) {
       formData.append(key, values[key]);
     });
     try{
-      console.log(formData);
         const res = await putGlobal(updateUserInfo(id),formData);
-        console.log(res)
     }catch(err){
         console.log("Update User Request Error:",err);
     }    

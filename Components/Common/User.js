@@ -1,17 +1,17 @@
 import React, { useState,useRef,useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { TouchableWithoutFeedback } from "react-native";
-export default function User({ patient, index }) {
+export default function User({ user, index }) {
   const [dropdownStates, setDropdownStates] = useState([false,false,false]);
   return (
     <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image resizeMode="cover" style={styles.patientImage} source={{ uri: patient.avatar.url }} />
+          <Image resizeMode="cover" style={styles.patientImage} source={{ uri: user?.avatar?.url }} />
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.textContainer}>
-            <Text style={styles.patientName}>{patient.first_name}{patient.last_name}{'\n'}</Text>
-            <Text style={styles.patientBrief}>{patient.email}</Text>
+            <Text style={styles.patientName}>{user?.first_name}{user?.last_name}{'\n'}</Text>
+            <Text style={styles.patientBrief}>{user?.email}</Text>
           </Text>
         </View>
       </View>
@@ -43,10 +43,14 @@ const styles = StyleSheet.create({
   },
   patientName:{
     fontSize:15,
-    fontWeight:'bold'
+    fontWeight:'bold',
+    borderWidth:1,
+    borderColor:'gray',
   },
   patientBrief:{
     fontSize:12,
+    borderWidth:1,
+    borderColor:'gray',
   },
   dropMenuBtnContainer:{
     width:"15%",

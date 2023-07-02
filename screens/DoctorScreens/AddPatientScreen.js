@@ -10,9 +10,9 @@ export default function AddPatientScreen({navigation}) {
     const [textInputStyle, setStyle] = useState(styles.textInput)
     const sendInvite = async (email)=>{
       try{
-          response = await postGlobal(InvitesEndpoint,{email:email})
+          const response = await postGlobal(InvitesEndpoint,{email:email})
           Alert.alert('Success','Invite Sent Successfully',[
-            {text:'OK',onPress:()=>{navigation.navigate('DoctorMainScreen')}}
+            {text:'OK',onPress:()=>{navigation.navigate('HomeScreen');setText('')}}
           ])
       } catch(err){
           console.log(`Send Invite Error: ${err}`)

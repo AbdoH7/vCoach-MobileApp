@@ -66,7 +66,7 @@ return (
 	<ScrollView style={[styles.container, isLast && { marginBottom: "25%" }]}>
 		<View style={styles.innerContainer}>
 		<View style={styles.header}>
-			<Image style={ styles.image } resizeMode='cover' source={{uri:announcement.user.avatar.url}} />
+			<Image style={ styles.image } resizeMode='cover' source={{uri:announcement?.user?.avatar?.url}} />
 			<View style={styles.headerInfo}>
 				<Text style={styles.posterName}>{announcement.user.full_name}</Text>
 				<Text style={styles.date}>{announcement.created_at}</Text>
@@ -109,7 +109,7 @@ return (
 			return (
 				<ScrollView key={index}>
 					<View style={styles.header}>
-						<Image style={ styles.image } resizeMode='cover' source={{uri:comment.user.avatar.url}} />
+						<Image style={ styles.image } resizeMode='cover' source={{uri:comment.user?.avatar?.url}} />
 						<View style={styles.headerInfo}>
 							<Text style={styles.posterName}>{comment.user.full_name}</Text>
 							<Text style={styles.date}>{comment.created_at}</Text>

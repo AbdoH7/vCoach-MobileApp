@@ -71,10 +71,10 @@ export default function ExerciseDetailsScreen({ navigation, route }) {
           },
           {}
         ),
-        date: values.date,
+        date: dates,
       };
       const response = await postGlobal(createAssignment, payload);
-      navigation.navigate("AssignExercisesScreen");
+      navigation.navigate("HomeScreen");
     } else if (type === "update") {
       const payload = {
         notes: values.notes,

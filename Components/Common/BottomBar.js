@@ -2,15 +2,14 @@ import React,{useContext} from "react";
 import { View, Text,TouchableOpacity,Image } from "react-native";
 import { StyleSheet } from "react-native";
 import homeOffIcon from '../../assets/homeOff.png';
-import messagesOffIcon from '../../assets/messagesOff.png';
+import announcemntsOffIcon from '../../assets/announcementsOff.png';
 import homeOnIcon from '../../assets/homeOn.png';
-import messagesOnIcon from '../../assets/messagesOn.png';
+import announcemntsOnIcon from '../../assets/announcementsOn.png';
 import { AuthContext } from "../../context/AuthContext";
 import { useRoute } from '@react-navigation/native';
 export default function BottomBar({navigation}) {
   const {logout} = useContext(AuthContext)
   const route = useRoute();
-  console.log(route.name)
   const navigateToTab = (index,tabName) => {
     if(index == 3) return logout()
     navigation.navigate(tabName)
@@ -31,7 +30,7 @@ export default function BottomBar({navigation}) {
           onPress={() => navigateToTab(2, "AnnouncementsScreen")}
           style={styles.quickAccessItemBtn}
         >
-          <Image source={route.name == 'AnnouncementsScreen' ? messagesOnIcon : messagesOffIcon} />
+          <Image source={route.name == 'AnnouncementsScreen' ? announcemntsOnIcon : announcemntsOffIcon} />
           <Text style={styles.quickAccessItemText}>Announcements</Text>
         </TouchableOpacity>
       </View>
@@ -41,7 +40,7 @@ export default function BottomBar({navigation}) {
           style={styles.quickAccessItemBtn}
         >
           <Image source={require("../../assets/signOut.png")} />
-          <Text style={styles.quickAccessItemText}>LogOut</Text>
+          <Text style={styles.quickAccessItemText}>Sign Out</Text>
         </TouchableOpacity>
       </View>
     </View>

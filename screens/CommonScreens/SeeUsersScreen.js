@@ -1,202 +1,285 @@
-import { StyleSheet, Text, View,Image, TouchableOpacity,ScrollView,Alert} from 'react-native';
-import React,{useContext, useEffect, useState} from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import global from '../../styles/global';
-import User from '../../Components/Common/User';
-import BottomBar from '../../Components/Common/BottomBar';
-import {postGlobal,DoctorPatientAssignmentsRemoveEndpoint} from '../../APIs';
-export default function SeePatientScreen({navigation,route}) {
-    const {user} = useContext(AuthContext)
-    const {users} = route.params
-    const routeName = route.name
-    const itemHeight = 15; // Adjust the height of each patient item as needed
-    const itemsShown = 5
-    const maxHeight = users.length * itemHeight * itemsShown;
-    const removeUser = async (userId) => {
-      try{
-        await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, {id: userId})
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import global from "../../styles/global";
+import User from "../../Components/Common/User";
+import BottomBar from "../../Components/Common/BottomBar";
+import {
+  fetchGlobal,
+  DoctorPatientAssignmentsEndpoint,
+  postGlobal,
+  DoctorPatientAssignmentsRemoveEndpoint,
+} from "../../APIs";
+export default function SeePatientScreen({ navigation, route }) {
+  const { user } = useContext(AuthContext);
+  const routeName = route.name;
+  const itemHeight = 15;
+  const itemsShown = 12;
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetchGlobal(DoctorPatientAssignmentsEndpoint);
+        setUsers(response.data.users);
       } catch (error) {
-        console.error("Error removing user:", error);
+        console.error("Error fetching data:", error);
       }
+    };
+    fetchUsers();
+  }, []);
+  const removeUser = async (userId) => {
+    try {
+      await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, { id: userId });
+      setUsers(users.filter((user) => user.id != userId));
+    } catch (error) {
+      console.error("Error removing user:", error);
     }
-    const handleAction = (index,action) => {
-      if(action == "remove"){
-        Alert.alert(
-          'Alert Title',
-          'You sure you want to remove this patient ?.',
-          [
-            {
-              text: 'Yes',
-              onPress: () => removeUser(users[index].id),
-              style: 'default',
-            },
-            {
-              text: 'Cancel',
-              onPress: () => {},
-              style: 'cancel'
-            },
-          ],
-          { cancelable: false }
-        )
-      }else{
-        navigation.navigate('ListExercisesScreen',{patient_id:patients[index].id})
-      }
-    }    
-    return (
-    <View style={[styles.container,global.defaultBackgroundColor]}>
-      <View style={[global.userInfo,styles.userInfoContainer]}>
+  };
+  const handleAction = (index, action) => {
+    if (action == "remove") {
+      Alert.alert(
+        "Alert Title",
+        "You sure you want to remove this user ?.",
+        [
+          {
+            text: "Yes",
+            onPress: () => removeUser(users[index].id),
+            style: "default",
+          },
+          {
+            text: "Cancel",
+            onPress: () => {},
+            style: "cancel",
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      navigation.navigate("ListExercisesScreen", {
+        patient_id: users[index].id,
+      });
+    }
+  };
+  return (
+    <View style={[styles.container, global.defaultBackgroundColor]}>
+      <View style={[global.userInfo, styles.userInfoContainer]}>
         <Text style={global.userInfoText}>
           <Text style={global.helloText}>Hello,</Text>
-          <Text>{'\n'}</Text>
-          <Text style={global.userNameText}>{routeName=="SeePatientScreen"&& "Dr. "}{user.first_name}</Text>
+          <Text>{"\n"}</Text>
+          <Text style={global.userNameText}>
+            {routeName == "SeePatientScreen" && "Dr. "}
+            {user.first_name}
+          </Text>
         </Text>
         <View style={global.imageContainer}>
-          <Image style={global.profileImage} source={{uri:user.avatar.url}}/>
+          <Image
+            style={global.profileImage}
+            source={{ uri: user?.avatar?.url }}
+          />
         </View>
       </View>
       <View style={styles.patientContainerTitle}>
-        <Text style={styles.patientContainerTitleText}>{routeName == "SeePatientScreen"? "Patients" : "Doctors" }</Text>
+        <Text style={styles.patientContainerTitleText}>
+          {routeName == "SeePatientScreen" ? "Patients" : "Doctors"}
+        </Text>
       </View>
-      <ScrollView style={[styles.patientContainer,{maxHeight:maxHeight}]}>
-        <View style={styles.patientListContainer}>
-          {users.map((patient,index) => (
-            <View key={patient.id}style={[styles.allContainer,index == users.length-1 && styles.hideLastPatient]}>
-            <View style={styles.showPatientBorder}>
-              <User index={index}  key={patient.id} patient={patient}/>
-            </View>
-            <View style={styles.btnView}>
-              <TouchableOpacity style={[styles.removeButton]} onPress={()=>{handleAction(index,'assign')}}>
-                <Text style={[{color:'#26ae60'},styles.removeButtonText]}>+</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.removeButton} onPress={()=>{handleAction(index,'remove')}}>
-                <Text style={[{color:'#FF000F',fontWeight:'bold'},styles.removeButtonText]}>x</Text>
-              </TouchableOpacity>
-            </View>
-            </View>
-          ))}
+      {users.length == 0 && (
+        <View style={styles.noResultsContainer}>
+          <Text style={styles.noResultsText}>No users found</Text>
         </View>
-      </ScrollView>
-          {/* { usersStates.some((state)=> state === true) &&
-            <View style={styles.dropContainer}>
-              <TouchableOpacity style={styles.dropButton} onPress={()=>{toggleDropdown(index)}}>
-                <Text style={[global.defaultTextColor,styles.dropButtonText]}>Assign Exercise</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.dropButton} onPress={()=>{toggleDropdown(index)}}>
-                <Text style={[global.defaultTextColor,styles.dropButtonText]}>Remove</Text>
-              </TouchableOpacity>
-            </View>
-          } */}
+      )}
+      {users.length != 0 && (
+        <ScrollView
+          style={[
+            styles.patientContainer,
+            { maxHeight: itemHeight * itemsShown * users.length },
+          ]}
+        >
+          <View style={styles.patientListContainer}>
+            {users.map((user, index) => (
+              <View
+                key={user.id}
+                style={[
+                  styles.allContainer,
+                  index == users.length - 1 && styles.hideLastPatient,
+                ]}
+              >
+                <View style={styles.showPatientBorder}>
+                  <User index={index} key={user.id} user={user} />
+                </View>
+                <View style={styles.btnView}>
+                {routeName == "SeePatientScreen" && 
+                  <TouchableOpacity
+                    style={[styles.removeButton]}
+                    onPress={() => {
+                      handleAction(index, "assign");
+                    }}
+                  >
+                    <Text
+                      style={[{ color: "#26ae60" }, styles.removeButtonText]}
+                    >
+                      +
+                    </Text>
+                  </TouchableOpacity>
+                }
+                  <TouchableOpacity
+                    style={styles.removeButton}
+                    onPress={() => {
+                      handleAction(index, "remove");
+                    }}
+                  >
+                    <Text
+                      style={[
+                        { color: "#FF000F", fontWeight: "bold" },
+                        styles.removeButtonText,
+                      ]}
+                    >
+                      x
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      )}
       <View style={styles.addPatientBtnContainer}>
-        {routeName == "SeePatientScreen" &&
-          <TouchableOpacity onPress={()=>navigation.navigate('AddPatientScreen')} style={styles.addPatientBtn}>
+        {routeName == "SeePatientScreen" && (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AddPatientScreen")}
+            style={styles.addPatientBtn}
+          >
             <Text style={styles.addPatientBtnText}>Add Patient</Text>
           </TouchableOpacity>
-        }        
-        {routeName == "SeeDoctorScreen" &&
-          <TouchableOpacity onPress={()=>navigation.navigate('AddDoctorScreen')} style={styles.addPatientBtn}>
+        )}
+        {routeName == "SeeDoctorScreen" && (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AddDoctorScreen")}
+            style={styles.addPatientBtn}
+          >
             <Text style={styles.addPatientBtnText}>Add Doctor</Text>
           </TouchableOpacity>
-        } 
+        )}
       </View>
-      <BottomBar navigation={navigation}/>
+      <BottomBar navigation={navigation} />
     </View>
-
   );
 }
 
 const styles = StyleSheet.create({
-  showPatientBorder:{
-    paddingVertical:10,
-    width:'80%',
-  },  
-  removeButtonText:{
-    fontSize:15,
-    alignSelf:'center',
+  showPatientBorder: {
+    paddingVertical: 10,
+    width: "80%",
   },
-  allContainer:{
-    flexDirection:'row',
-    borderBottomWidth:1,
-    borderColor:'gray',
+  noResultsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  btnView:{
-    flexDirection:'row',
-    width:'20%',
-    justifyContent:'center',
+  noResultsText: {
+    fontSize: 16,
+    color: "gray",
   },
-  dropContainer:{
-    backgroundColor:'#332d37',
-    borderRadius:10,
-    marginTop:15,
-    alignItems:'center',
+  noAssignedUsers: {
+    color: "grey",
   },
-  dropButton:{
-    padding:10,
-    width:"100%",
-    alignItems:'center',
+  removeButtonText: {
+    fontSize: 15,
+    alignSelf: "center",
   },
-  removeButton:{
-    marginTop:'50%',
-    borderColor:'white',
-    borderWidth:1,
-    borderRadius:30,
-    width:25,
-    height:25,
-    marginLeft:10,
-    marginRight:10,
+  allContainer: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderColor: "gray",
   },
-  hideLastPatient:{
-    borderBottomWidth:0,
+  btnView: {
+    flexDirection: "row",
+    width: "20%",
+    justifyContent: "center",
   },
-  container:{
-    flex:1,
-    flexDirection:'column',
+  dropContainer: {
+    backgroundColor: "#332d37",
+    borderRadius: 10,
+    marginTop: 15,
+    alignItems: "center",
   },
-  userInfoContainer:{
-    padding:10,
-    marginLeft:10,
+  dropButton: {
+    padding: 10,
+    width: "100%",
+    alignItems: "center",
   },
-  patientContainer:{
-    padding:10,
-    paddingBottom:0,
-    paddingTop:0,
-    margin:10,
+  removeButton: {
+    marginTop: "50%",
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 30,
+    width: 25,
+    height: 25,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  hideLastPatient: {
+    borderBottomWidth: 0,
+  },
+  container: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  userInfoContainer: {
+    padding: 10,
+    marginLeft: 10,
+  },
+  patientContainer: {
+    padding: 10,
+    paddingBottom: 0,
+    paddingTop: 0,
+    margin: 10,
     // marginBottom:5,
-    flexDirection:'column',
-    backgroundColor:'#21202E',
-    borderRadius:15,
+    flexDirection: "column",
+    backgroundColor: "#21202E",
+    borderRadius: 15,
+    borderColor: "gray",
+    borderWidth: 1,
   },
-  patientContainerTitle:{
-    padding:10,
-    paddingBottom:0,
+  patientContainerTitle: {
+    padding: 10,
+    paddingBottom: 0,
   },
-  patientContainerTitleText:{
-    fontSize:25,
-    fontWeight:'bold',
-    color:'white',
+  patientContainerTitleText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "white",
   },
-  patientListContainer:{
+  patientListContainer: {},
+  addPatientBtnContainer: {
+    margin: 10,
+    height: "6%",
+    marginTop: "auto",
+    marginBottom: "25%",
   },
-  addPatientBtnContainer:{
-    margin:10,
-    height:'6%',
-    marginTop:'auto',
-    marginBottom:"25%"
+  addPatientBtn: {
+    borderRadius: 20,
+    backgroundColor: "#6C63FF",
+    height: "100%",
   },
-  addPatientBtn:{
-    borderRadius:20,
-    backgroundColor:'#6C63FF',
-    height:'100%',
+  addPatientBtnText: {
+    color: "white",
+    fontSize: 20,
+    alignSelf: "center",
+    fontWeight: "bold",
+    paddingTop: 15,
   },
-  addPatientBtnText:{
-    color:'white',
-    fontSize:20,
-    alignSelf:'center',
-    fontWeight:'bold',
-    paddingTop:15,
-  },
-  image:{
-    width:60,
-    height:60,
-    borderRadius:30
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
 });

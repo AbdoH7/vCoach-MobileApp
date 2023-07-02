@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, TextInput, } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
 import { postGlobal, Announcements } from "../../../APIs";
 import global from "../../../styles/global";
 
