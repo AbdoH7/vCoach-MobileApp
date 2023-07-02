@@ -79,6 +79,9 @@ const DoctorStack = () => {
             <Stack.Screen
             name="AnnouncementsScreen"
             component={AnnouncementsScreen}
+            options={{defaultOptions}}
+            />
+            <Stack.Screen
             name="UpdateUserScreen"
             component={UpdateUserScreen}
             options={{defaultOptions}}

@@ -12,6 +12,7 @@ import global from "../../styles/global";
 import ViewAnnouncment from "../../Components/Common/announcements/ViewAnnouncement";
 import { AuthContext } from "../../context/AuthContext";
 import AddAnouncement from "../../Components/Common/announcements/AddAnouncement";
+import BottomBar from "../../Components/Common/BottomBar";
 
 export default function AnnouncmentsScreen({ navigation }) {
   const [announcements, setAnnouncements] = useState([]);
@@ -44,7 +45,8 @@ export default function AnnouncmentsScreen({ navigation }) {
   }, [submitted]);
 
   return (
-    <ScrollView style={[global.defaultBackgroundColor]}>
+    <View style={[global.defaultBackgroundColor ,styles.outerContainer]}>
+    <ScrollView style={[styles.container]}>
       <View style={styles.header}>
         <Text style={styles.title}>Announcements</Text>
       </View>
@@ -58,14 +60,20 @@ export default function AnnouncmentsScreen({ navigation }) {
             navigation={navigation}
             key={index}
 						submitted={setSubmitted}
+            isLast={index == announcements.length - 1}
           />
         );
       })}
     </ScrollView>
+      <BottomBar navigation={navigation} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+  },
   header: {
     backgroundColor: "#6C63FF",
     paddingHorizontal: 20,
@@ -79,5 +87,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
     marginBottom: 20,
+  },
+  container: {
+    flex: 1,
   },
 });

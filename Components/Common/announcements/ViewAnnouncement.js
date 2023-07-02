@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {  Likes, Comments, postGlobal, deleteGlobal, Like, Announcement } from '../../../APIs';
 import { AuthContext } from '../../../context/AuthContext';
 
-export default function ViewAnnouncment({ announcementt, navigation, submitted }) {
+export default function ViewAnnouncment({ announcementt, navigation, submitted, isLast }) {
 	const [announcement, setAnnouncement] = useState(announcementt);
 	const [isLiked, setIsLiked] = useState(announcement.is_liked);
 	const [commentsCount, setCommentsCount] = useState(announcement.comments_count);
@@ -62,7 +62,8 @@ export default function ViewAnnouncment({ announcementt, navigation, submitted }
 	
 
 return (
-	<ScrollView style={styles.container}>
+	
+	<ScrollView style={[styles.container, isLast && { marginBottom: "25%" }]}>
 		<View style={styles.innerContainer}>
 		<View style={styles.header}>
 			<Image style={ styles.image } resizeMode='cover' source={{uri:announcement.user.avatar.url}} />
@@ -132,6 +133,7 @@ return (
 }
 
 const styles = StyleSheet.create({
+
 	container: {
 		width: '90%',
 		alignSelf: 'center',
