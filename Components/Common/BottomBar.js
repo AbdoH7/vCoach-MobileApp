@@ -1,4 +1,4 @@
-import React,{useContext, useState} from "react";
+import React,{useContext} from "react";
 import { View, Text,TouchableOpacity,Image } from "react-native";
 import { StyleSheet } from "react-native";
 import homeOffIcon from '../../assets/homeOff.png';
@@ -8,12 +8,10 @@ import messagesOnIcon from '../../assets/messagesOn.png';
 import { AuthContext } from "../../context/AuthContext";
 import { useRoute } from '@react-navigation/native';
 export default function BottomBar({navigation}) {
-  const [imageIndex, setImageIndex] = useState(1)
   const {logout} = useContext(AuthContext)
   const route = useRoute();
   console.log(route.name)
   const navigateToTab = (index,tabName) => {
-    setImageIndex(index)
     if(index == 3) return logout()
     navigation.navigate(tabName)
   }
