@@ -11,6 +11,7 @@ import ExerciseDetailsScreen from '../screens/DoctorScreens/AssignmentsAndExerci
 import SeeAssignedExercises from '../screens/CommonScreens/SeeAssignedExercises';
 import ExerciseContainer from '../screens/CommonScreens/ExerciseContainer';
 import AnnouncementsScreen from '../screens/CommonScreens/AnnouncementsScreen';
+import UpdateUserScreen from '../screens/CommonScreens/UpdateUserScreen';
 const defaultOptions = {
     headerStyle: {
       backgroundColor: '#6495ED', // Replace with your desired background color
@@ -26,7 +27,7 @@ const DoctorStack = () => {
     return (
         <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen
-            name="DoctorMainScreen"
+            name="HomeScreen"
             component={DoctorMainScreen}
             options={{defaultOptions}}
             />
@@ -78,6 +79,8 @@ const DoctorStack = () => {
             <Stack.Screen
             name="AnnouncementsScreen"
             component={AnnouncementsScreen}
+            name="UpdateUserScreen"
+            component={UpdateUserScreen}
             options={{defaultOptions}}
             />
         </Stack.Navigator>

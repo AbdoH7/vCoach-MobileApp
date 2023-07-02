@@ -10,6 +10,7 @@ import {
 import { AuthContext } from "../../context/AuthContext";
 import { fetchGlobal, getExercises } from "../../APIs";
 import global from "../../styles/global";
+import BottomBar from "../../Components/Common/BottomBar";
 export default function ListExercisesScreen({ navigation, route }) {
   const [exercises, setExercises] = useState([]);
   useEffect(() => {
@@ -26,21 +27,11 @@ export default function ListExercisesScreen({ navigation, route }) {
   const { user } = useContext(AuthContext);
   return (
     <View style={[global.defaultBackgroundColor, styles.container]}>
-      <View style={global.userInfo}>
-        <Text style={global.userInfoText}>
-          <Text style={global.helloText}>Hello,</Text>
-          <Text>{"\n"}</Text>
-          <Text style={global.userNameText}>Dr.{user.first_name}</Text>
-        </Text>
-        <View style={global.imageContainer}>
-          <Image
-            style={global.profileImage}
-            source={{ uri: user.avatar.url }}
-          />
-        </View>
+      <View style={styles.header}>
+        <Text style={styles.title}>Select Exercise</Text>
       </View>
       <Text style={styles.title}>Exercises</Text>
-      <ScrollView style={styles.exercisesViewContainer}>
+      <ScrollView style={[styles.exercisesViewContainer,user.user_type =="patient" && styles.patientMargin]}>
         {exercises.length == 0 ? (
           <Text style={global.notFoundText}>No exercises available</Text>
         ) : (
@@ -52,9 +43,10 @@ export default function ListExercisesScreen({ navigation, route }) {
                   onPress={() => {
                     route.params?.patient_id ? 
                     navigation.navigate("ExerciseDetailsScreen", {
-                      patient_id: route.params.patient_id,
+                      patient_id: route.params?.patient_id,
                       exercise: exercise,
                       type: "create",
+                      patient_name: route.params?.patient_name
                     }) :
                     navigation.navigate("ExerciseContainer", {
                       exercise: exercise,
@@ -90,6 +82,7 @@ export default function ListExercisesScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
       )}
+      <BottomBar navigation={navigation}/>
     </View>
   );
 }
@@ -98,11 +91,30 @@ const styles = StyleSheet.create({
   exercisesViewContainer: {
     backgroundColor: "#21202E",
     borderRadius: 15,
-    marginBottom: 10,
+    // marginBottom: 10,
+    margin:10,
+  },
+  patientMargin:{
+    marginBottom:"25%",
+  },
+  header: {
+    backgroundColor: "#6C63FF",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    marginBottom:10,
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    marginBottom: 20,
   },
   requestView: {
-    // marginTop:'auto',
     margin: 10,
+    marginBottom:"25%",
     height: "6%",
   },
   requestBtn: {
@@ -116,11 +128,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
     fontWeight: "bold",
-    paddingTop: 10,
+    paddingTop:10,
   },
   container: {
     flex: 1,
-    padding: 10,
     flexDirection: "column",
   },
   title: {

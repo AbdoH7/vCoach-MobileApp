@@ -2,50 +2,17 @@ import React, { useState,useRef,useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { TouchableWithoutFeedback } from "react-native";
 export default function User({ patient, index }) {
-  // const [dropdownStates, setDropdownStates] = useState([false, false, false]);
-  const removeUser = async (patientId) => {
-    //need to figure out how to rerender
-    await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, {id: patientId})
-    setPatients((patients) => patients.filter((patient) => patient.id !== patientId))
-  }
-  const [dropDownState, setDropDownStates] = useState([false,false,false]);
-
+  const [dropdownStates, setDropdownStates] = useState([false,false,false]);
   return (
     <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image resizeMode="contain" style={styles.patientImage} source={{ uri: patient.avatar.url }} />
+          <Image resizeMode="cover" style={styles.patientImage} source={{ uri: patient.avatar.url }} />
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.textContainer}>
             <Text style={styles.patientName}>{patient.first_name}{patient.last_name}{'\n'}</Text>
             <Text style={styles.patientBrief}>{patient.email}</Text>
           </Text>
-        </View>
-        <View style={styles.dropMenuBtnContainer}>
-          <TouchableOpacity style={styles.dropMenuBtn} onPress={()=>{}}>
-            <Text style={styles.dropMenuBtnText}>...</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.dropMenuListContainer}>
-        {/* {isDropdownOpen && (
-          <View style={styles.dropMenuListView}>
-            <View style={styles.dropDownMenuItem}>
-              <TouchableOpacity style={styles.dropDownMenuBtn} onPress={() => closeDropdowns}>
-                <Text style={styles.dropDownMenuItemText}>Assign Exercise</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.dropDownMenuItem}>
-              <TouchableOpacity style={styles.dropDownMenuBtn} onPress={() => closeDropdowns}>
-                <Text style={styles.dropDownMenuItemText}>Chat</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.dropDownMenuItem}>
-              <TouchableOpacity style={styles.dropDownMenuBtn} onPress={() => closeDropdowns}>
-                <Text style={styles.dropDownMenuItemText}>Remove</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )} */}
         </View>
       </View>
   );
@@ -68,6 +35,7 @@ const styles = StyleSheet.create({
   infoContainer:{
     width:"65%",
     paddingTop:15,
+    marginLeft:10,
   },
   textContainer:{
     flexDirection:'column',
@@ -86,8 +54,8 @@ const styles = StyleSheet.create({
   },
   dropMenuBtn:{
     // backgroundColor:'gray',
-    borderColor:'white',
-    borderWidth:1,
+    // borderColor:'white',
+    // borderWidth:1,
     borderRadius:15,
     alignItems:'center',
     alignSelf:'center',
@@ -102,8 +70,8 @@ const styles = StyleSheet.create({
     top: 30,
     right: 45,
     backgroundColor: '#332d37',
-    borderColor: 'white',
-    borderWidth:2,
+    // borderColor: 'white',
+    // borderWidth:2,
     padding: 10,
     borderRadius: 5,
     order:1,
@@ -113,7 +81,18 @@ const styles = StyleSheet.create({
   },
   dropDownMenuItemText:{
     color:'white',
-  }
+  },
+  dropdownMenu:{
+    position: 'absolute',
+    top: 35,
+    right: 0,
+    width: 170,
+    backgroundColor: '#332D38',
+    borderRadius: 10,
+    zIndex: 1,
+    // borderColor:'white',
+    // borderWidth:1,
+  },
   // dropDownMenuContainer:{
   //   borderWidth:1,
   //   borderColor:'white',

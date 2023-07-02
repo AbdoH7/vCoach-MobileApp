@@ -1,20 +1,17 @@
-import { StyleSheet, Text, View,Image,Button,TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View,Image,TouchableOpacity, ScrollView} from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import React,{useContext, useState, useEffect} from 'react';
 import global from '../../styles/global';
 import { fetchGlobal,DoctorPatientAssignmentsEndpoint, getAssignments } from '../../APIs';
 import invitesList from '../../assets/invitesList.png';
-import User from '../../Components/Common/User';
 import assignPatientIcon from '../../assets/addUser.png';
-import assignExerciseIcon from '../../assets/addKeyframes.png';
 import assignedExercisesIcon from '../../assets/assignedExercises.png';
 import homeOffIcon from '../../assets/homeOff.png';
 import messagesOffIcon from '../../assets/messagesOff.png';
 import homeOnIcon from '../../assets/homeOn.png';
 import messagesOnIcon from '../../assets/messagesOn.png';
-import ExerciseContainer from './../CommonScreens/ExerciseContainer';
-import { text } from '@fortawesome/fontawesome-svg-core';
 import PreviewAssignment from '../../Components/PatientComponents/PreviewAssignment';
+import BottomBar from '../../Components/Common/BottomBar';
 
 export default function DoctorMainScreen({navigation}) {
     const {user,logout} = useContext(AuthContext)
@@ -61,6 +58,10 @@ export default function DoctorMainScreen({navigation}) {
           </Text>
           <View style={global.imageContainer}>
             {/* <Image style={global.profileImage} source={{uri:user.avatar.url}}/> */}
+          <View style={[global.imageContainer]}>
+          <TouchableOpacity onPress={()=> navigation.navigate('UpdateUserScreen',{user:user})}>
+              {/* <Image style={global.profileImage} source={{uri:user.avatar.url}}/> */}
+              </TouchableOpacity>
           </View>
         </View>
 
@@ -87,7 +88,7 @@ export default function DoctorMainScreen({navigation}) {
           </View>
 
           <View style={styles.actionsMenuButtons}>
-            <TouchableOpacity onPress={()=> navigation.navigate('SeeDoctorScreen', {patients: doctors})} style={styles.button}>
+            <TouchableOpacity onPress={()=> navigation.navigate('SeeDoctorScreens', {patients: doctors})} style={styles.button}>
               <Image source={assignedExercisesIcon} />
             </TouchableOpacity>
             <Text style={styles.btnText}>See your Doctors</Text>
@@ -112,26 +113,8 @@ export default function DoctorMainScreen({navigation}) {
             ))}
           </ScrollView>
           </View>
-          <View style={styles.quickAccessMenuContainer}>
-          <View style={styles.quickAccessItem}>
-          <TouchableOpacity onPress={()=>navigateToTab(1,'PatientMainScreen')} style={styles.quickAccessItemBtn}>
-            <Image source={imageIndex == 1 ? homeOnIcon : homeOffIcon} />
-            <Text style={styles.quickAccessItemText}>Home</Text>
-          </TouchableOpacity>
-          </View>
-          <View style={styles.quickAccessItem}>
-          <TouchableOpacity onPress={()=>navigateToTab(2,'AnnouncmentsScreen')} style={styles.quickAccessItemBtn}>
-            <Image source={imageIndex == 2 ? messagesOnIcon : messagesOffIcon} />
-            <Text style={styles.quickAccessItemText}>Announcements</Text>
-          </TouchableOpacity>
-          </View>
-          <View style={styles.quickAccessItem}>
-          <TouchableOpacity onPress={()=>navigateToTab(3,'LogOut')}  style={styles.quickAccessItemBtn}>
-            <Image source={require('../../assets/signOut.png')} />
-            <Text style={styles.quickAccessItemText}>LogOut</Text>
-          </TouchableOpacity>
-          </View>
-        </View>
+
+          <BottomBar navigation={navigation}/>
     </View>
 
   );
@@ -237,24 +220,5 @@ const styles = StyleSheet.create({
   seeAllBtn:{
     borderRadius:30
   },
-  quickAccessMenuContainer:{
-    flexDirection:'row',
-    marginTop:'auto'
-  },
-  quickAccessItem:{
-    width:"34%",
-    padding:15,
-    marginTop:"30%",
-    borderTopColor:'gray',
-    borderTopWidth:.5,
-  },
-  quickAccessItemBtn:{
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  quickAccessItemText:{
-    fontSize:15,
-    color:'white',
-  }
 });
 

@@ -9,7 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 const STYLES = ["default", "dark-content", "light-content"];
 
 function AppNav() {
-  const { user, userToken, isLoading,isFirstTimeUser } = useContext(AuthContext);
+  const { user, userToken, isLoading } = useContext(AuthContext);
   const [statusBarStyle, setStatusBarStyle] = useState(STYLES[0]);
   if (isLoading) {
     return (

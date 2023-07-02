@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Image,TouchableOpacity, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import { StyleSheet, Text, View,Image,TouchableOpacity, ScrollView} from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import React,{useContext,useEffect,useState} from 'react';
 import { fetchGlobal,DoctorPatientAssignmentsEndpoint } from '../../APIs';
@@ -7,16 +7,12 @@ import User from '../../Components/Common/User';
 import assignPatientIcon from '../../assets/addUser.png';
 import assignExerciseIcon from '../../assets/addKeyframes.png';
 import assignedExercisesIcon from '../../assets/assignedExercises.png';
-import homeOffIcon from '../../assets/homeOff.png';
-import messagesOffIcon from '../../assets/messagesOff.png';
-import homeOnIcon from '../../assets/homeOn.png';
-import messagesOnIcon from '../../assets/messagesOn.png';
+import BottomBar from '../../Components/Common/BottomBar';
 import global from '../../styles/global';
 
 export default function DoctorMainScreen({navigation}) {
-    const {user,logout} = useContext(AuthContext)
+    const {user} = useContext(AuthContext)
     const [patients, setPatients] = useState([])
-    const [imageIndex, setImageIndex] = useState(1)
     useEffect(() => {
       const fetchPatients = async () => {
         try {
@@ -29,15 +25,12 @@ export default function DoctorMainScreen({navigation}) {
       fetchPatients()
     },[])
 
-    const navigateToTab = (index,tabName) => {
-      setImageIndex(index)
-      if(index == 3) return logout()
-      navigation.navigate(tabName)
-    }
     const removePatient = async (patientId) => {
       //need to figure out how to rerender
       await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, {id: patientId})
       setPatients((patients) => patients.filter((patient) => patient.id !== patientId))
+    const runAction = async (index) => {
+        navigation.navigate('ListExercisesScreen',{patient_id:patients[index].id,patient_name:`${patients[index].first_name} ${patients[index].last_name}`})
     }
     return (
       <View style={[global.defaultBackgroundColor,styles.container]}>
@@ -47,8 +40,11 @@ export default function DoctorMainScreen({navigation}) {
               <Text>{'\n'}</Text>
               <Text style={[global.userNameText,styles.userName]}>Dr.{user.first_name}</Text>
             </Text>
-            <View style={global.imageContainer}>
+            <View style={[global.imageContainer]}>
+              <TouchableOpacity onPress={()=> navigation.navigate('UpdateUserScreen',{user:user})}>
               <Image style={global.profileImage} source={{uri:user.avatar.url}}/>
+                <Text>press here</Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.actionsMenuContainer}>
@@ -82,38 +78,26 @@ export default function DoctorMainScreen({navigation}) {
           <View>
           <View style={styles.seeAllPatients}>
             <Text style={styles.patientText}>Patients</Text>
-            <TouchableOpacity onPress={()=> navigation.navigate('SeePatientScreen',{patients:patients})} style={styles.seeAllBtn}>
+            <TouchableOpacity onPress={()=> navigation.navigate('SeePatientScreen',{users:patients})} style={styles.seeAllBtn}>
                 <Text style={styles.seeAllText}>See All Patients</Text>
             </TouchableOpacity>
           </View>
           <ScrollView alwaysBounceVertical={true} bounces={true} style={styles.patientInfoContainer}>
             {patients.slice(0,3).map((patient,index) => (
-              <View key={patient.id} style={index == patients.slice(0,3).length-1 ? styles.hideLastPatientBorder : styles.showPatientBorder}>
-                <User  key={patient.id} patient={patient} removePatient={removePatient}/>
-              </View>
+              <View key={index} style={[styles.allContainer,index == patients.slice(0,3).length - 1 && styles.hideLastPatient]}>
+            <View key={patient.id} style={styles.showPatientBorder}>
+              <User index={index}  key={patient.id} patient={patient}/>
+            </View>
+            <View style={styles.btnView}>
+              <TouchableOpacity style={[styles.removeButton]} onPress={()=>{runAction(index)}}>
+                <Text style={[{color:'#26ae60'},styles.removeButtonText]}>+</Text>
+              </TouchableOpacity>
+            </View>
+            </View>
             ))}
           </ScrollView>
           </View>
-        <View style={styles.quickAccessMenuContainer}>
-          <View style={styles.quickAccessItem}>
-          <TouchableOpacity onPress={()=>navigateToTab(1,'DoctorMainScreen')} style={styles.quickAccessItemBtn}>
-            <Image source={imageIndex == 1 ? homeOnIcon : homeOffIcon} />
-            <Text style={styles.quickAccessItemText}>Home</Text>
-          </TouchableOpacity>
-          </View>
-          <View style={styles.quickAccessItem}>
-          <TouchableOpacity onPress={()=>navigateToTab(2,'AnnouncementsScreen')} style={styles.quickAccessItemBtn}>
-            <Image source={imageIndex == 2 ? messagesOnIcon : messagesOffIcon} />
-            <Text style={styles.quickAccessItemText}>Announcements</Text>
-          </TouchableOpacity>
-          </View>
-          <View style={styles.quickAccessItem}>
-          <TouchableOpacity onPress={()=>navigateToTab(3,'LogOut')}  style={styles.quickAccessItemBtn}>
-            <Image source={require('../../assets/signOut.png')} />
-            <Text style={styles.quickAccessItemText}>LogOut</Text>
-          </TouchableOpacity>
-          </View>
-        </View>
+          <BottomBar navigation={navigation}/>
       </View>
   );
 }
@@ -122,11 +106,37 @@ const styles = StyleSheet.create({
   container: {
     flex : 1,
   },
-  showPatientBorder:{
+  allContainer:{
+    flexDirection:'row',
     borderBottomWidth:1,
     borderColor:'gray',
+  },
+  hideLastPatient:{
+    borderBottomWidth:0,
+  },
+  showPatientBorder:{
     paddingVertical:10,
-  },  
+    width:'80%',
+  }, 
+  btnView:{
+    flexDirection:'row',
+    width:'20%',
+    justifyContent:'center',
+  },
+  removeButton:{
+    marginTop:'50%',
+    borderColor:'white',
+    borderWidth:1,
+    borderRadius:30,
+    width:25,
+    height:25,
+    marginLeft:10,
+    marginRight:10,
+  },
+  removeButtonText:{
+    fontSize:15,
+    alignSelf:'center',
+  },
   hideLastPatient:{
     borderBottomWidth:0,
   },
@@ -208,24 +218,5 @@ const styles = StyleSheet.create({
   },
   seeAllBtn:{
     borderRadius:30
-  },
-  quickAccessMenuContainer:{
-    flexDirection:'row',
-    marginTop:'auto'
-  },
-  quickAccessItem:{
-    width:"34%",
-    padding:15,
-    marginTop:"30%",
-    borderTopColor:'gray',
-    borderTopWidth:.5,
-  },
-  quickAccessItemBtn:{
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  quickAccessItemText:{
-    fontSize:15,
-    color:'white',
   }
 });

@@ -66,7 +66,7 @@ export default StyleSheet.create({
         display:'none'
     },
     userInfo:{
-        // paddingLeft:10,
+        padding:10,
         paddingTop:25,
         // borderColor:'#FFF',
         // borderWidth:1,

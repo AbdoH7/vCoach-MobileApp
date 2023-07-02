@@ -2,6 +2,7 @@ import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import VideoDisplay from "../../Components/VideoDisplay";
+import BottomBar from "../../Components/Common/BottomBar";
 
 const ExerciseContainer = ({ route }) => {
   const exercise = route.params.exercise;
@@ -67,6 +68,7 @@ const ExerciseContainer = ({ route }) => {
           </View>
         </View>
       </View>
+      <BottomBar navigation={navigation}/>
     </View>
   );
 };

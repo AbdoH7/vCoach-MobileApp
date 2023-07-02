@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,Image,SafeAreaView,TouchableOpacity, TextInput, 
 import React,{useContext, useEffect, useState} from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { InvitesEndpoint, postGlobal } from '../../APIs';
+import BottomBar from '../../Components/Common/BottomBar';
 import global from '../../styles/global';
 export default function AddPatientScreen({navigation}) {
     const {user} = useContext(AuthContext)
@@ -39,6 +40,7 @@ export default function AddPatientScreen({navigation}) {
             <Text style={styles.btnText}>See All Previous Invites</Text>
           </TouchableOpacity>
         </View>
+        <BottomBar navigation={navigation}/>
     </View>
 
   );
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
   btnContainer:{
     padding:10,
     marginTop:'auto',
+    marginBottom:"18%"
   },
   submitButton:{
     padding:10,

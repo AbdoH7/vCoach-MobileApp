@@ -3,6 +3,7 @@ import React,{useContext, useState} from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { postGlobal,DoctorPatientAssignmentsEndpoint } from '../../APIs';
 import global from '../../styles/global';
+import BottomBar from '../../Components/Common/BottomBar';
 
 export default function AddDoctorScreen({navigation}) {
     const {user} = useContext(AuthContext)
@@ -22,16 +23,6 @@ export default function AddDoctorScreen({navigation}) {
       }
     }
     return (
-    // <View style={styles.container}>
-    //   <Image style={styles.image} source={require('../../assets/patient.png')}/>
-    //   <Text style={styles.helloText}>You're Signed In {user.user_type} {user.first_name} !</Text>
-    //   <SafeAreaView style={{flex:1}}>
-    //       <TextInput style={styles.input} onChangeText={setText} placeholder='Enter Doctor Token' />
-    //       <TouchableOpacity onPress={()=>assignDoctorToPatient(doctorToken)} style={styles.submitButton}>
-    //           <Text style={styles.btnText}>Submit</Text>
-    //       </TouchableOpacity>
-    //   </SafeAreaView>
-    // </View>
     <View style={[styles.container,global.defaultBackgroundColor]}>
       <View style={styles.header}>
         <Text style={styles.title}>Add Dcotor</Text>
@@ -44,6 +35,7 @@ export default function AddDoctorScreen({navigation}) {
               <Text style={styles.btnText}>Add</Text>
           </TouchableOpacity>
         </View>
+        <BottomBar navigation={navigation}/>
     </View>
 
   );
@@ -94,6 +86,7 @@ const styles = StyleSheet.create({
   btnContainer:{
     padding:10,
     marginTop:'auto',
+    marginBottom:"20%"
   },
   submitButton:{
     padding:10,
