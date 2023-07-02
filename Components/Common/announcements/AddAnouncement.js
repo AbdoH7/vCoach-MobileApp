@@ -6,14 +6,16 @@ import { Ionicons } from "@expo/vector-icons";
 import { postGlobal, Announcements } from "../../../APIs";
 import global from "../../../styles/global";
 
-export default function AddAnouncement({ navigation }) {
+export default function AddAnouncement({ navigation,submitted }) {
 	const [content, setContent] = useState("");
 	const [isClicked, setIsClicked] = useState(false);
 	const submitAnnouncement = async () => {
 		try {
 			await postGlobal(Announcements, { content: content });
 			setContent("");
+			submitted(true);
 			navigation.navigate("AnnouncementsScreen");
+			
 		} catch (error) {
 			console.error(error);
 		}

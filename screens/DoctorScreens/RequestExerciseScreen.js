@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Alert,
   View,
   Text,
   StyleSheet,
@@ -18,8 +19,14 @@ export default function RequestExerciseScreen() {
     description: Yup.string().required("A Description is required"),
     equipment: Yup.string(),
   });
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = (values,{resetForm}) => {
+    Alert.alert('Success','Your Requested Have Been Submitted Successfully',[
+      {
+        text:"Ok",
+        onPress:()=>resetForm()
+      }
+    ]);
+    
   };
   const initialValues = {
     description: "",

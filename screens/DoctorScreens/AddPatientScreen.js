@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Image,SafeAreaView,TouchableOpacity, TextInput} from 'react-native';
+import { StyleSheet, Text, View,Image,SafeAreaView,TouchableOpacity, TextInput, Alert} from 'react-native';
 import React,{useContext, useEffect, useState} from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { InvitesEndpoint, postGlobal } from '../../APIs';
@@ -10,6 +10,9 @@ export default function AddPatientScreen({navigation}) {
     const sendInvite = async (email)=>{
       try{
           response = await postGlobal(InvitesEndpoint,{email:email})
+          Alert.alert('Success','Invite Sent Successfully',[
+            {text:'OK',onPress:()=>{navigation.navigate('DoctorMainScreen')}}
+          ])
       } catch(err){
           console.log(`Send Invite Error: ${err}`)
       }

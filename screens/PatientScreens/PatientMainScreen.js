@@ -63,7 +63,7 @@ export default function DoctorMainScreen({navigation}) {
             <Text style={[global.userNameText,styles.userName]}>{user.first_name}</Text>
           </Text>
           <View style={global.imageContainer}>
-            <Image style={global.profileImage} source={{uri:user.avatar.url}}/>
+            {/* <Image style={global.profileImage} source={{uri:user.avatar.url}}/> */}
           </View>
         </View>
 
