@@ -17,10 +17,6 @@ import {
 import invitesList from "../../assets/invitesList.png";
 import assignPatientIcon from "../../assets/addUser.png";
 import assignedExercisesIcon from "../../assets/assignedExercises.png";
-import homeOffIcon from "../../assets/homeOff.png";
-import messagesOffIcon from "../../assets/messagesOff.png";
-import homeOnIcon from "../../assets/homeOn.png";
-import messagesOnIcon from "../../assets/messagesOn.png";
 import PreviewAssignment from "../../Components/PatientComponents/PreviewAssignment";
 import BottomBar from "../../Components/Common/BottomBar";
 
@@ -28,7 +24,6 @@ export default function DoctorMainScreen({ navigation }) {
   const { user, logout } = useContext(AuthContext);
   const [doctors, setDoctors] = useState([]);
   const [assignments, setAssignments] = useState([]);
-  const [imageIndex, setImageIndex] = useState(1);
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
@@ -53,12 +48,6 @@ export default function DoctorMainScreen({ navigation }) {
     fetchAssignments();
   }, []);
 
-  const navigateToTab = (index, tabName) => {
-    setImageIndex(index);
-    if (index == 3) return logout();
-    navigation.navigate(tabName);
-  };
-
   return (
     <View style={[styles.container, global.defaultBackgroundColor]}>
       <View style={[global.userInfo, styles.userInfoContainer]}>
@@ -66,22 +55,21 @@ export default function DoctorMainScreen({ navigation }) {
           <Text style={[global.helloText, styles.helloText]}>Hello,</Text>
           <Text>{"\n"}</Text>
           <Text style={[global.userNameText, styles.userName]}>
-            {user.first_name}
+            {user?.first_name}
           </Text>
         </Text>
         <View style={global.imageContainer}>
-          {/* <Image style={global.profileImage} source={{uri:user.avatar.url}}/> */}
           <View style={[global.imageContainer]}>
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("UpdateUserScreen", { user: user })
               }
             >
-              {/* <Image style={global.profileImage} source={{uri:user.avatar.url}}/> */}
+              <Image style={global.profileImage} source={{uri:user?.avatar?.url}}/>
             </TouchableOpacity>
           </View>
         </View>
-
+      </View>
         <View style={styles.actionsMenuContainer}>
           <View style={styles.actionsMenuButtons}>
             <TouchableOpacity
@@ -116,7 +104,7 @@ export default function DoctorMainScreen({ navigation }) {
           <View style={styles.actionsMenuButtons}>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("SeeDoctorScreens", { patients: doctors })
+                navigation.navigate("SeeDoctorScreen")
               }
               style={styles.button}
             >
@@ -158,7 +146,6 @@ export default function DoctorMainScreen({ navigation }) {
 
         <BottomBar navigation={navigation} />
       </View>
-    </View>
   );
 }
 

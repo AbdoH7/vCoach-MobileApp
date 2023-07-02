@@ -28,8 +28,8 @@ export default function SeeAssignedExercises({ navigation,route }) {
     return(
       <View style={styles.loadingContainer}>
         <View style={styles.header}>
-        <Text style={styles.title}>Assignments</Text>
-      </View>
+          <Text style={styles.title}>Assignments</Text>
+        </View>
       </View>
     )
   }

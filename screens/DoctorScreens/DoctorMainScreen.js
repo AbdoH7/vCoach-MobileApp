@@ -31,14 +31,6 @@ export default function DoctorMainScreen({ navigation }) {
     };
     fetchPatients();
   }, []);
-
-  const removePatient = async (patientId) => {
-    //need to figure out how to rerender
-    await postGlobal(DoctorPatientAssignmentsRemoveEndpoint, { id: patientId });
-    setPatients((patients) =>
-      patients.filter((patient) => patient.id !== patientId)
-    );
-  };
   const runAction = async (index) => {
     navigation.navigate("ListExercisesScreen", {
       patient_id: patients[index].id,
@@ -52,7 +44,7 @@ export default function DoctorMainScreen({ navigation }) {
           <Text style={[global.helloText, styles.helloText]}>Hello,</Text>
           <Text>{"\n"}</Text>
           <Text style={[global.userNameText, styles.userName]}>
-            Dr.{user.first_name}
+            Dr.{user?.first_name}
           </Text>
         </Text>
         <View style={[global.imageContainer]}>
@@ -65,7 +57,6 @@ export default function DoctorMainScreen({ navigation }) {
               style={global.profileImage}
               source={{ uri: user.avatar.url }}
             />
-            <Text>press here</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -115,7 +106,7 @@ export default function DoctorMainScreen({ navigation }) {
           New Patient
         </Text>
         <Text
-          onPress={() => navigation.navigate("AssignExercisesScreen")}
+          onPress={() => navigation.navigate("AssignExercisesScreen",{patients: patients,})}
           style={styles.buttonText}
         >
           Assign Exercises
@@ -138,7 +129,7 @@ export default function DoctorMainScreen({ navigation }) {
           <Text style={styles.patientText}>Patients</Text>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("SeePatientScreen", { users: patients })
+              navigation.navigate("SeePatientScreen")
             }
             style={styles.seeAllBtn}
           >
@@ -160,7 +151,7 @@ export default function DoctorMainScreen({ navigation }) {
               ]}
             >
               <View key={patient.id} style={styles.showPatientBorder}>
-                <User index={index} key={patient.id} patient={patient} />
+                <User index={index} key={patient.id} user={patient} />
               </View>
               <View style={styles.btnView}>
                 <TouchableOpacity

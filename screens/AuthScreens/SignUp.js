@@ -83,7 +83,6 @@ export default function SignUp({ route, navigation }) {
     Object.keys(values).forEach((key) => {
       formData.append(key, values[key]);
     });
-    console.log(formData);
     await signup(formData);
   };
   return (

@@ -4,7 +4,7 @@ import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import VideoDisplay from "../../Components/VideoDisplay";
 import BottomBar from "../../Components/Common/BottomBar";
 
-const ExerciseContainer = ({ route }) => {
+const ExerciseContainer = ({ route,navigation }) => {
   const exercise = route.params.exercise;
 
   return (

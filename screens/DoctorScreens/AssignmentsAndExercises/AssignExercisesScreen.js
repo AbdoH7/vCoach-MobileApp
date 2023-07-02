@@ -1,21 +1,31 @@
-import React, { useContext } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Button,
 } from "react-native";
 import User from "../../../Components/Common/User";
 import BottomBar from "../../../Components/Common/BottomBar";
-export default function AssignExercisesScreen({ navigation, route }) {
-  const { patients } = route.params;
-
+import { fetchGlobal, DoctorPatientAssignmentsEndpoint } from "../../../APIs";
+export default function AssignExercisesScreen({ navigation }) {
+  const [patients, setPatients] = useState([]);
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await fetchGlobal(DoctorPatientAssignmentsEndpoint);
+        setPatients(response.data.users);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchPatients();
+  }, []);
   const runAction = (index,action) => {
     navigation.navigate('ListExercisesScreen',{patient_id:patients[index].id,patient_name:`${patients[index].first_name} ${patients[index].last_name}`})
   }
-  const itemHeight = 75; // Adjust the height of each patient item as needed
+const itemHeight = 75; // Adjust the height of each patient item as needed
   const maxHeight = patients.length * itemHeight;
   return (
     <View style={styles.container}>
@@ -30,7 +40,7 @@ export default function AssignExercisesScreen({ navigation, route }) {
           {patients.map((patient,index) => (
             <View key={patient.id} style={[styles.allContainer,index == patients.length-1 && styles.hideLastPatient]}>
             <View style={styles.showPatientBorder}>
-              <User index={index}  key={patient.id} patient={patient}/>
+              <User index={index}  key={patient.id} user={patient}/>
             </View>
             <View style={styles.btnView}>
               <TouchableOpacity style={[styles.removeButton]} onPress={()=>{runAction(index,'assign')}}>
@@ -60,6 +70,9 @@ const styles = StyleSheet.create({
     flexDirection:'column',
     backgroundColor:'#21202E',
     borderRadius:15,
+    borderColor:'gray',
+    borderWidth:1,
+    marginTop:15,
   },
   allContainer:{
     flexDirection:'row',

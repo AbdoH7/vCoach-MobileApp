@@ -28,7 +28,7 @@ export default function AddDoctorScreen({navigation}) {
         <Text style={styles.title}>Add Dcotor</Text>
       </View>
         <View style={styles.submitTextInput}>
-          <TextInput onChangeText={setText} style={textInputStyle} onFocus={textInputFocus} onTouchCancel={textInputBlur} onBlur={textInputBlur} placeholderTextColor={'#6A6888'} placeholder='Enter Patient Email' />
+          <TextInput onChangeText={setText} style={textInputStyle} onFocus={textInputFocus} onTouchCancel={textInputBlur} onBlur={textInputBlur} placeholderTextColor={'#6A6888'} placeholder='Enter Doctor Token' />
         </View>
         <View style={styles.btnContainer}>
           <TouchableOpacity onPress={()=>assignDoctorToPatient(doctorToken)} style={styles.submitButton}>

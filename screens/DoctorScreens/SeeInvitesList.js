@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ScrollView, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchGlobal, InvitesEndpoint } from "../../APIs";
 import BottomBar from "../../Components/Common/BottomBar";
-export default function SeeInvitesList() {
+export default function SeeInvitesList({navigation}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [invitesList, setList] = useState([]);
   const [textInputStyle, setStyle] = useState(styles.textInput);
