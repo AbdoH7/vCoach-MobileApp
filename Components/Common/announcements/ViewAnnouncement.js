@@ -69,7 +69,7 @@ return (
 			<Image style={ styles.image } resizeMode='cover' source={{uri:announcement?.user?.avatar?.url}} />
 			<View style={styles.headerInfo}>
 				<Text style={styles.posterName}>{announcement.user.full_name}</Text>
-				<Text style={styles.date}>{announcement.created_at}</Text>
+				<Text style={styles.date}>{announcement.time_passed}</Text>
 			</View>
 			{user.user_type == 'doctor' &&
 			<TouchableOpacity style={styles.deleteBtn} onPress={deleteAnnouncement}>
@@ -112,7 +112,7 @@ return (
 						<Image style={ styles.image } resizeMode='cover' source={{uri:comment.user?.avatar?.url}} />
 						<View style={styles.headerInfo}>
 							<Text style={styles.posterName}>{comment.user.full_name}</Text>
-							<Text style={styles.date}>{comment.created_at}</Text>
+							<Text style={styles.date}>{comment.time_passed}</Text>
 						</View>
 					</View>
 					<Text style={styles.content}>{comment.content}</Text>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		flexDirection: 'row',
-		marginBottom: 10,
+		marginBottom: 5,
 		marginTop: 10,
 		marginLeft: 10,
 	},
@@ -165,10 +165,9 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: 'white',
 		fontSize: 20,
-		marginBottom: 5,
 	},
 	date: {
-		color: 'white',
+		color: '#DCDAFF',
 	},
 	deleteBtn: {
 		marginLeft: 'auto',
