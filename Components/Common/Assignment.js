@@ -50,8 +50,8 @@ export default function Assignment({ outerIndex,assignmentProp, navigation }) {
                 </Text>
                 <Text style={styles.text}>
                   {user.user_type === "patient"
-                    ? `${assignment.doctor.first_name} ${assignment.doctor.last_name}`
-                    : `${assignment.patient.first_name} ${assignment.patient.last_name}`}
+                    ? `${assignment.doctor.full_name}`
+                    : `${assignment.patient.full_name}`}
                 </Text>
               </View>
               <View style={styles.textContainer}>

@@ -23,7 +23,7 @@ export default function AssignExercisesScreen({ navigation }) {
     fetchPatients();
   }, []);
   const runAction = (index,action) => {
-    navigation.navigate('ListExercisesScreen',{patient_id:patients[index].id,patient_name:`${patients[index].first_name} ${patients[index].last_name}`})
+    navigation.navigate('ListExercisesScreen',{patient_id:patients[index].id,patient_name:`${patients[index].full_name}`})
   }
 const itemHeight = 75; // Adjust the height of each patient item as needed
   const maxHeight = patients.length * itemHeight;

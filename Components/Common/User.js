@@ -10,7 +10,7 @@ export default function User({ user, index }) {
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.textContainer}>
-            <Text style={styles.patientName}>{user?.first_name}{user?.last_name}{'\n'}</Text>
+            <Text style={styles.patientName}>{user?.full_name}{'\n'}</Text>
             <Text style={styles.patientBrief}>{user?.email}</Text>
           </Text>
         </View>

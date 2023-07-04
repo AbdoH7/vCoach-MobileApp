@@ -44,7 +44,7 @@ export default function DoctorMainScreen({ navigation }) {
           <Text style={[global.helloText, styles.helloText]}>Hello,</Text>
           <Text>{"\n"}</Text>
           <Text style={[global.userNameText, styles.userName]}>
-            Dr.{user?.first_name}
+            Dr. {user?.first_name}
           </Text>
         </Text>
         <View style={[global.imageContainer]}>
