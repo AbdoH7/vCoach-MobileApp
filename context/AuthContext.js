@@ -2,6 +2,7 @@ import React,{createContext,useEffect,useState} from 'react';
 import axios from 'axios';
 import {LoginEndpoint,SignupEndpoint,UserFile,TokenFile,firstTimeFile} from '../APIs.js'
 import * as FileSystem from 'expo-file-system';
+import { updateUserInfo } from './../APIs';
 
 export const AuthContext = createContext();
 
@@ -23,6 +24,15 @@ export const AuthProvider = ({children}) =>{
         }
         setIsLoading(false)
     }
+
+    const updateUser = async (data) =>{
+        setIsLoading(true)
+        console.log(data)
+        await FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}${UserFile}`,JSON.stringify(data))
+        setUser(data)
+        setIsLoading(false)
+    }
+
     const logout = async () =>{
         setIsLoading(true)
         await FileSystem.deleteAsync(`${FileSystem.documentDirectory}${TokenFile}`)
@@ -79,7 +89,7 @@ export const AuthProvider = ({children}) =>{
         isLoggedIn()
     },[])
     return(
-        <AuthContext.Provider value={{login,logout,userToken,user,isLoading,signup,checkFirstTime}}>
+        <AuthContext.Provider value={{login, updateUser, logout, userToken, user, isLoading, signup, checkFirstTime}}>
             {children}
         </AuthContext.Provider>
     )

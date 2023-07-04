@@ -50,6 +50,15 @@ export const putGlobal = async (endpoint,data) =>{
     }
 }
 
+export const putGlobalFormData = async (endpoint,data) =>{
+    try{
+        const response = await axios.put(endpoint,data, {headers: {'Content-Type': 'multipart/form-data'}})
+        return {data: response.data, hasError: false}
+    } catch(err){
+        return {data: err, hasError: true}
+    }
+}
+
 export const deleteGlobal = async (endpoint) =>{
     try{
         const response = await axios.delete(endpoint)

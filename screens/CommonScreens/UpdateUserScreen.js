@@ -9,11 +9,12 @@ import {
   TextInput,
 } from "react-native";
 import { Formik } from "formik";
-import {updateUserInfo,putGlobal} from "../../APIs";
+import {updateUserInfo,putGlobalFormData} from "../../APIs";
 import * as ImagePicker from "expo-image-picker";
 import DateField from "../../Components/DateComponent/DateField";
 import * as Yup from "yup";
 import FormData from "form-data";
+import { AuthContext } from "../../context/AuthContext";
 const validationSchema = Yup.object().shape({
   first_name: Yup.string().required("First name is required"),
   last_name: Yup.string().required("Last name is required"),
@@ -30,6 +31,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SignUp({ route, navigation }) {
+  const {updateUser} = useContext(AuthContext)
   const {DOB,avatar,email,first_name,last_name,phone_number,user_type,id} = route.params.user;
   const [userDateExists, setUserDateExists] = useState(DOB? true:false);
   const initialValues = {
@@ -81,11 +83,13 @@ export default function SignUp({ route, navigation }) {
     Object.keys(values).forEach((key) => {
       formData.append(key, values[key]);
     });
-    try{
-        const res = await putGlobal(updateUserInfo(id),formData);
-    }catch(err){
-        console.log("Update User Request Error:",err);
-    }    
+
+    const res = await putGlobalFormData(updateUserInfo(id),formData);
+    if (!res.hasError){
+      updateUser(res.data);
+      navigation.navigate("HomeScreen");
+    }
+ 
   };
   return (
     <View style={styles.container}>
@@ -97,6 +101,7 @@ export default function SignUp({ route, navigation }) {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
+          onFocus={console.log("focus")}
         >
           {({
             handleChange,
