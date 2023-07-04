@@ -236,8 +236,8 @@ export default function ModelScreen({navigation}) {
           }
         }
       return <Svg style={styles.svg}>{keypoints}{angle > 150 && triggerStart!= 1 ? 
-        (hideCounter == 1 ? <View></View> : <CountDown style={{paddingTop:150}} until={counter} size={20} timeToShow={['S']} onFinish={()=> showPushUpCount()} />)
-        : (hideText == 1 ? <View></View>:<Text style={{position:'absolute',padding:150,fontSize:25,color:'red',fontWeight:'bold'}}>Not-Positioned</Text>)}</Svg>;
+        (hideCounter == 1 ? <View></View> : <CountDown style={{paddingTop:50}} until={counter} size={20} timeToShow={['S']} onFinish={()=> showPushUpCount()} />)
+        : (hideText == 1 ? <View></View>:<Text style={{position:'absolute',paddingTop:10,marginLeft:"30%",fontSize:20,color:'red',fontWeight:'bold'}}>Not-Positioned</Text>)}</Svg>;
     } else {
       return <View>
       </View>;
