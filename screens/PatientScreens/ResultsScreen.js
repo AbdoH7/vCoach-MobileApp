@@ -10,7 +10,7 @@ export default function ResultsScreen({route}) {
     </View>
     <View style={styles.results}>
       <Text style={styles.text}>Scores:</Text>
-      {arr.map((result,index) => {
+      {results.map((result,index) => {
           return <Text key={index} style={styles.text}>{`Push-up score: ${result}`}</Text>
       })}
     </View>

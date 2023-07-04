@@ -231,7 +231,8 @@ export default function ModelScreen({navigation}) {
             clearInterval(T1)
             clearInterval(T2)
             //here need to send the request to whatever the backend is
-            postGlobal(modelEndPoint,frames)// need to store the response here
+            const res = postGlobal(modelEndPoint,frames)// need to store the response here
+            setResults(res)
             setCompleted(true)
           }
         }
