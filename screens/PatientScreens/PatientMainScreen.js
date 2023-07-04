@@ -32,7 +32,6 @@ export default function DoctorMainScreen({ navigation }) {
       try {
         const response = await fetchGlobal(getAssignments);
         setAssignments(response.data.assignments);
-        console.log('fetchAssignments(first)');
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -46,7 +45,6 @@ export default function DoctorMainScreen({ navigation }) {
         const response = await fetchGlobal(getAssignments);
         setAssignments(response.data.assignments);
         setUpdate(false);
-        console.log('fetchAssignments(update)');
       } catch (error) {
         console.error("Error fetching data:", error);
       }

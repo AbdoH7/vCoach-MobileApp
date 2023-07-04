@@ -101,7 +101,6 @@ export default function SignUp({ route, navigation }) {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onFocus={console.log("focus")}
         >
           {({
             handleChange,

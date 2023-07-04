@@ -11,7 +11,7 @@ export default function ResultsScreen({route}) {
     <View style={styles.results}>
       <Text style={styles.text}>Scores:</Text>
       {results.map((result,index) => {
-          return <Text key={index} style={styles.text}>{`Push-up score: ${result}`}</Text>
+          return <Text key={index} style={styles.text}>{`Push-up score:`}<Text style={{color:'#26ae60'}}> {result}</Text></Text>
       })}
     </View>
   </View>

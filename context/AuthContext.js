@@ -27,7 +27,6 @@ export const AuthProvider = ({children}) =>{
 
     const updateUser = async (data) =>{
         setIsLoading(true)
-        console.log(data)
         await FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}${UserFile}`,JSON.stringify(data))
         setUser(data)
         setIsLoading(false)
