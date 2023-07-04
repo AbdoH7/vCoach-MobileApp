@@ -28,12 +28,6 @@ function PreviewAssignment({ assignment}) {
           ))}
         </Text>
       </View>
-      <View style={styles.dropMenuBtnContainer}>
-        <TouchableOpacity style={styles.dropMenuBtn} onPress={() => {}}>
-          <Text style={styles.dropMenuBtnText}>...</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.dropMenuListContainer}></View>
     </View>
   );
 }

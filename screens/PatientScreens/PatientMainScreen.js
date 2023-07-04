@@ -13,6 +13,8 @@ import {
   fetchGlobal,
   DoctorPatientAssignmentsEndpoint,
   getAssignments,
+  updateAssignment,
+  putGlobal
 } from "../../APIs";
 import invitesList from "../../assets/invitesList.png";
 import assignPatientIcon from "../../assets/addUser.png";
@@ -21,32 +23,41 @@ import PreviewAssignment from "../../Components/PatientComponents/PreviewAssignm
 import BottomBar from "../../Components/Common/BottomBar";
 
 export default function DoctorMainScreen({ navigation }) {
-  const { user, logout } = useContext(AuthContext);
-  const [doctors, setDoctors] = useState([]);
+  const [update, setUpdate] = useState(false);
+  const { user } = useContext(AuthContext);
   const [assignments, setAssignments] = useState([]);
-  useEffect(() => {
-    const fetchDoctors = async () => {
-      try {
-        const response = await fetchGlobal(DoctorPatientAssignmentsEndpoint);
-        setDoctors(response.data.users);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchDoctors();
-  }, []);
-
+  const itemsShown = 3
   useEffect(() => {
     const fetchAssignments = async () => {
       try {
         const response = await fetchGlobal(getAssignments);
         setAssignments(response.data.assignments);
+        console.log('fetchAssignments(first)');
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchAssignments();
   }, []);
+
+    useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await fetchGlobal(getAssignments);
+        setAssignments(response.data.assignments);
+        setUpdate(false);
+        console.log('fetchAssignments(update)');
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchDoctors();
+  }, [update,navigation]);
+
+  const markAsDone = async (id) => {
+    const res = await putGlobal(updateAssignment(id),{status:true})
+    setUpdate(true);
+  }
 
   return (
     <View style={[styles.container, global.defaultBackgroundColor]}>
@@ -129,16 +140,30 @@ export default function DoctorMainScreen({ navigation }) {
             bounces={true}
             style={styles.patientInfoContainer}
           >
-            {assignments.slice(0, 3).map((assignment, index) => (
+            {assignments.filter((assignment) => assignment.status == false).slice(0,3).map((assignment, index) => (
+              <View key={index} style={styles.previewAssignmentView}>
               <View
                 key={assignment.id}
                 style={
-                  index == assignments.slice(0, 3).length - 1
+                  index == assignments.filter((assignment) => assignment.status == false).slice(0,3).length - 1
                     ? styles.hideLastPatientBorder
                     : styles.showPatientBorder
                 }
               >
                 <PreviewAssignment assignment={assignment} />
+              </View>
+              <View style={[styles.btnView,index == assignments.filter((assignment) => assignment.status == false).slice(0,3).length - 1 ? styles.hideLastPatientBorder: null]}>
+                <TouchableOpacity
+                  style={[styles.removeButton]}
+                  onPress={() => {
+                    markAsDone(assignment.id);
+                  }}
+                >
+                  <Text style={[{ color: "#26ae60",fontWeight:'bold' }, styles.removeButtonText]}>
+                  {"\u2713"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
               </View>
             ))}
           </ScrollView>
@@ -155,6 +180,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  previewAssignmentView:{
+    flexDirection: "row",
   },
   showPatientBorder: {
     borderBottomWidth: 1,
@@ -248,5 +276,30 @@ const styles = StyleSheet.create({
   },
   seeAllBtn: {
     borderRadius: 30,
+  },
+  removeButton: {
+    marginTop: "50%",
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 30,
+    width: 25,
+    height: 25,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  removeButtonText: {
+    fontSize: 15,
+    alignSelf: "center",
+  },
+  btnView: {
+    flexDirection: "row",
+    width: "20%",
+    justifyContent: "center",
+    borderBottomWidth:1,
+    borderColor:'grey',
+  },
+  hideLastPatientBorder: {
+    borderBottomWidth: 0,
+    marginBottom:5,
   },
 });
