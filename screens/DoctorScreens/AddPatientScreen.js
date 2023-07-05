@@ -11,9 +11,16 @@ export default function AddPatientScreen({navigation}) {
     const sendInvite = async (email)=>{
       try{
           const response = await postGlobal(InvitesEndpoint,{email:email})
-          Alert.alert('Success','Invite Sent Successfully',[
-            {text:'OK',onPress:()=>{navigation.navigate('HomeScreen');setText('')}}
-          ])
+          if(!response.hasError){
+            Alert.alert('Success','Invite Sent Successfully',[
+              {text:'Go to Home',onPress:()=>{navigation.navigate('HomeScreen');setText('')}},
+              {text:'Close'}
+            ])}
+          else{
+            Alert.alert('Fail','You have invited this email before',[
+              {text:'Go to Home',onPress:()=>{navigation.navigate('HomeScreen');setText('')}},
+              {text:'Close'}
+            ])}
       } catch(err){
           console.log(`Send Invite Error: ${err}`)
       }

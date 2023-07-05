@@ -25,7 +25,7 @@ export default function AddDoctorScreen({navigation}) {
     return (
     <View style={[styles.container,global.defaultBackgroundColor]}>
       <View style={styles.header}>
-        <Text style={styles.title}>Add Dcotor</Text>
+        <Text style={styles.title}>Add a Doctor</Text>
       </View>
         <View style={styles.submitTextInput}>
           <TextInput onChangeText={setText} style={textInputStyle} onFocus={textInputFocus} onTouchCancel={textInputBlur} onBlur={textInputBlur} placeholderTextColor={'#6A6888'} placeholder='Enter Doctor Token' />
