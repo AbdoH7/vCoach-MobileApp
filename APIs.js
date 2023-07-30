@@ -21,7 +21,7 @@ export const Likes = '/likes'
 export const Like = (id) => `/likes/${id}`
 export const Comments = '/comments'
 export const Comment = (id) => `/comments/${id}`
-export const modelEndPoint = 'http://3.80.214.39/model'
+
 
 export const fetchGlobal = async (endpoint) =>{
     try{

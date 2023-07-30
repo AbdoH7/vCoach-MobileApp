@@ -9,7 +9,8 @@ import {
   cameraWithTensors,
 } from '@tensorflow/tfjs-react-native';
 import Svg, { Circle } from 'react-native-svg';
-import { postGlobal,modelEndPoint } from '../../APIs';
+import { postGlobal } from '../../APIs';
+import { MODEL_END_POINT } from '@env';
 // "expo-gl": "^11.4.0",
 // "react-native-fs": "2.14.1" both of these needs to be added manually other than those different things in package.json in main app
 
@@ -163,7 +164,7 @@ export default function ModelScreen({navigation}) {
       return 360-angle
     return angle
   }
-  const [completed,setComplete] = React.useState(true);
+  const [completed,setComplete] = React.useState(false);
   const [results,setResults] = React.useState([1,2,3]);
   const [timer1, setTimer1] = React.useState(true);
   const [timer2, setTimer2] = React.useState(false);
@@ -175,13 +176,15 @@ export default function ModelScreen({navigation}) {
       let RElbow= poses[0].keypoints[8]
       let RWrist= poses[0].keypoints[10]
       let angle = calculate_angle(RShoulder,RElbow,RWrist)
+      let backAngle = calculate_angle(poses[0].keypoints[5],poses[0].keypoints[11],poses[0].keypoints[13])
       const keypoints = poses[0].keypoints
-        .filter((k) => (k.score ?? 0) > MIN_KEYPOINT_SCORE)
-        .map((k) => {
-          // Flip horizontally on android or when using back camera on iOS.
-          const flipX = IS_ANDROID || cameraType === Camera.Constants.Type.back;
-          const x = flipX ? getOutputTensorWidth() - k.x : k.x;
-          const y = k.y;
+      .filter((k) => (k.score ?? 0) > MIN_KEYPOINT_SCORE)
+      .map((k) => {
+        // Flip horizontally on android or when using back camera on iOS.
+        const flipX = IS_ANDROID || cameraType === Camera.Constants.Type.back;
+        backAngleRender = 0
+        const x = flipX ? getOutputTensorWidth() - k.x : k.x;
+        const y = k.y;
           const cx =
             (x / getOutputTensorWidth()) *
             (isPortrait() ? CAM_PREVIEW_WIDTH : CAM_PREVIEW_HEIGHT);
@@ -225,19 +228,44 @@ export default function ModelScreen({navigation}) {
             setFlag(1)
             setStage('down')
           }
-          if (pushUpCount>=5){
+          if (pushUpCount>=3){
             setTriggerStart(0)
             setPushUpCount(0);
             clearInterval(T1)
             clearInterval(T2)
             //here need to send the request to whatever the backend is
-            postGlobal(modelEndPoint,frames)// need to store the response here
-            setCompleted(true)
+            
+            //write the  request code here with .then instead of async await
+
+
+            //  postGlobal(modelEndPoint,frames)// need to store the response here
+            try {
+              postGlobal(MODEL_END_POINT, frames)
+              .then(response => {
+                // Handle the response data
+                setResults(response.data.data)
+              })
+              .catch(error => {
+                // Handle any errors
+                console.error(error);
+              });
+            }
+            catch (error) {
+              console.log(error);
+            }
+
+            setComplete(true)
+          }
+          if(backAngle > 150){
+            backAngleRender = 1
           }
         }
       return <Svg style={styles.svg}>{keypoints}{angle > 150 && triggerStart!= 1 ? 
-        (hideCounter == 1 ? <View></View> : <CountDown style={{paddingTop:150}} until={counter} size={20} timeToShow={['S']} onFinish={()=> showPushUpCount()} />)
-        : (hideText == 1 ? <View></View>:<Text style={{position:'absolute',padding:150,fontSize:25,color:'red',fontWeight:'bold'}}>Not-Positioned</Text>)}</Svg>;
+        (hideCounter == 1 ? <View></View> : <CountDown style={{paddingTop:50}} until={counter} size={20} timeToShow={['S']} onFinish={()=> showPushUpCount()} />)
+        : (hideText == 1 ? <View></View>:<Text style={{position:'absolute',paddingTop:10,marginLeft:"30%",fontSize:20,color:'red',fontWeight:'bold'}}>Not-Positioned</Text>)}
+        {backAngleRender == 1 ? <Text style={{position:'absolute',paddingTop:10,marginLeft:"30%",fontSize:20,color:'red',fontWeight:'bold'}}>Adjust your back angle</Text> : <View></View>}
+        </Svg>;
+
     } else {
       return <View>
       </View>;
